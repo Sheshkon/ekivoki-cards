@@ -1,4 +1,7 @@
 <script setup>
+
+import {getDiceIcon} from "./utils.js";
+
 defineProps({
   card: Object
 });
@@ -12,12 +15,15 @@ defineProps({
         class="active-task-display"
     >
       <div class="task-category-info">
-        <div class="dice-icon">🎲</div>
+        <component :is="getDiceIcon(diceNumber)" class="dice-icon"/>
       </div>
       <div class="task-text-option">{{ task?.phrase || '' }}</div>
       <div class="task-type" v-if="task?.type">
         Тип: {{ task.type }}
       </div>
+    </div>
+    <div class="author" v-if="card?.author">
+      Автор: {{ card?.author }}
     </div>
   </div>
 </template>
@@ -42,6 +48,6 @@ defineProps({
 }
 
 .task-text-option {
-    font-weight: 700;
+  font-weight: 700;
 }
 </style>
