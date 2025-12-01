@@ -1,5 +1,6 @@
 # Ekivoki fan cards generator
 demo: [sheshkon.github.io/ekivoki-cards/](https://sheshkon.github.io/ekivoki-cards/)
+
 таблица с карточками: https://docs.google.com/spreadsheets/d/13eAGD0f2Y1BcLqpgwoAcV5q5BouyzZ4E7HFa1UtfDwI/edit?gid=2001267068#gid=2001267068
 
 <img width="272" height="571" alt="image" src="https://github.com/user-attachments/assets/ce60adca-3797-4080-a362-03679ae7cee1" />
