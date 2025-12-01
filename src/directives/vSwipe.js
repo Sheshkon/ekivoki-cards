@@ -4,7 +4,6 @@ export default {
         let isScrolling = false;
         let isDragging = false;
 
-        // --- TOUCH EVENTS ---
         const touchStart = (e) => {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
@@ -21,7 +20,7 @@ export default {
             const diffY = currentY - startY;
 
             if (Math.abs(diffX) > Math.abs(diffY)) {
-                e.preventDefault(); // горизонтальный свайп
+                e.preventDefault();
             } else {
                 isScrolling = true;
             }
@@ -31,7 +30,7 @@ export default {
             if (!startX || isScrolling) return;
 
             const diffX = e.changedTouches[0].clientX - startX;
-            if (diffX < -50) binding.value(); // свайп влево
+            if (diffX < -50) binding.value();
 
             startX = null;
             isDragging = false;
@@ -41,7 +40,6 @@ export default {
         el.addEventListener('touchmove', touchMove, { passive: false });
         el.addEventListener('touchend', touchEnd, { passive: true });
 
-        // --- MOUSE EVENTS ---
         const mouseDown = (e) => {
             startX = e.clientX;
             startY = e.clientY;
@@ -64,7 +62,7 @@ export default {
             if (!isDragging || isScrolling) return;
 
             const diffX = e.clientX - startX;
-            if (diffX < -50) binding.value(); // свайп влево
+            if (diffX < -50) binding.value();
 
             startX = null;
             isDragging = false;

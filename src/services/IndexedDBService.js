@@ -8,23 +8,41 @@ db.version(1).stores({
     meta: 'key'
 });
 
+db.version(2).stores({
+    cards: 'id, theme, showedCount',
+    specialCards: 'id, theme, showedCount',
+    meta: 'key'
+});
 
-export const saveCards = async (cards) => {
-    await db.cards.clear();
-    await db.cards.bulkPut(cards);
+export const upsertCards = async (table, cards) => {
+    await db.transaction('rw', table, async () => {
+        for (const card of cards) {
+            const existing = await table.get(card.id);
+            if (existing) {
+                await table.put({
+                    ...existing,
+                    ...card,
+                    showedCount: existing.showedCount ?? 0
+                });
+            } else {
+                await table.put({
+                    ...card,
+                    showedCount: 0
+                });
+            }
+        }
+    });
 };
 
-export const getCards = async () => await db.cards.toArray();
+export const getCards = async (table) => await table.toArray();
 
-
-export const saveSpecialCards = async (specialCards) => {
-    await db.specialCards.clear();
-    await db.specialCards.bulkPut(specialCards);
+export const incrementShowedCount = async (table, id) => {
+    await db.transaction('rw', table, async () => {
+        await table.where('id').equals(id).modify(item => {
+            item.showedCount = (item.showedCount ?? 0) + 1;
+        });
+    });
 };
-
-export const getSpecialCards = async () => await db.specialCards.toArray();
-
 
 export const saveMeta = async (key, value) => await db.meta.put({ key, value });
-
 export const getMeta = async (key) => (await db.meta.get(key))?.value;

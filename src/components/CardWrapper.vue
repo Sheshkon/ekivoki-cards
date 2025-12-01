@@ -6,9 +6,9 @@ import BaseCard from './BaseCard.vue';
 
 const store = useGameStore();
 
-const handleSwipe = () => {
+const handleSwipe = async () => {
   if (!store.timerActive) {
-    store.skipCard();
+    await store.skipCard();
   }
 };
 </script>

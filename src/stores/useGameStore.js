@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {getCards, getMeta, getSpecialCards, saveCards, saveMeta, saveSpecialCards} from '../services/IndexedDBService';
+import {db, getCards, getMeta, incrementShowedCount, saveMeta, upsertCards} from '../services/IndexedDBService';
 import {fetchCards} from '../services/GoogleSheetService';
 
 export const useGameStore = defineStore('game', {
@@ -16,13 +16,13 @@ export const useGameStore = defineStore('game', {
     actions: {
         async initialize() {
             this.isLoading = true;
-            const cachedDeck = await getCards();
-            const cachedSpecialDeck = await getSpecialCards();
+            const cachedDeck = await getCards(db.cards);
+            const cachedSpecialDeck = await getCards(db.specialCards);
             const lastSync = await getMeta('lastSyncTime') || 0;
             const now = Date.now();
             const isCached = cachedDeck.length && cachedSpecialDeck.length
 
-            if (isCached){
+            if (isCached) {
                 this.mainDeck = cachedDeck;
                 this.specialDeck = cachedSpecialDeck;
             }
@@ -38,8 +38,8 @@ export const useGameStore = defineStore('game', {
             try {
                 const {cards, specialCards} = await fetchCards();
                 if (cards.length) {
-                    await saveCards(cards);
-                    await saveSpecialCards(specialCards);
+                    await upsertCards(db.cards, cards);
+                    await upsertCards(db.specialCards, specialCards);
                     await saveMeta('lastSyncTime', Date.now());
                     this.mainDeck = cards;
                     this.specialDeck = specialCards;
@@ -53,7 +53,7 @@ export const useGameStore = defineStore('game', {
             }
         },
 
-        generateCard(isSpecial) {
+        async generateCard(isSpecial) {
             const deck = isSpecial ? this.specialDeck : this.mainDeck;
 
             if (!deck.length) {
@@ -62,10 +62,29 @@ export const useGameStore = defineStore('game', {
                 return;
             }
 
-            const rand = Math.floor(Math.random() * deck.length);
+            const minCount = Math.min(...deck.map(card => card.showedCount ?? 0));
+            const candidates = deck.filter(card => (card.showedCount ?? 0) === minCount);
+            const rand = Math.floor(Math.random() * candidates.length);
+            const chosen = candidates[rand];
+            const chosenIndex = deck.findIndex(c => c.id === chosen.id);
+
+            if (chosenIndex !== -1) {
+                deck[chosenIndex] = {
+                    ...deck[chosenIndex],
+                    showedCount: (deck[chosenIndex].showedCount ?? 0) + 1
+                };
+            }
+
             this.currentCard = {
-                ...deck[rand],
+                ...chosen,
                 isSpecial
+            };
+
+
+            if (isSpecial) {
+                await incrementShowedCount(db.specialCards, chosen.id)
+            } else {
+                await incrementShowedCount(db.cards, chosen.id)
             }
 
             this.timerActive = false;
@@ -76,10 +95,9 @@ export const useGameStore = defineStore('game', {
             this.timerActive = status;
         },
 
-        skipCard() {
+        async skipCard() {
             if (this.timerActive) return;
-
-            this.generateCard(this.currentCard.isSpecial);
+            await this.generateCard(this.currentCard.isSpecial);
         },
 
         finishTurn() {
