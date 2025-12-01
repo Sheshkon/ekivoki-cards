@@ -1,5 +1,8 @@
-# Vue 3 + Vite
+# Ekivoki fan cards generator
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<img width="272" height="571" alt="image" src="https://github.com/user-attachments/assets/ce60adca-3797-4080-a362-03679ae7cee1" />
+<img width="272" height="574" alt="image" src="https://github.com/user-attachments/assets/74b87386-7d52-43c3-9ba1-b78518e6f30d" />
+<img width="267" height="566" alt="image" src="https://github.com/user-attachments/assets/99cd2858-7955-4cd1-ba1e-18adc8cd5bc4" />
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+
+
