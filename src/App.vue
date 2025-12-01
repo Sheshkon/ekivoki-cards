@@ -1,8 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useGameStore } from './stores/useGameStore';
+import {onMounted, ref} from 'vue';
+import {useGameStore} from './stores/useGameStore';
 import CardWrapper from './components/CardWrapper.vue';
 import Timer from './components/Timer.vue';
+
+import baseCardImage from './assets/base.jpg'
+import specialCardImage from './assets/special.png'
 
 const store = useGameStore();
 const timerRef = ref(null);
@@ -14,6 +17,7 @@ const handleSync = async () => {
     await store.sync()
   } finally {
     loading.value = false
+    alert("Колода обновлена.");
   }
 }
 
@@ -57,16 +61,21 @@ const finishTurn = () => {
       <div v-else-if="store.phase === 'idle'" class="start-screen">
         <div class="dice-logo">🎲</div>
         <p>Выберите, какую карточку сгенерировать:</p>
-        <div class="button-group">
-          <button class="btn-primary" @click="store.generateCard(false)">Обычная (1-5)</button>
-          <button class="btn-secondary-purple" @click="store.generateCard(true)">Особая (6)</button>
+        <div class="card-preview-group">
+          <div class="card-option">
+            <img :src=baseCardImage alt="Обычная карточка" class="card-preview" @click="store.generateCard(false)"/>
+          </div>
+          <div class="card-option">
+            <img :src="specialCardImage" alt="Особая карточка" class="card-preview" @click="store.generateCard(true)"/>
+          </div>
         </div>
+
       </div>
 
       <div v-else class="game-screen">
-        <Timer ref="timerRef" @time-up="handleTimeUp" />
+        <Timer ref="timerRef" @time-up="handleTimeUp"/>
 
-        <CardWrapper :key="store.currentCard?.id" />
+        <CardWrapper :key="store.currentCard?.id"/>
 
         <div class="controls-container">
           <button v-if="!store.timerActive" class="btn-start" @click="startTimer">
@@ -95,6 +104,7 @@ const finishTurn = () => {
   --color-purple: #9B5DE5;
   --color-text: #292f36;
 }
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -103,6 +113,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
 }
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -110,23 +121,27 @@ body {
   padding: 1rem;
   box-sizing: border-box;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
+
 .header h1 {
   margin: 0;
   font-size: 1.5rem;
   color: var(--color-teal);
 }
+
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .loading {
   text-align: center;
   color: #888;
@@ -141,9 +156,11 @@ body {
   flex-grow: 1;
   gap: 30px;
 }
+
 .dice-logo {
   font-size: 5rem;
 }
+
 .game-screen {
   display: flex;
   flex-direction: column;
@@ -151,39 +168,11 @@ body {
   gap: 10px;
 }
 
-.btn-primary {
-  background-color: var(--color-orange);
-  color: white;
-  border: none;
-  font-size: 1.2rem;
-  padding: 1rem 1.5rem;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-  transition: transform 0.1s;
-}
-.btn-secondary-purple {
-  background-color: var(--color-purple);
-  color: white;
-  border: none;
-  font-size: 1.2rem;
-  padding: 1rem 1.5rem;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4);
-  transition: transform 0.1s;
-}
-.btn-primary:active, .btn-secondary-purple:active {
-  transform: scale(0.95);
-}
-.button-group {
-  display: flex;
-  gap: 15px;
-}
 .controls-container {
   padding-top: 5px;
   margin-top: auto;
 }
+
 .btn-start {
   width: 100%;
   background-color: var(--color-teal);
@@ -196,10 +185,12 @@ body {
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(78, 205, 196, 0.3);
 }
+
 .timer-controls-active {
   display: flex;
   gap: 10px;
 }
+
 .btn-fail {
   flex: 1;
   background: #fff;
@@ -211,6 +202,7 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
 .btn-next {
   flex: 1;
   background: var(--color-teal);
@@ -222,6 +214,7 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
 .icon-btn {
   background: none;
   border: none;
@@ -255,7 +248,46 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
+.card-preview-group {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.card-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-preview {
+  width: 160px;
+  height: auto;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.card-preview:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.card-preview:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+
+
 </style>

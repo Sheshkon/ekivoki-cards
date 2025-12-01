@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { VitePWA } from 'vite-plugin-pwa'
+import {VitePWA} from 'vite-plugin-pwa'
 
 export default defineConfig({
     base: '/ekivoki-cards/',
@@ -8,7 +8,14 @@ export default defineConfig({
         vue(),
         VitePWA({
             registerType: 'autoUpdate',
-            includeAssets: ['apple-touch-icon.png', 'masked-icon.svg', 'minute-left.mp3', 'one-more-minute-left.mp3'],
+            includeAssets: [
+                'apple-touch-icon.png',
+                'masked-icon.svg',
+                'base.jpg',
+                'special.png',
+                'minute-left.mp3',
+                'one-more-minute-left.mp3'
+            ],
             manifest: {
                 name: 'Ekivoki',
                 short_name: 'Ekivoki',
