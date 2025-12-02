@@ -46,17 +46,17 @@ const handleSwipe = async () => {
   perspective: 1000px;
   width: 100%;
   max-width: 350px;
-  margin: 0 auto;
+  min-height: 50vh;
+  max-height: fit-content;
   flex-grow: 1;
   display: flex;
 }
 
 .game-card {
-  background: white;
   border-radius: 20px;
   padding: 24px;
   flex-grow: 1;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -69,9 +69,6 @@ const handleSwipe = async () => {
   font-size: 1.8rem;
   font-weight: 700;
   text-align: center;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 2px dashed var(--color-teal);
 }
 
 .task-list.single-task {
@@ -83,10 +80,8 @@ const handleSwipe = async () => {
   padding: 0;
 }
 
-
 .hint {
   text-align: center;
-  color: #ccc;
   font-size: 0.8rem;
   margin-top: 20px;
 }
@@ -95,7 +90,7 @@ const handleSwipe = async () => {
 }
 
 @keyframes slideIn {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(-200px) rotate(-360deg); opacity: 0; }
+  to {  opacity: 1; }
 }
 </style>

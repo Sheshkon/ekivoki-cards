@@ -54,6 +54,7 @@ onUnmounted(stop);
 
 <template>
   <div
+      v-show="interval"
       class="timer"
       :class="{ 'warning': timeLeft % 60 >= 50 }"
   >
@@ -63,11 +64,10 @@ onUnmounted(stop);
 
 <style scoped>
 .timer {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 800;
   color: var(--color-teal);
   text-align: center;
-  margin: 10px 0;
   font-variant-numeric: tabular-nums;
 }
 

@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="all-dice-tasks">
+  <div class="base-card-task">
     <div
         v-for="(task, diceNumber) in card.dice"
         :key="diceNumber"
@@ -29,12 +29,12 @@ defineProps({
 </template>
 
 <style scoped>
+
 .active-task-display {
   text-align: center;
   border: 3px solid var(--color-teal);
   border-radius: 15px;
-  background-color: #f8ffff;
-  margin: 20px;
+  margin: 10px;
 }
 
 .task-category-info {

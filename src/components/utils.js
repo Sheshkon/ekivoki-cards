@@ -17,5 +17,5 @@ export function getDiceIcon(diceNumber) {
         6: GiDiceSixFacesSix
     }
 
-    return icons[diceNumber] || GiDiceSixFacesOne // fallback на 1
+    return icons[diceNumber] || GiDiceSixFacesOne
 }
