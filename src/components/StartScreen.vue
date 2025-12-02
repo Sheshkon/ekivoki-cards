@@ -41,14 +41,25 @@ const store = useGameStore();
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: 0.2s;
   cursor: pointer;
+  animation: float 3s ease-in-out infinite;
 }
 
 .card-preview:hover {
   transform: translateY(-5px);
+  animation: float 3s ease-in-out infinite;
 }
 
 .card-preview:active {
   transform: scale(0.98);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 </style>

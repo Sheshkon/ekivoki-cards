@@ -90,7 +90,13 @@ const handleSwipe = async () => {
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-200px) rotate(-360deg); opacity: 0; }
-  to {  opacity: 1; }
+  from {
+    transform: translateX(-150px) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
 }
 </style>
