@@ -1,52 +1,41 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {ref} from 'vue';
 import {useGameStore} from '../stores/useGameStore';
+import {useSettingsStore} from '../stores/useSettingsStore';
 
-import { MdBrightnessMedium, MdInstallDesktop } from 'vue-icons-plus/md';
+import {MdBrightnessMedium, MdRestartAlt, MdSettings} from 'vue-icons-plus/md';
 
+const gameStore = useGameStore();
+const settingsStore = useSettingsStore();
 
-const store = useGameStore();
 const loading = ref(false);
-const theme = ref('light');
-
 
 const handleSync = async () => {
   loading.value = true;
   try {
-    await store.sync();
+    await gameStore.sync();
   } finally {
     loading.value = false;
     alert("Колода обновлена.");
   }
 };
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme.value);
-  localStorage.setItem('theme', theme.value);
-};
-
-
-onMounted(() => {
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    theme.value = saved;
-    document.documentElement.setAttribute('data-theme', saved);
-  }
-});
-
 </script>
 
 <template>
   <header class="header">
     <h1>Экивоки</h1>
     <div class="controls">
-      <button class="icon-btn" @click="toggleTheme">
-        <MdBrightnessMedium />
+      <button class="icon-btn" :class="{'light': settingsStore.settings.theme !== 'dark'}"
+              @click="settingsStore.toggleTheme">
+        <MdBrightnessMedium/>
       </button>
-      <button class="icon-btn" @click="handleSync" :disabled="loading">
-        <span v-if="!loading"><MdInstallDesktop /></span>
-        <span v-else class="spinner"></span>
+      <button class="icon-btn" @click="handleSync">
+        <span :class="{'spinner': loading}"><MdRestartAlt/></span>
+      </button>
+      <button class="icon-btn" @click="settingsStore.toggleSettingsScreen"
+              :class="{ 'active': settingsStore.isSettingsScreenOpened }"
+      >
+        <MdSettings/>
       </button>
     </div>
   </header>
@@ -81,17 +70,20 @@ onMounted(() => {
   cursor: pointer;
 }
 
+.active {
+  background-color: var(--active-color);
+}
+
+.light {
+  background-color: var(--light-color);
+}
+
 .icon-btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid #999;
-  border-top: 3px solid transparent;
-  border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
 

@@ -4,18 +4,26 @@ import {useGameStore} from './stores/useGameStore';
 import AppHeader from './components/AppHeader.vue';
 import StartScreen from './components/StartScreen.vue';
 import GameScreen from './components/GameScreen.vue';
+import SettingsScreen from "./components/SettingsScreen.vue";
+import {useSettingsStore} from "./stores/useSettingsStore.js";
 
-const store = useGameStore();
-onMounted(() => store.initialize());
+const gameStore = useGameStore();
+const settingsStore = useSettingsStore()
+
+onMounted(() => {
+  settingsStore.initSettings()
+  gameStore.initialize()
+})
 </script>
 
 <template>
   <div class="app-container">
-    <AppHeader />
+    <AppHeader/>
     <main class="main-content">
-      <div v-if="store.isLoading" class="loading">Загрузка колоды...</div>
-      <StartScreen v-else-if="store.phase === 'idle'" />
-      <GameScreen v-else />
+      <div v-if="gameStore.isLoading" class="loading">Загрузка колоды...</div>
+      <SettingsScreen class="settings" v-else-if="settingsStore.isSettingsScreenOpened"/>
+      <StartScreen v-else-if="gameStore.phase === 'idle'"/>
+      <GameScreen v-else/>
     </main>
   </div>
 </template>
@@ -28,8 +36,9 @@ onMounted(() => store.initialize());
   --color-orange: #FF6B6B;
   --color-purple: #9B5DE5;
   --color-text: #292f36;
-  --shadow: 0 10px 25px rgba(0,0,0,0.1);
-
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --active-color: #24ff24;
+  --light-color: #ffff3f;
 }
 
 :root[data-theme="dark"] {
@@ -40,7 +49,9 @@ onMounted(() => store.initialize());
   --color-purple: #b983ff;
   --color-text: #f0f0f0;
   --color-bg: #121212;
-  --shadow: 0 10px 25px rgba(0,0,0,1);
+  --shadow: 0 10px 25px rgba(0, 0, 0, 1);
+  --active-color: #24ff24;
+  --light-color: #ffff3f;
 }
 
 body {
@@ -67,5 +78,4 @@ body {
   flex-direction: column;
   justify-content: center;
 }
-
 </style>

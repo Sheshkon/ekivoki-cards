@@ -14,6 +14,13 @@ db.version(2).stores({
     meta: 'key'
 });
 
+db.version(3).stores({
+    cards: 'id, theme, showedCount',
+    specialCards: 'id, theme, showedCount',
+    meta: 'key',
+    settings: 'key,value'
+})
+
 export const upsertCards = async (table, cards) => {
     await db.transaction('rw', table, async () => {
         for (const card of cards) {
