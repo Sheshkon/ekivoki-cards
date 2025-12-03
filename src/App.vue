@@ -80,6 +80,6 @@ body {
 }
 
 .loading {
-  flex: 0.1
+  flex: 1
 }
 </style>
