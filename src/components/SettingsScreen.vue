@@ -9,10 +9,17 @@ const settingsStore = useSettingsStore()
 const selectedColor = ref(settingsStore.settings.themeColor)
 
 watch(selectedColor, (newColor) => {
-  const hex = typeof newColor === "string" ? newColor : newColor.hex
-  document.documentElement.style.setProperty("--color-teal", hex)
-  settingsStore.settings.themeColor = hex
-})
+      document.documentElement.style.setProperty("--color-teal", newColor)
+      const metaTheme = document.querySelector("meta[name='theme-color']")
+      if (metaTheme) {
+        metaTheme.setAttribute("content", newColor)
+      }
+
+      settingsStore.settings.themeColor = newColor
+    },
+    {immediate: true}
+)
+
 
 const localCardsUrl = ref(settingsStore.persistentSettings.cardsGoogleSheetUrl)
 const localSpecialUrl = ref(settingsStore.persistentSettings.specialCardsGoogleSheetUrl)
