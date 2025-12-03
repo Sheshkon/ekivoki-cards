@@ -20,7 +20,6 @@ export default defineConfig({
                 name: 'Ekivoki',
                 short_name: 'Ekivoki',
                 description: 'Ekivoki',
-                theme_color: '#4ECDC4',
                 background_color: '#F7FFF7',
                 display: 'standalone',
                 orientation: 'portrait',

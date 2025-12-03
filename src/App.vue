@@ -78,4 +78,8 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+
+.loading {
+  flex: 1
+}
 </style>
