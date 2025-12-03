@@ -13,7 +13,7 @@ export const useSettingsStore = defineStore('settings', {
             theme: 'light',
             sound: true,
             language: 'ru',
-            themeColor: 'red'
+            themeColor: '#4ECDC4'
         }),
         persistentSettings: useDexie("settings", {
             cardsGoogleSheetUrl: CARDS_GOOGLE_SHEET_URL,

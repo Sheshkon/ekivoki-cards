@@ -4,7 +4,6 @@ import {ref, watch} from "vue";
 import {VSwatches} from "vue3-swatches";
 import 'vue3-swatches/dist/style.css'
 
-
 const settingsStore = useSettingsStore()
 
 const selectedColor = ref(settingsStore.settings.themeColor)
