@@ -33,8 +33,13 @@ export const useSettingsStore = defineStore('settings', {
             this.settings[key] = value
         },
         initSettings() {
-            document.documentElement.setAttribute('data-theme', this.settings.theme)
-            document.documentElement.style.setProperty("--color-teal", this.settings.themeColor ?? "#4ECDC4")
+            const color = this.settings.themeColor ?? "#4ECDC4";
+            document.documentElement.setAttribute('data-theme', this.settings.theme);
+            document.documentElement.style.setProperty("--color-teal", color);
+            const metaTheme = document.querySelector("meta[name='theme-color']");
+            if (metaTheme) {
+                metaTheme.setAttribute("content", color);
+            }
         },
 
         updateGoogleSheetCardsUrl(url = null, isSpecial = false) {

@@ -14,7 +14,6 @@ watch(selectedColor, (newColor) => {
       if (metaTheme) {
         metaTheme.setAttribute("content", newColor)
       }
-
       settingsStore.settings.themeColor = newColor
     },
     {immediate: true}
