@@ -82,4 +82,10 @@ body {
 .loading {
   flex: 1
 }
+
+html, body {
+  overscroll-behavior-y: contain;
+  overscroll-behavior-x: none;
+}
+
 </style>
