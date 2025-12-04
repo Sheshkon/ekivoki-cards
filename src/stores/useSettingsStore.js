@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import {useLocalStorage} from '@vueuse/core'
 import {useDexie} from "../composable/useDexie.js";
 import {buildGoogleSheetCsvUrl} from "../components/utils.js";
+import i18n from '../i18n';
 
 const SHEET_ID = '13eAGD0f2Y1BcLqpgwoAcV5q5BouyzZ4E7HFa1UtfDwI';
 const CARDS_GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=2001267068#gid=2001267068`;
@@ -12,7 +13,7 @@ export const useSettingsStore = defineStore('settings', {
         settings: useLocalStorage('settings', {
             theme: 'light',
             sound: true,
-            language: 'ru',
+            language: 'en',
             themeColor: '#4ECDC4'
         }),
         persistentSettings: useDexie("settings", {
@@ -22,16 +23,6 @@ export const useSettingsStore = defineStore('settings', {
         isSettingsScreenOpened: false,
     }),
     actions: {
-        toggleTheme() {
-            this.settings.theme = this.settings.theme === 'dark' ? 'light' : 'dark'
-            document.documentElement.setAttribute('data-theme', this.settings.theme)
-        },
-        toggleSettingsScreen() {
-            this.isSettingsScreenOpened = !this.isSettingsScreenOpened
-        },
-        updateSetting(key, value) {
-            this.settings[key] = value
-        },
         initSettings() {
             const color = this.settings.themeColor ?? "#4ECDC4";
             document.documentElement.setAttribute('data-theme', this.settings.theme);
@@ -39,6 +30,30 @@ export const useSettingsStore = defineStore('settings', {
             const metaTheme = document.querySelector("meta[name='theme-color']");
             if (metaTheme) {
                 metaTheme.setAttribute("content", color);
+            }
+            i18n.global.locale.value = this.settings.language
+        },
+
+        toggleTheme() {
+            this.settings.theme = this.settings.theme === 'dark' ? 'light' : 'dark'
+            document.documentElement.setAttribute('data-theme', this.settings.theme)
+        },
+
+        toggleSettingsScreen() {
+            this.isSettingsScreenOpened = !this.isSettingsScreenOpened
+        },
+
+        setLanguage(lang) {
+            this.settings.language = lang
+            i18n.global.locale.value = lang
+        },
+
+        setThemeColor(newColor) {
+            this.settings.themeColor = newColor
+            document.documentElement.style.setProperty("--color-teal", newColor)
+            const metaTheme = document.querySelector("meta[name='theme-color']")
+            if (metaTheme) {
+                metaTheme.setAttribute("content", newColor)
             }
         },
 

@@ -19,11 +19,11 @@ defineProps({
       </div>
       <div class="task-text-option">{{ task?.phrase || '' }}</div>
       <div class="task-type" v-if="task?.type">
-        Тип: {{ task.type }}
+        {{ $t('card.type') }}{{ task.type }}
       </div>
     </div>
     <div class="author" v-if="card?.author">
-      Автор: {{ card?.author }}
+      {{ $t('card.author') }}{{ card?.author }}
     </div>
   </div>
 </template>

@@ -1,0 +1,47 @@
+{
+  "app": {
+    "title": "Ekivoki Cards",
+    "loading": "Loading deck..."
+  },
+  "header": {
+    "title": "Ekivoki",
+    "deck_updated": "Deck updated."
+  },
+  "card": {
+    "type": "Type: ",
+    "author": "Author: "
+  },
+  "card_wrapper": {
+    "no_title": "No title",
+    "swipe_hint": "← Swipe left to skip",
+    "swipe_disabled_hint": "Timer active: swipe disabled"
+  },
+  "dice_roller": {
+    "rolling": "The dice is rolling...",
+    "prompt": "Click to roll!"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme_color": "Theme color",
+    "cards_link": "Cards link",
+    "special_cards_link": "Special cards link",
+    "update": "Update",
+    "use_default": "Use default"
+  },
+  "game": {
+    "start_timer": "Start Timer",
+    "fail_turn": "Failed",
+    "next_turn": "Next Turn"
+  },
+  "special_task": {
+    "label": "Ekivoki! Special task",
+    "no_task": "No task",
+    "type": "Task type:",
+    "author": "Author:"
+  },
+  "start_screen": {
+    "base_card_alt": "Base card",
+    "special_card_alt": "Special card"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "app": {
+    "title": "Cartes Ekivoki",
+    "loading": "Chargement du deck..."
+  },
+  "header": {
+    "title": "Ekivoki",
+    "deck_updated": "Deck mis à jour."
+  },
+  "card": {
+    "type": "Type : ",
+    "author": "Auteur : "
+  },
+  "card_wrapper": {
+    "no_title": "Sans titre",
+    "swipe_hint": "← Glissez à gauche pour passer",
+    "swipe_disabled_hint": "Minuteur actif : glissement désactivé"
+  },
+  "dice_roller": {
+    "rolling": "Le dé roule...",
+    "prompt": "Cliquez pour lancer !"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "theme_color": "Couleur du thème",
+    "cards_link": "Lien des cartes",
+    "special_cards_link": "Lien des cartes spéciales",
+    "update": "Mettre à jour",
+    "use_default": "Utiliser par défaut"
+  },
+  "game": {
+    "start_timer": "Démarrer le minuteur",
+    "fail_turn": "Échec",
+    "next_turn": "Tour suivant"
+  },
+  "special_task": {
+    "label": "Ekivoki ! Tâche spéciale",
+    "no_task": "Pas de tâche",
+    "type": "Type de tâche :",
+    "author": "Auteur :"
+  },
+  "start_screen": {
+    "base_card_alt": "Carte de base",
+    "special_card_alt": "Carte spéciale"
+  }
+}

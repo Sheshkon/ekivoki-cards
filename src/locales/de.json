@@ -1,0 +1,47 @@
+{
+  "app": {
+    "title": "Ekivoki Karten",
+    "loading": "Deck wird geladen..."
+  },
+  "header": {
+    "title": "Ekivoki",
+    "deck_updated": "Deck aktualisiert."
+  },
+  "card": {
+    "type": "Typ: ",
+    "author": "Autor: "
+  },
+  "card_wrapper": {
+    "no_title": "Kein Titel",
+    "swipe_hint": "← Nach links wischen zum Überspringen",
+    "swipe_disabled_hint": "Timer aktiv: Wischen deaktiviert"
+  },
+  "dice_roller": {
+    "rolling": "Der Würfel rollt...",
+    "prompt": "Klicken zum Würfeln!"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "theme_color": "Themenfarbe",
+    "cards_link": "Kartenlink",
+    "special_cards_link": "Link für Spezialkarten",
+    "update": "Aktualisieren",
+    "use_default": "Standard verwenden"
+  },
+  "game": {
+    "start_timer": "Timer starten",
+    "fail_turn": "Fehlgeschlagen",
+    "next_turn": "Nächster Zug"
+  },
+  "special_task": {
+    "label": "Ekivoki! Spezialaufgabe",
+    "no_task": "Keine Aufgabe",
+    "type": "Aufgabentyp:",
+    "author": "Autor:"
+  },
+  "start_screen": {
+    "base_card_alt": "Basiskarte",
+    "special_card_alt": "Spezialkarte"
+  }
+}

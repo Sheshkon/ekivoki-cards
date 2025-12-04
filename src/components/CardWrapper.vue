@@ -22,7 +22,7 @@ const handleSwipe = async () => {
         v-swipe="handleSwipe"
     >
       <div class="card-title-header">
-        {{ store?.currentCard?.topic || 'Нет заголовка' }}
+        {{ store?.currentCard?.topic || $t('card_wrapper.no_title') }}
       </div>
 
       <div class="task-list single-task">
@@ -31,10 +31,10 @@ const handleSwipe = async () => {
       </div>
 
       <div class="hint" v-if="!store.timerActive">
-        ← Смахни влево, чтобы пропустить
+        {{ $t('card_wrapper.swipe_hint') }}
       </div>
       <div class="hint hint-disabled" v-else>
-        Таймер активен: свайп отключен
+        {{ $t('card_wrapper.swipe_disabled_hint') }}
       </div>
     </div>
   </div>

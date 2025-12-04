@@ -35,11 +35,11 @@ const finishTurn = () => {
     <CardWrapper class="card-wrapper" :key="store.currentCard?.id"/>
     <div class="controls-container">
       <button v-if="!store.timerActive" class="btn-start" @click="startTimer">
-        Старт Таймера
+        {{ $t('game.start_timer') }}
       </button>
       <div v-else class="timer-controls-active">
-        <button class="btn-fail" @click="failTurn">Не справились</button>
-        <button class="btn-next" @click="finishTurn">Следующий ход</button>
+        <button class="btn-fail" @click="failTurn">{{ $t('game.fail_turn') }}</button>
+        <button class="btn-next" @click="finishTurn">{{ $t('game.next_turn') }}</button>
       </div>
     </div>
   </div>

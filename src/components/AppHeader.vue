@@ -2,13 +2,15 @@
 import {ref} from 'vue';
 import {useGameStore} from '../stores/useGameStore';
 import {useSettingsStore} from '../stores/useSettingsStore';
-
 import {MdBrightnessMedium, MdRestartAlt, MdSettings} from 'vue-icons-plus/md';
+import {useI18n} from "vue-i18n";
 
 const gameStore = useGameStore();
 const settingsStore = useSettingsStore();
 
 const loading = ref(false);
+
+const { t } = useI18n();
 
 const handleSync = async () => {
   loading.value = true;
@@ -16,14 +18,13 @@ const handleSync = async () => {
     await gameStore.sync();
   } finally {
     loading.value = false;
-    alert("Колода обновлена.");
+    alert(t('header.deck_updated'));
   }
 };
 </script>
-
 <template>
   <header class="header">
-    <h1>Экивоки</h1>
+    <h1>{{ $t('header.title') }}</h1>
     <div class="controls">
       <button class="icon-btn" :class="{'light': settingsStore.settings.theme !== 'dark'}"
               @click="settingsStore.toggleTheme">

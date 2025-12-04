@@ -12,8 +12,6 @@ export const fetchCards = async () => {
         const cards = parseCardsCSV(cardsCsv);
         const specialCards = parseSpecialCSV(specialCsv);
 
-        console.log(cards)
-
         return {cards, specialCards};
     } catch (error) {
         console.error('Fetching error:', error);

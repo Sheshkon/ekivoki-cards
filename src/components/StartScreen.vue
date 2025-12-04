@@ -10,11 +10,22 @@ const store = useGameStore();
   <div class="start-screen">
     <DiceRoller :size="80" class="dice-roller"/>
     <div class="card-preview-group">
-      <img :src="baseCardImage" alt="Обычная карточка" class="card-preview" @click="store.generateCard(false)"/>
-      <img :src="specialCardImage" alt="Особая карточка" class="card-preview" @click="store.generateCard(true)"/>
+      <img
+          :src="baseCardImage"
+          :alt="$t('start_screen.base_card_alt')"
+          class="card-preview"
+          @click="store.generateCard(false)"
+      />
+      <img
+          :src="specialCardImage"
+          :alt="$t('start_screen.special_card_alt')"
+          class="card-preview"
+          @click="store.generateCard(true)"
+      />
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .start-screen {

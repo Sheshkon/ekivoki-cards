@@ -1,24 +1,10 @@
 <script setup>
 import {useSettingsStore} from "../stores/useSettingsStore.js";
-import {ref, watch} from "vue";
+import {ref} from "vue";
 import {VSwatches} from "vue3-swatches";
-import 'vue3-swatches/dist/style.css'
+import VueSelect from "vue3-select-component";
 
 const settingsStore = useSettingsStore()
-
-const selectedColor = ref(settingsStore.settings.themeColor)
-
-watch(selectedColor, (newColor) => {
-      document.documentElement.style.setProperty("--color-teal", newColor)
-      const metaTheme = document.querySelector("meta[name='theme-color']")
-      if (metaTheme) {
-        metaTheme.setAttribute("content", newColor)
-      }
-      settingsStore.settings.themeColor = newColor
-    },
-    {immediate: true}
-)
-
 
 const localCardsUrl = ref(settingsStore.persistentSettings.cardsGoogleSheetUrl)
 const localSpecialUrl = ref(settingsStore.persistentSettings.specialCardsGoogleSheetUrl)
@@ -54,25 +40,42 @@ function resetCardsUrl(isSpecial = false) {
     localCardsUrl.value = settingsStore.persistentSettings.cardsGoogleSheetUrl
   }
 }
+
+const langOptions = [
+  { label: "English", value: "en" },
+  { label: "Русский", value: "ru" },
+  { label: "Français", value: "fr" },
+  { label: "Deutsch", value: "de" },
+  { label: "Español", value: "es" },
+  { label: "Italiano", value: "it" },
+  { label: "中文", value: "zh" }
+];
 </script>
 
 <template>
   <div class="settings">
-    <h1>Настройки</h1>
-    <div>
-      <v-swatches
-          v-model="selectedColor"
-          :swatches="['#3fbfb7','#ff6b6b','#ffa500','#0078d7','#8a2be2','#00ff00','#ff00ff']"
-          inline
-          shapes="circles"
-          :row-length="5"
-          :swatch-size="28"
-          :spacing-size="6"
-          background-color="none"
+    <h1>{{ $t('settings.title') }}</h1>
+    <v-swatches
+        v-model="settingsStore.settings.themeColor"
+        @update:modelValue="settingsStore.setThemeColor"
+        :swatches="['#3fbfb7','#ff6b6b','#ffa500','#0078d7','#8a2be2','#00ff00','#ff00ff']"
+        inline
+        shapes="circles"
+        :row-length="5"
+        :swatch-size="28"
+        :spacing-size="6"
+        background-color="none"
+    />
+    <div class="setting-item language">
+      <label>{{ $t('settings.language') }}:</label>
+      <vue-select v-model="settingsStore.settings.language"
+                  @update:modelValue="settingsStore.setLanguage"
+                  :options="langOptions"
       />
     </div>
+
     <div class="setting-item column">
-      <label>Ссылка на карты:</label>
+      <label>{{ $t('settings.cards_link') }}:</label>
       <input
           v-model="localCardsUrl"
           :class="{ invalid: cardsLinkErrors.length }"
@@ -81,14 +84,13 @@ function resetCardsUrl(isSpecial = false) {
         <li v-for="(err, i) in cardsLinkErrors" :key="i">{{ err }}</li>
       </ul>
       <div class="buttons">
-        <button class="primary" @click="updateCardsUrl(false)">Обновить</button>
-        <button class="secondary" @click="resetCardsUrl(false)">Использовать дефолтную</button>
+        <button class="primary" @click="updateCardsUrl(false)">{{ $t('settings.update') }}</button>
+        <button class="secondary" @click="resetCardsUrl(false)">{{ $t('settings.use_default') }}</button>
       </div>
-
     </div>
 
     <div class="setting-item column">
-      <label>Ссылка на специальные карты:</label>
+      <label>{{ $t('settings.special_cards_link') }}:</label>
       <input
           v-model="localSpecialUrl"
           :class="{ invalid: specialCardsLinkErrors.length }"
@@ -97,8 +99,8 @@ function resetCardsUrl(isSpecial = false) {
         <li v-for="(err, i) in specialCardsLinkErrors" :key="i">{{ err }}</li>
       </ul>
       <div class="buttons">
-        <button class='primary' @click="updateCardsUrl(true)">Обновить</button>
-        <button class="secondary" @click="resetCardsUrl(true)">Использовать дефолтную</button>
+        <button class='primary' @click="updateCardsUrl(true)">{{ $t('settings.update') }}</button>
+        <button class="secondary" @click="resetCardsUrl(true)">{{ $t('settings.use_default') }}</button>
       </div>
     </div>
   </div>
@@ -122,10 +124,14 @@ function resetCardsUrl(isSpecial = false) {
   align-items: flex-start;
 }
 
+.setting-item.language {
+  width: fit-content;
+}
+
 .setting-item input {
   flex: 1;
   width: 100%;
-  padding: 0.4rem 0.6rem;
+  padding: 0.8rem 0.6rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   word-break: break-all;

@@ -20,7 +20,7 @@ onMounted(() => {
   <div class="app-container">
     <AppHeader/>
     <main class="main-content">
-      <div v-if="gameStore.isLoading" class="loading">Загрузка колоды...</div>
+      <div v-if="gameStore.isLoading" class="loading">{{ $t('app.loading') }}</div>
       <SettingsScreen class="settings" v-else-if="settingsStore.isSettingsScreenOpened"/>
       <StartScreen v-else-if="gameStore.phase === 'idle'"/>
       <GameScreen v-else/>
@@ -39,6 +39,7 @@ onMounted(() => {
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   --active-color: #24ff24;
   --light-color: #ffff3f;
+  --color-bg: #f5efe6;
 }
 
 :root[data-theme="dark"] {
@@ -48,7 +49,7 @@ onMounted(() => {
   --color-orange: #ff8c42;
   --color-purple: #b983ff;
   --color-text: #f0f0f0;
-  --color-bg: #121212;
+  --color-bg: #1b1b1f;
   --shadow: 0 10px 25px rgba(0, 0, 0, 1);
   --active-color: #24ff24;
   --light-color: #ffff3f;

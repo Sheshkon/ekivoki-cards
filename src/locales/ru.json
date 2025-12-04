@@ -1,0 +1,47 @@
+{
+  "app": {
+    "title": "Экивоки Карточки",
+    "loading": "Загрузка колоды..."
+  },
+  "header": {
+    "title": "Экивоки",
+    "deck_updated": "Колода обновлена."
+  },
+  "card": {
+    "type": "Тип: ",
+    "author": "Автор: "
+  },
+  "card_wrapper": {
+    "no_title": "Нет заголовка",
+    "swipe_hint": "← Смахни влево, чтобы пропустить",
+    "swipe_disabled_hint": "Таймер активен: свайп отключен"
+  },
+  "dice_roller": {
+    "rolling": "Кубик катится...",
+    "prompt": "Нажми, чтобы бросить!"
+  },
+  "settings": {
+    "title": "Настройки",
+    "language": "Язык",
+    "theme_color": "Цвет темы",
+    "cards_link": "Ссылка на карты",
+    "special_cards_link": "Ссылка на специальные карты",
+    "update": "Обновить",
+    "use_default": "Использовать дефолтную"
+  },
+  "game": {
+    "start_timer": "Старт таймера",
+    "fail_turn": "Не справились",
+    "next_turn": "Следующий ход"
+  },
+  "special_task": {
+    "label": "Экивоки! Особое задание",
+    "no_task": "Задание отсутствует",
+    "type": "Тип задания:",
+    "author": "Автор:"
+  },
+  "start_screen": {
+    "base_card_alt": "Обычная карточка",
+    "special_card_alt": "Особая карточка"
+  }
+}

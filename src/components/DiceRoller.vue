@@ -1,5 +1,6 @@
 <script setup>
 import {reactive, nextTick, computed} from 'vue';
+import {useI18n} from "vue-i18n";
 
 const props = defineProps({
   size: {
@@ -58,7 +59,7 @@ const rollDice = async () => {
 
   setTimeout(() => {
     diceState.isRolling = false;
-    console.log('Выпало:', result);
+    console.log('Dice result:', result);
   }, 1500);
 };
 </script>
@@ -103,7 +104,7 @@ const rollDice = async () => {
     </div>
 
     <p class="instruction">
-      {{ diceState.isRolling ? 'Кубик катится...' : 'Нажми, чтобы бросить!' }}
+      {{ diceState.isRolling ? $t('dice_roller.rolling') : $t('dice_roller.prompt') }}
     </p>
 
   </div>

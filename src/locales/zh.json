@@ -1,0 +1,47 @@
+{
+  "app": {
+    "title": "Ekivoki 卡牌",
+    "loading": "正在加载卡组..."
+  },
+  "header": {
+    "title": "Ekivoki",
+    "deck_updated": "卡组已更新。"
+  },
+  "card": {
+    "type": "类型：",
+    "author": "作者："
+  },
+  "card_wrapper": {
+    "no_title": "无标题",
+    "swipe_hint": "← 左滑跳过",
+    "swipe_disabled_hint": "计时器激活：禁止滑动"
+  },
+  "dice_roller": {
+    "rolling": "骰子正在滚动...",
+    "prompt": "点击掷骰！"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "theme_color": "主题颜色",
+    "cards_link": "卡牌链接",
+    "special_cards_link": "特殊卡牌链接",
+    "update": "更新",
+    "use_default": "使用默认"
+  },
+  "game": {
+    "start_timer": "开始计时",
+    "fail_turn": "失败",
+    "next_turn": "下一回合"
+  },
+  "special_task": {
+    "label": "Ekivoki！特殊任务",
+    "no_task": "无任务",
+    "type": "任务类型：",
+    "author": "作者："
+  },
+  "start_screen": {
+    "base_card_alt": "基础卡牌",
+    "special_card_alt": "特殊卡牌"
+  }
+}
