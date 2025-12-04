@@ -44,6 +44,9 @@ export const useSettingsStore = defineStore('settings', {
         },
 
         setLanguage(lang) {
+            if (lang == null || lang === "")
+                return
+
             this.settings.language = lang
             i18n.global.locale.value = lang
         },
@@ -55,7 +58,8 @@ export const useSettingsStore = defineStore('settings', {
             if (metaTheme) {
                 metaTheme.setAttribute("content", newColor)
             }
-        },
+        }
+        ,
 
         updateGoogleSheetCardsUrl(url = null, isSpecial = false) {
             let csvUrl = null

@@ -2,7 +2,7 @@
 import {useSettingsStore} from "../stores/useSettingsStore.js";
 import {ref} from "vue";
 import {VSwatches} from "vue3-swatches";
-import VueSelect from "vue3-select-component";
+import Multiselect from '@vueform/multiselect'
 
 const settingsStore = useSettingsStore()
 
@@ -42,13 +42,13 @@ function resetCardsUrl(isSpecial = false) {
 }
 
 const langOptions = [
-  { label: "English", value: "en" },
-  { label: "Русский", value: "ru" },
-  { label: "Français", value: "fr" },
-  { label: "Deutsch", value: "de" },
-  { label: "Español", value: "es" },
-  { label: "Italiano", value: "it" },
-  { label: "中文", value: "zh" }
+  {label: "English", value: "en"},
+  {label: "Русский", value: "ru"},
+  {label: "Français", value: "fr"},
+  {label: "Deutsch", value: "de"},
+  {label: "Español", value: "es"},
+  {label: "Italiano", value: "it"},
+  {label: "中文", value: "zh"}
 ];
 </script>
 
@@ -68,10 +68,19 @@ const langOptions = [
     />
     <div class="setting-item language">
       <label>{{ $t('settings.language') }}:</label>
-      <vue-select v-model="settingsStore.settings.language"
-                  @update:modelValue="settingsStore.setLanguage"
-                  :options="langOptions"
+      <Multiselect
+          v-model="settingsStore.settings.language"
+          :options="langOptions"
+          :searchable=false
+          :clearable=false
+          @update:modelValue="val => {
+    if (val) settingsStore.setLanguage(val)
+  }"
+
+          label="label"
+          track-by="value"
       />
+
     </div>
 
     <div class="setting-item column">
@@ -125,7 +134,7 @@ const langOptions = [
 }
 
 .setting-item.language {
-  width: fit-content;
+  width: 15rem;
 }
 
 .setting-item input {
@@ -173,4 +182,8 @@ const langOptions = [
   color: #d93025;
   font-size: 0.85rem;
 }
+::v-deep(.multiselect-clear) {
+  display: none !important;
+}
+
 </style>

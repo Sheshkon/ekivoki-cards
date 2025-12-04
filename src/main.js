@@ -4,7 +4,7 @@ import App from './App.vue';
 import vSwipe from './directives/vSwipe';
 import VSwatches from "vue3-swatches";
 import i18n from './i18n';
-import "vue3-select-component/styles";
+import '@vueform/multiselect/themes/default.css'
 import 'vue3-swatches/dist/style.css'
 
 const pinia = createPinia();
