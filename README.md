@@ -1,11 +1,16 @@
 # Ekivoki fan cards generator
 demo: [sheshkon.github.io/ekivoki-cards/](https://sheshkon.github.io/ekivoki-cards/)
 
-таблица с карточками: https://docs.google.com/spreadsheets/d/13eAGD0f2Y1BcLqpgwoAcV5q5BouyzZ4E7HFa1UtfDwI/edit?gid=2001267068#gid=2001267068
 
-<img width="272" height="571" alt="image" src="https://github.com/user-attachments/assets/ce60adca-3797-4080-a362-03679ae7cee1" />
-<img width="272" height="574" alt="image" src="https://github.com/user-attachments/assets/74b87386-7d52-43c3-9ba1-b78518e6f30d" />
-<img width="267" height="566" alt="image" src="https://github.com/user-attachments/assets/99cd2858-7955-4cd1-ba1e-18adc8cd5bc4" />
+
+<!-- <img width="281" height="587" alt="image" src="https://github.com/user-attachments/assets/83491ccb-baf4-416e-8880-2364dbec47ab" />
+<img width="260" height="578" alt="image" src="https://github.com/user-attachments/assets/64057d92-daa9-4e05-9813-ff4a2068df08" />
+<img width="264" height="588" alt="image" src="https://github.com/user-attachments/assets/55419af6-71aa-432a-8910-289f4ee6cbac" /> -->
+
+Specify links to use your personal card sets ([example]( https://docs.google.com/spreadsheets/d/13eAGD0f2Y1BcLqpgwoAcV5q5BouyzZ4E7HFa1UtfDwI/edit?gid=2001267068#gid=2001267068))
+
+<img width="268" height="582" alt="image" src="https://github.com/user-attachments/assets/e6d2933d-8fd7-4ce6-b55e-05724766f08f" />
+
 
 
 
