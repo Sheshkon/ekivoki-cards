@@ -73,10 +73,7 @@ const langOptions = [
           :options="langOptions"
           :searchable=false
           :clearable=false
-          @update:modelValue="val => {
-    if (val) settingsStore.setLanguage(val)
-  }"
-
+          @update:modelValue="val => {if (val) settingsStore.setLanguage(val)}"
           label="label"
           track-by="value"
       />
