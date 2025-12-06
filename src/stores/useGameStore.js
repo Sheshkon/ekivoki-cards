@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia';
 import {db, getCards, getMeta, incrementShowedCount, saveMeta, upsertCards} from '../services/IndexedDBService';
 import {fetchCards} from '../services/GoogleSheetService';
+import i18n from '../i18n';
 
 export const useGameStore = defineStore('game', {
     state: () => ({
@@ -43,13 +44,13 @@ export const useGameStore = defineStore('game', {
                     await saveMeta('lastSyncTime', Date.now());
                     this.mainDeck = cards;
                     this.specialDeck = specialCards;
-                    console.log("Колода обновлена")
+                    console.log("Deck updated")
                 } else {
-                    console.warn("Колода пуста после синхронизации.");
+                    console.warn("Deck is empty after sync.");
                 }
             } catch (error) {
-                console.error("Ошибка синхронизации:", error);
-                alert("Не удалось загрузить данные. Используются кешированные карточки.");
+                console.error("Sync error:", error);
+                // alert(i18n.global.t('alerts.dataLoadFailed'))
             }
         },
 
@@ -57,7 +58,12 @@ export const useGameStore = defineStore('game', {
             const deck = isSpecial ? this.specialDeck : this.mainDeck;
 
             if (!deck.length) {
-                alert(`Колода ${isSpecial ? 'особых' : 'основных'} карт пуста! Обновите данные.`);
+                // alert(
+                //     isSpecial
+                //         ? i18n.global.t('alerts.specialDeckEmpty')
+                //         : i18n.global.t('alerts.mainDeckEmpty')
+                // )
+
                 this.phase = 'idle';
                 return;
             }

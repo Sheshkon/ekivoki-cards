@@ -4,8 +4,7 @@
     "loading": "Загрузка колоды..."
   },
   "header": {
-    "title": "Экивоки",
-    "deck_updated": "Колода обновлена."
+    "title": "Экивоки"
   },
   "card": {
     "type": "Тип: ",
@@ -27,7 +26,8 @@
     "cards_link": "Ссылка на карты",
     "special_cards_link": "Ссылка на специальные карты",
     "update": "Обновить",
-    "use_default": "Использовать дефолтную"
+    "use_default": "Использовать дефолтную",
+    "reset_all": "Сбросить все"
   },
   "game": {
     "start_timer": "Старт таймера",
@@ -43,5 +43,19 @@
   "start_screen": {
     "base_card_alt": "Обычная карточка",
     "special_card_alt": "Особая карточка"
+  },
+  "alerts": {
+    "deck_updated": "Колода успешно обновлена!",
+    "specialDeckEmpty": "Колода особых карт пуста! Обновите данные.",
+    "mainDeckEmpty": "Колода основных карт пуста! Обновите данные.",
+    "dataLoadFailed": "Не удалось загрузить данные. Используются кешированные карточки."
+  },
+  "errors": {
+    "sheet_id_not_found": "Не удалось извлечь sheetId",
+    "not_google": "Не похоже на ссылку Google",
+    "not_sheets": "Ссылка не является Google Sheets",
+    "gid_missing": "В ссылке отсутствует параметр gid",
+    "gid_invalid": "Некорректный формат gid",
+    "invalid_url": "Некорректный URL"
   }
 }

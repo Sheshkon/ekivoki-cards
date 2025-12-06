@@ -4,8 +4,7 @@
     "loading": "正在加载卡组..."
   },
   "header": {
-    "title": "Ekivoki",
-    "deck_updated": "卡组已更新。"
+    "title": "Ekivoki"
   },
   "card": {
     "type": "类型：",
@@ -27,7 +26,8 @@
     "cards_link": "卡牌链接",
     "special_cards_link": "特殊卡牌链接",
     "update": "更新",
-    "use_default": "使用默认"
+    "use_default": "使用默认",
+    "reset_all": "重置所有"
   },
   "game": {
     "start_timer": "开始计时",
@@ -43,5 +43,19 @@
   "start_screen": {
     "base_card_alt": "基础卡牌",
     "special_card_alt": "特殊卡牌"
+  },
+  "alerts": {
+    "deck_updated": "卡组已成功更新！",
+    "specialDeckEmpty": "特殊卡组为空！请更新数据。",
+    "mainDeckEmpty": "主卡组为空！请更新数据。",
+    "dataLoadFailed": "无法加载数据。正在使用缓存的卡片。"
+  },
+  "errors": {
+    "sheet_id_not_found": "无法提取 sheetId",
+    "not_google": "不是 Google 链接",
+    "not_sheets": "链接不是 Google 表格",
+    "gid_missing": "链接中缺少 gid 参数",
+    "gid_invalid": "gid 格式无效",
+    "invalid_url": "无效的 URL"
   }
 }

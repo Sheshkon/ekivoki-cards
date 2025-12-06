@@ -4,8 +4,7 @@
     "loading": "Loading deck..."
   },
   "header": {
-    "title": "Ekivoki",
-    "deck_updated": "Deck updated."
+    "title": "Ekivoki"
   },
   "card": {
     "type": "Type: ",
@@ -27,7 +26,8 @@
     "cards_link": "Cards link",
     "special_cards_link": "Special cards link",
     "update": "Update",
-    "use_default": "Use default"
+    "use_default": "Use default",
+    "reset_all": "Reset All"
   },
   "game": {
     "start_timer": "Start Timer",
@@ -43,5 +43,19 @@
   "start_screen": {
     "base_card_alt": "Base card",
     "special_card_alt": "Special card"
+  },
+  "alerts": {
+    "deck_updated": "Deck updated successfully!",
+    "specialDeckEmpty": "Special cards deck is empty! Please update data.",
+    "mainDeckEmpty": "Main cards deck is empty! Please update data.",
+    "dataLoadFailed": "Failed to load data. Cached cards are used."
+  },
+  "errors": {
+    "sheet_id_not_found": "Failed to extract sheetId",
+    "not_google": "Not a Google link",
+    "not_sheets": "Link is not a Google Sheets",
+    "gid_missing": "Missing gid parameter in link",
+    "gid_invalid": "Invalid gid format",
+    "invalid_url": "Invalid URL"
   }
 }

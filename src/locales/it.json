@@ -4,8 +4,7 @@
     "loading": "Caricamento mazzo..."
   },
   "header": {
-    "title": "Ekivoki",
-    "deck_updated": "Mazzo aggiornato."
+    "title": "Ekivoki"
   },
   "card": {
     "type": "Tipo: ",
@@ -27,7 +26,8 @@
     "cards_link": "Link carte",
     "special_cards_link": "Link carte speciali",
     "update": "Aggiorna",
-    "use_default": "Usa predefinito"
+    "use_default": "Usa predefinito",
+    "reset_all": "Reimposta tutto"
   },
   "game": {
     "start_timer": "Avvia timer",
@@ -43,5 +43,19 @@
   "start_screen": {
     "base_card_alt": "Carta base",
     "special_card_alt": "Carta speciale"
+  },
+  "alerts": {
+    "deck_updated": "Mazzo aggiornato con successo!",
+    "specialDeckEmpty": "Il mazzo di carte speciali è vuoto! Aggiorna i dati.",
+    "mainDeckEmpty": "Il mazzo di carte principali è vuoto! Aggiorna i dati.",
+    "dataLoadFailed": "Impossibile caricare i dati. Vengono utilizzate le carte memorizzate nella cache."
+  },
+  "errors": {
+    "sheet_id_not_found": "Impossibile estrarre sheetId",
+    "not_google": "Non è un link di Google",
+    "not_sheets": "Il link non è un Google Sheets",
+    "gid_missing": "Parametro gid mancante nel link",
+    "gid_invalid": "Formato gid non valido",
+    "invalid_url": "URL non valida"
   }
 }

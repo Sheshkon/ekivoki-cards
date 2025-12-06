@@ -24,4 +24,14 @@ const i18n = createI18n({
     }
 })
 
+export const langOptions = [
+    {label: "English", value: "en"},
+    {label: "Русский", value: "ru"},
+    {label: "Français", value: "fr"},
+    {label: "Deutsch", value: "de"},
+    {label: "Español", value: "es"},
+    {label: "Italiano", value: "it"},
+    {label: "中文", value: "zh"}
+];
+
 export default i18n

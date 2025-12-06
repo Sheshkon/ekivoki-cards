@@ -1,55 +1,45 @@
 <script setup>
 import {useSettingsStore} from "../stores/useSettingsStore.js";
-import {ref} from "vue";
+import {reactive} from "vue";
 import {VSwatches} from "vue3-swatches";
-import Multiselect from '@vueform/multiselect'
+import Multiselect from "@vueform/multiselect";
+import {langOptions} from "../i18n.js";
 
-const settingsStore = useSettingsStore()
+const settingsStore = useSettingsStore();
 
-const localCardsUrl = ref(settingsStore.persistentSettings.cardsGoogleSheetUrl)
-const localSpecialUrl = ref(settingsStore.persistentSettings.specialCardsGoogleSheetUrl)
+const localState = reactive({
+  urls: {
+    cards: settingsStore.persistentSettings.cardsGoogleSheetUrl,
+    special: settingsStore.persistentSettings.specialCardsGoogleSheetUrl,
+  },
+  errors: {
+    cards: [],
+    special: []
+  }
+});
 
-const cardsLinkErrors = ref([])
-const specialCardsLinkErrors = ref([])
+function handleCardsUrl(type, action = "update") {
+  const isSpecial = type === "special";
+  const url = action === "update" ? localState.urls[type] : null;
+  const msgs = settingsStore.updateGoogleSheetCardsUrl(url, isSpecial);
 
-function updateCardsUrl(isSpecial = false) {
-  const url = isSpecial ? localSpecialUrl.value : localCardsUrl.value
-  const msgs = settingsStore.updateGoogleSheetCardsUrl(url, isSpecial)
+  localState.errors[type] = msgs;
 
-  if (isSpecial) {
-    specialCardsLinkErrors.value = msgs
-    if (!msgs.length) {
-      localSpecialUrl.value = settingsStore.persistentSettings.specialCardsGoogleSheetUrl
-    }
-  } else {
-    cardsLinkErrors.value = msgs
-    if (!msgs.length) {
-      localCardsUrl.value = settingsStore.persistentSettings.cardsGoogleSheetUrl
-    }
+  if (!msgs.length) {
+    localState.urls[type] = isSpecial
+        ? settingsStore.persistentSettings.specialCardsGoogleSheetUrl
+        : settingsStore.persistentSettings.cardsGoogleSheetUrl;
   }
 }
 
-function resetCardsUrl(isSpecial = false) {
-  const msgs = settingsStore.updateGoogleSheetCardsUrl(null, isSpecial)
-
-  if (isSpecial) {
-    specialCardsLinkErrors.value = msgs
-    localSpecialUrl.value = settingsStore.persistentSettings.specialCardsGoogleSheetUrl
-  } else {
-    cardsLinkErrors.value = msgs
-    localCardsUrl.value = settingsStore.persistentSettings.cardsGoogleSheetUrl
-  }
+function resetAllToDefaults() {
+  settingsStore.resetToDefaults();
+  localState.urls.cards = settingsStore.persistentSettings.cardsGoogleSheetUrl;
+  localState.urls.special = settingsStore.persistentSettings.specialCardsGoogleSheetUrl;
+  localState.errors.cards = [];
+  localState.errors.special = [];
 }
 
-const langOptions = [
-  {label: "English", value: "en"},
-  {label: "Русский", value: "ru"},
-  {label: "Français", value: "fr"},
-  {label: "Deutsch", value: "de"},
-  {label: "Español", value: "es"},
-  {label: "Italiano", value: "it"},
-  {label: "中文", value: "zh"}
-];
 </script>
 
 <template>
@@ -71,44 +61,55 @@ const langOptions = [
       <Multiselect
           v-model="settingsStore.settings.language"
           :options="langOptions"
-          :searchable=false
-          :clearable=false
-          @update:modelValue="val => {if (val) settingsStore.setLanguage(val)}"
+          :searchable="false"
+          :clearable="false"
+          @update:modelValue="val => { if (val) settingsStore.setLanguage(val) }"
           label="label"
           track-by="value"
       />
-
     </div>
-
     <div class="setting-item column">
       <label>{{ $t('settings.cards_link') }}:</label>
       <input
-          v-model="localCardsUrl"
-          :class="{ invalid: cardsLinkErrors.length }"
+          v-model="localState.urls.cards"
+          :class="{ invalid: localState.errors.cards.length }"
       />
-      <ul v-if="cardsLinkErrors.length" class="errors">
-        <li v-for="(err, i) in cardsLinkErrors" :key="i">{{ err }}</li>
+      <ul v-if="localState.errors.cards.length" class="errors">
+        <li v-for="(err, i) in localState.errors.cards" :key="i">{{ err }}</li>
       </ul>
       <div class="buttons">
-        <button class="primary" @click="updateCardsUrl(false)">{{ $t('settings.update') }}</button>
-        <button class="secondary" @click="resetCardsUrl(false)">{{ $t('settings.use_default') }}</button>
+        <button class="primary" @click="handleCardsUrl('cards','update')">
+          {{ $t('settings.update') }}
+        </button>
+        <button class="secondary" @click="handleCardsUrl('cards','reset')">
+          {{ $t('settings.use_default') }}
+        </button>
       </div>
     </div>
-
     <div class="setting-item column">
       <label>{{ $t('settings.special_cards_link') }}:</label>
       <input
-          v-model="localSpecialUrl"
-          :class="{ invalid: specialCardsLinkErrors.length }"
+          v-model="localState.urls.special"
+          :class="{ invalid: localState.errors.special.length }"
       />
-      <ul v-if="specialCardsLinkErrors.length" class="errors">
-        <li v-for="(err, i) in specialCardsLinkErrors" :key="i">{{ err }}</li>
+      <ul v-if="localState.errors.special.length" class="errors">
+        <li v-for="(err, i) in localState.errors.special" :key="i">{{ err }}</li>
       </ul>
       <div class="buttons">
-        <button class='primary' @click="updateCardsUrl(true)">{{ $t('settings.update') }}</button>
-        <button class="secondary" @click="resetCardsUrl(true)">{{ $t('settings.use_default') }}</button>
+        <button class="primary" @click="handleCardsUrl('special','update')">
+          {{ $t('settings.update') }}
+        </button>
+        <button class="secondary" @click="handleCardsUrl('special','reset')">
+          {{ $t('settings.use_default') }}
+        </button>
       </div>
     </div>
+    <div class="reset-all setting-item">
+      <button class="danger" @click="resetAllToDefaults()">
+        {{ $t('settings.reset_all') }}
+      </button>
+    </div>
+
   </div>
 </template>
 
@@ -123,6 +124,7 @@ const langOptions = [
   align-items: center;
   gap: 0.5rem;
   margin: 0.8rem 0;
+  color: var(--color-text);
 }
 
 .setting-item.column {
@@ -179,8 +181,14 @@ const langOptions = [
   color: #d93025;
   font-size: 0.85rem;
 }
-::v-deep(.multiselect-clear) {
-  display: none !important;
+
+.danger {
+  background-color: var(--color-orange);
+}
+
+.reset-all {
+  margin-top: 3rem;
+  margin-left: 0;
 }
 
 </style>

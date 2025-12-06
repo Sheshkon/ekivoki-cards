@@ -18,7 +18,7 @@ const handleSync = async () => {
     await gameStore.sync();
   } finally {
     loading.value = false;
-    alert(t('header.deck_updated'));
+    // alert(t('alerts.deck_updated'));
   }
 };
 </script>

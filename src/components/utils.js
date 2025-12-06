@@ -1,6 +1,7 @@
 import {
     GiDiceSixFacesOne, GiDiceSixFacesTwo, GiDiceSixFacesThree, GiDiceSixFacesFour, GiDiceSixFacesFive, GiDiceSixFacesSix
 } from 'vue-icons-plus/gi'
+import i18n from '../i18n';
 
 export const getDiceIcon = (diceNumber) => {
     const icons = {
@@ -16,6 +17,8 @@ export const getDiceIcon = (diceNumber) => {
 }
 
 export const buildGoogleSheetCsvUrl = (url) => {
+    const t =  i18n.global.t
+
     const validationMessages = []
     let gid = null
     let sheetId = null
@@ -28,7 +31,7 @@ export const buildGoogleSheetCsvUrl = (url) => {
         if (match) {
             sheetId = match[1]
         } else {
-            validationMessages.push('Не удалось извлечь sheetId')
+            validationMessages.push(t('errors.sheet_id_not_found'))
         }
 
         gid = parsed.searchParams.get('gid')
@@ -37,23 +40,23 @@ export const buildGoogleSheetCsvUrl = (url) => {
         }
 
         if (!parsed.hostname.endsWith('google.com'))
-            validationMessages.push('Не похоже на ссылку Google')
+            validationMessages.push(t('errors.not_google'))
 
         if (!parsed.pathname.includes('/spreadsheets/'))
-            validationMessages.push('Ссылка не является Google Sheets')
+            validationMessages.push(t('errors.not_sheets'))
 
         if (!gid)
-            validationMessages.push('В ссылке отсутствует параметр gid')
+            validationMessages.push(t('errors.gid_missing'))
 
         if (gid && !/^\d+$/.test(gid))
-            validationMessages.push('Некорректный формат gid')
+            validationMessages.push(t('errors.gid_invalid'))
 
         if (sheetId && gid) {
             csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}#gid=${gid}`
         }
     } catch (err) {
-        validationMessages.push('Некорректный URL')
+        validationMessages.push(t('errors.invalid_url'))
     }
 
-    return { sheetId, gid, csvUrl, validationMessages }
+    return {sheetId, gid, csvUrl, validationMessages}
 }

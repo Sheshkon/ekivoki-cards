@@ -7,6 +7,14 @@ import i18n from '../i18n';
 const SHEET_ID = '13eAGD0f2Y1BcLqpgwoAcV5q5BouyzZ4E7HFa1UtfDwI';
 const CARDS_GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=2001267068#gid=2001267068`;
 const SPECIAL_CARDS_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1966736245#gid=1966736245`;
+const DEFAULT_SETTINGS = {
+    theme: 'light',
+    sound: true,
+    language: 'en',
+    themeColor: '#4ECDC4',
+    cardsGoogleSheetUrl: CARDS_GOOGLE_SHEET_URL,
+    specialCardsGoogleSheetUrl: SPECIAL_CARDS_CSV_URL
+};
 
 export const useSettingsStore = defineStore('settings', {
     state: () => ({
@@ -24,7 +32,7 @@ export const useSettingsStore = defineStore('settings', {
     }),
     actions: {
         initSettings() {
-            const color = this.settings.themeColor ?? "#4ECDC4";
+            const color = this.settings.themeColor ?? DEFAULT_SETTINGS.themeColor;
             document.documentElement.setAttribute('data-theme', this.settings.theme);
             document.documentElement.style.setProperty("--color-teal", color);
             const metaTheme = document.querySelector("meta[name='theme-color']");
@@ -84,6 +92,20 @@ export const useSettingsStore = defineStore('settings', {
             }
 
             return []
+        },
+        resetToDefaults() {
+            this.settings = {
+                theme: DEFAULT_SETTINGS.theme,
+                sound: DEFAULT_SETTINGS.sound,
+                language: DEFAULT_SETTINGS.language,
+                themeColor: DEFAULT_SETTINGS.themeColor
+            };
+
+            this.persistentSettings.cardsGoogleSheetUrl = CARDS_GOOGLE_SHEET_URL;
+            this.persistentSettings.specialCardsGoogleSheetUrl = SPECIAL_CARDS_CSV_URL;
+
+            this.initSettings();
         }
     }
+
 })

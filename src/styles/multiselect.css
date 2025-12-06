@@ -1,0 +1,55 @@
+/* Hide the clear button */
+.multiselect-clear {
+    display: none !important;
+}
+
+/* Base multiselect */
+.multiselect {
+    color: #000;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove borders everywhere */
+.multiselect-wrapper,
+.multiselect-dropdown,
+.multiselect-fakeInput {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove green border on focus/active */
+.multiselect.is-active,
+.multiselect.is-opened {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Default option */
+.multiselect-option {
+    color: #000;
+    border: none;
+}
+
+/* Hovered option */
+.multiselect-option.is-pointed {
+    color: #000;
+    border: none;
+}
+
+/* Selected option */
+.multiselect-option.is-selected {
+    background-color: var(--color-teal);
+    color: #000;
+}
+
+/* Selected + hovered option */
+.multiselect-option.is-selected.is-pointed {
+    background-color: var(--color-teal);
+    color: #000;
+}
+
+/* Placeholder */
+.multiselect-placeholder {
+    color: #000;
+}
