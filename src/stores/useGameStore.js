@@ -50,7 +50,7 @@ export const useGameStore = defineStore('game', {
                 }
             } catch (error) {
                 console.error("Sync error:", error);
-                // alert(i18n.global.t('alerts.dataLoadFailed'))
+                alert(i18n.global.t('alerts.dataLoadFailed'))
             }
         },
 
@@ -58,11 +58,11 @@ export const useGameStore = defineStore('game', {
             const deck = isSpecial ? this.specialDeck : this.mainDeck;
 
             if (!deck.length) {
-                // alert(
-                //     isSpecial
-                //         ? i18n.global.t('alerts.specialDeckEmpty')
-                //         : i18n.global.t('alerts.mainDeckEmpty')
-                // )
+                alert(
+                    isSpecial
+                        ? i18n.global.t('alerts.specialDeckEmpty')
+                        : i18n.global.t('alerts.mainDeckEmpty')
+                )
 
                 this.phase = 'idle';
                 return;
