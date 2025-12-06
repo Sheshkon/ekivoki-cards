@@ -2,6 +2,9 @@ import {defineStore} from 'pinia';
 import {db, getCards, getMeta, incrementShowedCount, saveMeta, upsertCards} from '../services/IndexedDBService';
 import {fetchCards} from '../services/GoogleSheetService';
 import i18n from '../i18n';
+import {useToast} from 'vue-toastification'
+
+const toast = useToast()
 
 export const useGameStore = defineStore('game', {
     state: () => ({
@@ -45,12 +48,14 @@ export const useGameStore = defineStore('game', {
                     this.mainDeck = cards;
                     this.specialDeck = specialCards;
                     console.log("Deck updated")
+                    toast.success(i18n.global.t('alerts.deck_updated'));
+
                 } else {
-                    console.warn("Deck is empty after sync.");
+                    toast.warning("Deck is empty after sync.");
                 }
             } catch (error) {
                 console.error("Sync error:", error);
-                alert(i18n.global.t('alerts.dataLoadFailed'))
+                toast.error((i18n.global.t('alerts.dataLoadFailed')));
             }
         },
 
@@ -58,7 +63,7 @@ export const useGameStore = defineStore('game', {
             const deck = isSpecial ? this.specialDeck : this.mainDeck;
 
             if (!deck.length) {
-                alert(
+                toast.warning(
                     isSpecial
                         ? i18n.global.t('alerts.specialDeckEmpty')
                         : i18n.global.t('alerts.mainDeckEmpty')

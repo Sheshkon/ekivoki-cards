@@ -1,4 +1,8 @@
 import {useSettingsStore} from "../stores/useSettingsStore.js";
+import i18n from "../i18n.js";
+import {useToast} from 'vue-toastification'
+
+const toast = useToast()
 
 export const fetchCards = async () => {
     const {persistentSettings} = await useSettingsStore()
@@ -15,6 +19,8 @@ export const fetchCards = async () => {
         return {cards, specialCards};
     } catch (error) {
         console.error('Fetching error:', error);
+        toast.error((i18n.global.t('alerts.dataLoadFailed')));
+
         return {cards: [], specialCards: []};
     }
 };

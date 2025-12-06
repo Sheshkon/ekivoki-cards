@@ -3,22 +3,20 @@ import {ref} from 'vue';
 import {useGameStore} from '../stores/useGameStore';
 import {useSettingsStore} from '../stores/useSettingsStore';
 import {MdBrightnessMedium, MdRestartAlt, MdSettings} from 'vue-icons-plus/md';
-import {useI18n} from "vue-i18n";
 
 const gameStore = useGameStore();
 const settingsStore = useSettingsStore();
 
 const loading = ref(false);
 
-const { t } = useI18n();
-
 const handleSync = async () => {
   loading.value = true;
   try {
     await gameStore.sync();
+  } catch (e) {
+    console.log("Deck don't updated: ", e);
   } finally {
     loading.value = false;
-    alert(t('alerts.deck_updated'));
   }
 };
 </script>
