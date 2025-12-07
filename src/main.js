@@ -10,7 +10,6 @@ import 'vue-toastification/dist/index.css'
 import '@vueform/multiselect/themes/default.css'
 import 'vue3-swatches/dist/style.css'
 import './styles/multiselect.css'
-import './styles/background.css'
 
 const pinia = createPinia();
 const app = createApp(App);
