@@ -6,6 +6,7 @@ import StartScreen from './components/StartScreen.vue';
 import GameScreen from './components/GameScreen.vue';
 import SettingsScreen from "./components/SettingsScreen.vue";
 import {useSettingsStore} from "./stores/useSettingsStore.js";
+import {DEFAULT_SETTINGS} from "./stores/config.js";
 
 const gameStore = useGameStore();
 const settingsStore = useSettingsStore()
@@ -17,7 +18,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="['app-container', 'common-background', `background-${settingsStore.settings.backgroundKey}`]">
+  <div
+      :class="['app-container', 'common-background', `background-${settingsStore.settings.backgroundKey || DEFAULT_SETTINGS.backgroundKey}`]"
+  >
     <AppHeader/>
     <main class="main-content">
       <div v-if="gameStore.isLoading" class="loading">{{ $t('app.loading') }}</div>

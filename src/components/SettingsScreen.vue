@@ -58,6 +58,16 @@ function resetAllToDefaults() {
         background-color="none"
     />
     <div class="setting-item small-input">
+      <label>{{ $t('settings.background') }}:</label>
+      <Multiselect
+          v-model="settingsStore.settings.backgroundKey"
+          :options="BACKGROUNDS.map(bg => ({ label: bg.name, value: bg.key }))"
+          :searchable="false"
+          :clearable="false"
+          @update:modelValue="val => settingsStore.setBackground(val)"
+      />
+    </div>
+    <div class="setting-item small-input">
       <label>{{ $t('settings.language') }}:</label>
       <Multiselect
           v-model="settingsStore.settings.language"
@@ -69,17 +79,6 @@ function resetAllToDefaults() {
           track-by="value"
       />
     </div>
-    <div class="setting-item small-input">
-      <label>{{ $t('settings.background') }}:</label>
-      <Multiselect
-          v-model="settingsStore.settings.backgroundKey"
-          :options="BACKGROUNDS.map(bg => ({ label: bg.name, value: bg.key }))"
-          :searchable="false"
-          :clearable="false"
-          @update:modelValue="val => settingsStore.setBackground(val)"
-      />
-    </div>
-
     <div class="setting-item column">
       <label>{{ $t('settings.cards_link') }}:</label>
       <input

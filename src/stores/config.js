@@ -17,10 +17,6 @@ export const BACKGROUNDS = [
         key: "1",
     },
     {
-        name: "Lines in Motion",
-        key: "2",
-    },
-    {
         name: "I Like Food",
         key: "3",
     },
