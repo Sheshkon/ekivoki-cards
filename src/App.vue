@@ -17,7 +17,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app-container">
+  <div :class="['app-container', 'common-background', `background-${settingsStore.settings.backgroundKey}`]">
     <AppHeader/>
     <main class="main-content">
       <div v-if="gameStore.isLoading" class="loading">{{ $t('app.loading') }}</div>
@@ -39,7 +39,8 @@ onMounted(() => {
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   --active-color: #24ff24;
   --light-color: #ffff3f;
-  --color-bg: #f5efe6;
+  --color-bg: #fffdd0;
+  --app-background: white;
 }
 
 :root[data-theme="dark"] {

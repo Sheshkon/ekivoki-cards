@@ -31,7 +31,6 @@ defineProps({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--color-bg);
 }
 .special-label {
   font-weight: bold;

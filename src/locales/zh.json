@@ -23,6 +23,7 @@
     "title": "设置",
     "language": "语言",
     "theme_color": "主题颜色",
+    "background": "背景图案",
     "cards_link": "卡牌链接",
     "special_cards_link": "特殊卡牌链接",
     "update": "更新",

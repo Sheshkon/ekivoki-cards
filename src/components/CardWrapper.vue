@@ -63,6 +63,7 @@ const handleSwipe = async () => {
   border-top: 8px solid var(--color-teal);
   transition: transform 0.3s ease;
   animation: slideIn 0.4s ease-out;
+  background: var(--color-bg);
 }
 
 .card-title-header {

@@ -23,6 +23,7 @@
     "title": "Settings",
     "language": "Language",
     "theme_color": "Theme color",
+    "background": "Background pattern",
     "cards_link": "Cards link",
     "special_cards_link": "Special cards link",
     "update": "Update",

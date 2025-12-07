@@ -1,6 +1,5 @@
 <script setup>
 import {reactive, nextTick, computed} from 'vue';
-import {useI18n} from "vue-i18n";
 
 const props = defineProps({
   size: {
@@ -233,7 +232,7 @@ const rollDice = async () => {
 
 .instruction {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--color-text);
   font-weight: 500;
 }
 </style>

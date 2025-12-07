@@ -23,6 +23,7 @@
     "title": "Paramètres",
     "language": "Langue",
     "theme_color": "Couleur du thème",
+    "background": "Motif d’arrière-plan",
     "cards_link": "Lien des cartes",
     "special_cards_link": "Lien des cartes spéciales",
     "update": "Mettre à jour",

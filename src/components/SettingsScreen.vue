@@ -4,6 +4,7 @@ import {reactive} from "vue";
 import {VSwatches} from "vue3-swatches";
 import Multiselect from "@vueform/multiselect";
 import {langOptions} from "../i18n.js";
+import {BACKGROUNDS} from "../stores/config.js";
 
 const settingsStore = useSettingsStore();
 
@@ -56,7 +57,7 @@ function resetAllToDefaults() {
         :spacing-size="6"
         background-color="none"
     />
-    <div class="setting-item language">
+    <div class="setting-item small-input">
       <label>{{ $t('settings.language') }}:</label>
       <Multiselect
           v-model="settingsStore.settings.language"
@@ -68,6 +69,17 @@ function resetAllToDefaults() {
           track-by="value"
       />
     </div>
+    <div class="setting-item small-input">
+      <label>{{ $t('settings.background') }}:</label>
+      <Multiselect
+          v-model="settingsStore.settings.backgroundKey"
+          :options="BACKGROUNDS.map(bg => ({ label: bg.name, value: bg.key }))"
+          :searchable="false"
+          :clearable="false"
+          @update:modelValue="val => settingsStore.setBackground(val)"
+      />
+    </div>
+
     <div class="setting-item column">
       <label>{{ $t('settings.cards_link') }}:</label>
       <input
@@ -125,6 +137,8 @@ function resetAllToDefaults() {
   gap: 0.5rem;
   margin: 0.8rem 0;
   color: var(--color-text);
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .setting-item.column {
@@ -132,7 +146,7 @@ function resetAllToDefaults() {
   align-items: flex-start;
 }
 
-.setting-item.language {
+.setting-item.small-input {
   width: 15rem;
 }
 

@@ -23,6 +23,7 @@
     "title": "Impostazioni",
     "language": "Lingua",
     "theme_color": "Colore tema",
+    "background": "Motivo di sfondo",
     "cards_link": "Link carte",
     "special_cards_link": "Link carte speciali",
     "update": "Aggiorna",

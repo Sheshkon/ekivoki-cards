@@ -23,6 +23,7 @@
     "title": "Настройки",
     "language": "Язык",
     "theme_color": "Цвет темы",
+    "background": "Фон (паттерн)",
     "cards_link": "Ссылка на карты",
     "special_cards_link": "Ссылка на специальные карты",
     "update": "Обновить",

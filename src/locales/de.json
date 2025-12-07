@@ -23,6 +23,7 @@
     "title": "Einstellungen",
     "language": "Sprache",
     "theme_color": "Themenfarbe",
+    "background": "Patrón de fondo",
     "cards_link": "Kartenlink",
     "special_cards_link": "Link für Spezialkarten",
     "update": "Aktualisieren",
