@@ -84,9 +84,9 @@ const finishTurn = () => {
 
 .btn-fail {
   flex: 1;
-  background: #fff;
   border: 2px solid var(--color-orange);
-  color: var(--color-orange);
+  color: var(--color-text);
+  background: var(--color-bg);
   padding: 15px;
   border-radius: 12px;
   font-size: 1.1rem;
