@@ -58,5 +58,16 @@
     "gid_missing": "Fehlender gid-Parameter im Link",
     "gid_invalid": "Ungültiges gid-Format",
     "invalid_url": "Ungültige URL"
+  },
+  "prompt_generator": {
+    "title": "KI-Prompt-Generator",
+    "topic": "Thema",
+    "cards_count": "Anzahl der Karten",
+    "author": "Autor",
+    "generate_button": "Prompt generieren",
+    "clear_button": "Löschen",
+    "generated_prompt": "Generierter Prompt",
+    "copy_button": "Kopieren",
+    "copied_status": "Kopiert"
   }
 }

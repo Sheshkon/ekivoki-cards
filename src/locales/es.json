@@ -23,6 +23,7 @@
     "title": "Configuración",
     "language": "Idioma",
     "theme_color": "Color del tema",
+    "background": "Patrón de fondo",
     "cards_link": "Enlace de cartas",
     "special_cards_link": "Enlace de cartas especiales",
     "update": "Actualizar",
@@ -57,5 +58,16 @@
     "gid_missing": "Falta el parámetro gid en el enlace",
     "gid_invalid": "Formato de gid no válido",
     "invalid_url": "URL no válida"
+  },
+  "prompt_generator": {
+    "title": "Generador de prompts para IA",
+    "topic": "Tema",
+    "cards_count": "Número de tarjetas",
+    "author": "Autor",
+    "generate_button": "Generar prompt",
+    "clear_button": "Borrar",
+    "generated_prompt": "Prompt generado",
+    "copy_button": "Copiar",
+    "copied_status": "Copiado"
   }
 }

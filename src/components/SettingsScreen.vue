@@ -5,6 +5,7 @@ import {VSwatches} from "vue3-swatches";
 import Multiselect from "@vueform/multiselect";
 import {langOptions} from "../i18n.js";
 import {BACKGROUNDS} from "../stores/config.js";
+import PromptGenerator from "./PromptGenerator.vue";
 
 const settingsStore = useSettingsStore();
 
@@ -101,7 +102,7 @@ function resetAllToDefaults() {
       <label>{{ $t('settings.special_cards_link') }}:</label>
       <input
           v-model="localState.urls.special"
-          :class="{ invalid: localState.errors.special.length }"
+          :class="[{ invalid: localState.errors.special.length}, 'link']"
       />
       <ul v-if="localState.errors.special.length" class="errors">
         <li v-for="(err, i) in localState.errors.special" :key="i">{{ err }}</li>
@@ -120,7 +121,7 @@ function resetAllToDefaults() {
         {{ $t('settings.reset_all') }}
       </button>
     </div>
-
+    <PromptGenerator/>
   </div>
 </template>
 

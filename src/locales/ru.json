@@ -58,5 +58,16 @@
     "gid_missing": "В ссылке отсутствует параметр gid",
     "gid_invalid": "Некорректный формат gid",
     "invalid_url": "Некорректный URL"
+  },
+  "prompt_generator": {
+    "title": "Генератор промптов для ИИ",
+    "topic": "Тема",
+    "cards_count": "Количество карточек",
+    "author": "Автор",
+    "generate_button": "Сгенерировать промпт",
+    "clear_button": "Очистить",
+    "generated_prompt": "Сгенерированный промпт",
+    "copy_button": "Копировать",
+    "copied_status": "Скопировано"
   }
 }

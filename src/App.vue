@@ -81,7 +81,7 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
+  min-height: 100dvh;
   padding: 1rem;
   box-sizing: border-box;
 }

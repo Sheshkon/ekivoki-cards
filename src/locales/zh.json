@@ -58,5 +58,17 @@
     "gid_missing": "链接中缺少 gid 参数",
     "gid_invalid": "gid 格式无效",
     "invalid_url": "无效的 URL"
+  },
+  "prompt_generator": {
+    "title": "AI提示生成器",
+    "topic": "主题",
+    "cards_count": "卡片数量",
+    "author": "作者",
+    "generate_button": "生成提示",
+    "clear_button": "清除",
+    "generated_prompt": "生成的提示",
+    "copy_button": "复制",
+    "copied_status": "已复制"
   }
+
 }

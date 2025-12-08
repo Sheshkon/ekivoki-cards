@@ -58,5 +58,16 @@
     "gid_missing": "Paramètre gid manquant dans le lien",
     "gid_invalid": "Format gid invalide",
     "invalid_url": "URL invalide"
+  },
+  "prompt_generator": {
+    "title": "Générateur de prompts pour IA",
+    "topic": "Sujet",
+    "cards_count": "Nombre de cartes",
+    "author": "Auteur",
+    "generate_button": "Générer un prompt",
+    "clear_button": "Effacer",
+    "generated_prompt": "Prompt généré",
+    "copy_button": "Copier",
+    "copied_status": "Copié"
   }
 }

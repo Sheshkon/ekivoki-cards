@@ -58,5 +58,16 @@
     "gid_missing": "Missing gid parameter in link",
     "gid_invalid": "Invalid gid format",
     "invalid_url": "Invalid URL"
+  },
+  "prompt_generator": {
+    "title": "AI Prompt Generator",
+    "topic": "Topic",
+    "cards_count": "Number of cards",
+    "author": "Author",
+    "generate_button": "Generate prompt",
+    "clear_button": "Clear",
+    "generated_prompt": "Generated prompt",
+    "copy_button": "Copy",
+    "copied_status": "Copied"
   }
 }

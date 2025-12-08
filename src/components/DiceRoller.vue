@@ -159,7 +159,7 @@ const rollDice = async () => {
   height: var(--cube-size);
   background: linear-gradient(145deg, #ffffff, #f0f0f0);
   border-radius: var(--border-radius);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.30  );
   display: flex;
   padding: var(--padding);
   box-sizing: border-box;
