@@ -116,7 +116,7 @@ async function copyToClipboard() {
 }
 
 .prompt-row label {
-  min-width: 6rem;
+  min-width: 10rem;
   font-weight: 600;
   color: var(--color-text);
 }
