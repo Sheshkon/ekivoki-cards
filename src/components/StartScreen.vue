@@ -1,7 +1,7 @@
 <script setup>
 import {useGameStore} from '../stores/useGameStore';
-import baseCardImage from '../assets/img/base.jpg';
-import specialCardImage from '../assets/img/special.png';
+import baseCardImage from '../assets/img/base1.png';
+import specialCardImage from '../assets/img/special1.png';
 import DiceRoller from "./DiceRoller.vue";
 
 const store = useGameStore();
