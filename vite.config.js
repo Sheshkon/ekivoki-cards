@@ -15,7 +15,7 @@ export default defineConfig({
                 short_name: 'Ekivoki',
                 description: 'Ekivoki',
                 background_color: '#F7FFF7',
-                display: 'standalone',
+                display: 'fullscreen',
                 orientation: 'portrait',
                 "icons": [
                     {
