@@ -53,7 +53,7 @@ const finishTurn = () => {
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  min-height: 80dvh;
   width: 100%;
   gap: 10px;
 }

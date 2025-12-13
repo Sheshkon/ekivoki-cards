@@ -69,6 +69,10 @@ onMounted(() => {
   --light-color: #ffff3f;
 }
 
+html {
+  font-size: calc(12px + 0.5vw); /* динамический размер шрифта */
+}
+
 body {
   font-size: 0.8rem;
   margin: 0;
@@ -101,6 +105,10 @@ body {
 html, body {
   overscroll-behavior-y: contain;
   overscroll-behavior-x: none;
+}
+
+* {
+  user-select: none
 }
 
 </style>

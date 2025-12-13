@@ -116,7 +116,7 @@ async function copyToClipboard() {
 }
 
 .prompt-row label {
-  min-width: 10rem;
+  min-width: 9rem;
   font-weight: 600;
   color: var(--color-text);
 }
@@ -127,6 +127,7 @@ async function copyToClipboard() {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
+  width: 100%;
 }
 
 .prompt-row.small-input input {
