@@ -1,5 +1,7 @@
 <script setup>
-import {ref, onUnmounted, defineExpose} from 'vue';
+import {ref, onUnmounted} from 'vue';
+import timeUpSoundFile from '../assets/minute-left.mp3'
+import oneMoreTimeUpSoundFile from '../assets/one-more-minute-left.mp3'
 
 const props = defineProps({
   duration: {type: Number, default: 0}
@@ -9,10 +11,6 @@ const emit = defineEmits(['time-up']);
 const initialDuration = props.duration;
 const timeLeft = ref(initialDuration);
 const interval = ref(null);
-
-import timeUpSoundFile from '../assets/minute-left.mp3'
-import oneMoreTimeUpSoundFile from '../assets/one-more-minute-left.mp3'
-
 const timeUpAudio = new Audio(timeUpSoundFile);
 const oneMoreTimeUpAudio = new Audio(oneMoreTimeUpSoundFile);
 
