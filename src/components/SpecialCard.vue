@@ -34,7 +34,6 @@ defineProps({
 }
 .special-label {
   font-weight: bold;
-  font-size: 1.5rem;
   color: var(--color-purple);
   margin-bottom: 15px;
 }

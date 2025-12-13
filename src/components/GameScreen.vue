@@ -58,22 +58,21 @@ const finishTurn = () => {
   gap: 10px;
 }
 
-.timer-container {
-  height: 3rem;
-}
-
 .controls-container {
   width: 100%;
+}
+
+.controls-container button {
+  font-size: var(--font-size-m)
 }
 
 .btn-start {
   width: 100%;
   background-color: var(--color-teal);
   color: var(--color-text);
-  padding: 18px;
+  padding: 1rem;
   border: none;
-  border-radius: 12px;
-  font-size: 1.3rem;
+  border-radius: 0.5rem;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(78, 205, 196, 0.3);
@@ -86,12 +85,11 @@ const finishTurn = () => {
 
 .btn-fail {
   flex: 1;
-  border: 2px solid var(--color-orange);
+  border: 2px solid var(--color-red);
   color: var(--color-text);
   background: var(--color-bg);
   padding: 15px;
   border-radius: 12px;
-  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
 }
@@ -103,7 +101,6 @@ const finishTurn = () => {
   color: var(--color-text);
   padding: 15px;
   border-radius: 12px;
-  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
 }

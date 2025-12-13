@@ -60,7 +60,7 @@ onUnmounted(stop);
 
 <style scoped>
 .timer {
-  font-size: 3rem;
+  font-size: var(--font-size-xxl);
   font-weight: 800;
   color: var(--color-teal);
   text-align: center;

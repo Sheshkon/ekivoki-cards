@@ -231,7 +231,6 @@ const rollDice = async () => {
 }
 
 .instruction {
-  font-size: 1.1rem;
   color: var(--color-text);
   font-weight: 500;
 }

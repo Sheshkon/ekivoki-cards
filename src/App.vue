@@ -43,6 +43,17 @@ onMounted(() => {
 
 <style>
 :root {
+  --font-min-base: 1rem;
+  --font-max-base: 1.25rem;
+  --font-vmin-preference: 1vmin;
+
+  --font-size-xs: clamp(0.75rem, calc(0.5rem + 0.5vmin), 1rem);
+  --font-size-default: clamp(var(--font-min-base), calc(0.5rem + var(--font-vmin-preference)), var(--font-max-base));
+  --font-size-m: clamp(1.25rem, calc(0.75rem + 1.5vmin), 1.75rem);
+  --font-size-l: clamp(1.75rem, calc(1rem + 3vmin), 2.5rem);
+  --font-size-xl: clamp(2.5rem, calc(1.5rem + 5vmin), 4rem);
+  --font-size-xxl: clamp(3rem, calc(2rem + 5vmin), 4.5rem);
+
   --color-teal: #4ECDC4;
   --color-red: #ff0000;
   --color-beige: #F7FFF7;
@@ -50,8 +61,8 @@ onMounted(() => {
   --color-purple: #9B5DE5;
   --color-text: #292f36;
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  --active-color: #24ff24;
-  --light-color: #ffff3f;
+  --color-active: #24ff24;
+  --color-light: #ffff3f;
   --color-bg: #fffdd0;
   --app-background: white;
 }
@@ -65,16 +76,15 @@ onMounted(() => {
   --color-text: #f0f0f0;
   --color-bg: #1b1b1f;
   --shadow: 0 10px 25px rgba(0, 0, 0, 1);
-  --active-color: #24ff24;
-  --light-color: #ffff3f;
+  --color-active: #24ff24;
+  --color-light: #ffff3f;
 }
 
 html {
-  font-size: calc(12px + 0.5vw); /* динамический размер шрифта */
+  font-size: var(--font-size-default);
 }
 
 body {
-  font-size: 0.8rem;
   margin: 0;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--color-bg);

@@ -93,7 +93,6 @@ async function copyToClipboard() {
 
 <style scoped>
 .prompt-generator {
-  font-size: 1rem;
   font-weight: bold;
   margin-top: 2rem;
   border-radius: 8px;
@@ -105,7 +104,6 @@ async function copyToClipboard() {
 
 .prompt-generator h2 {
   margin: 0 0 1rem 0;
-  font-size: 1.2rem;
   font-weight: bold;
   color: var(--color-text);
 }
@@ -126,7 +124,6 @@ async function copyToClipboard() {
   padding: 0.5rem 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 1rem;
   width: 100%;
 }
 
@@ -146,7 +143,6 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.95rem;
 }
 
 button.primary {
@@ -177,7 +173,6 @@ button.secondary {
   border-radius: 6px;
   border: 1px solid #ccc;
   font-family: monospace;
-  font-size: 0.95rem;
   white-space: pre-wrap;
   resize: vertical;
   background: #fafafa;

@@ -43,6 +43,7 @@ const handleSwipe = async () => {
 
 <style scoped>
 .card-wrapper {
+  font-size: var(--font-size-xs);
   perspective: 1000px;
   width: 100%;
   max-width: 350px;
@@ -67,7 +68,7 @@ const handleSwipe = async () => {
 }
 
 .card-title-header {
-  font-size: 1.8rem;
+  font-size: var(--font-size-l);
   font-weight: 700;
   text-align: center;
 }
@@ -83,11 +84,11 @@ const handleSwipe = async () => {
 
 .hint {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: var(--font-size-xs);
   margin-top: 20px;
 }
 .hint-disabled {
-  color: var(--color-orange) !important;
+  color: var(--color-red) !important;
 }
 
 @keyframes slideIn {

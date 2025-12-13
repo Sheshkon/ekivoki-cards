@@ -45,6 +45,7 @@ defineProps({
 
 .dice-icon {
   color: var(--color-teal);
+  height: 1rem;
 }
 
 .task-text-option {

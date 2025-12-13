@@ -137,7 +137,6 @@ function resetAllToDefaults() {
   gap: 0.5rem;
   margin: 0.8rem 0;
   color: var(--color-text);
-  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -184,7 +183,7 @@ function resetAllToDefaults() {
 }
 
 .setting-item button.secondary {
-  color: var(--color-orange);
+  color: var(--color-red);
   background: #fff;
 }
 
@@ -193,11 +192,10 @@ function resetAllToDefaults() {
   padding: 0;
   list-style: none;
   color: #d93025;
-  font-size: 0.85rem;
 }
 
 .danger {
-  background-color: var(--color-orange);
+  background-color: var(--color-red);
 }
 
 .reset-all {

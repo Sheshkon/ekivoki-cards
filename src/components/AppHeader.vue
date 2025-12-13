@@ -49,7 +49,6 @@ const handleSync = async () => {
 
 .header h1 {
   margin: 0;
-  font-size: 1.5rem;
   color: var(--color-teal);
 }
 
@@ -70,11 +69,11 @@ const handleSync = async () => {
 }
 
 .active {
-  background-color: var(--active-color);
+  background-color: var(--color-active);
 }
 
 .light {
-  background-color: var(--light-color);
+  background-color: var(--color-light);
 }
 
 .icon-btn:disabled {
