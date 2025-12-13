@@ -1,18 +1,16 @@
 <script setup>
 import {ref, onUnmounted} from 'vue';
-import timeUpSoundFile from '../assets/minute-left.mp3'
-import oneMoreTimeUpSoundFile from '../assets/one-more-minute-left.mp3'
+import bellSoundFile from '../assets/audio/bell.mp3'
 
 const props = defineProps({
-  duration: {type: Number, default: 0}
+  initialDuration: {type: Number, default: 0},
+  roundSecondsDuration: {type: Number, default: 60}
 });
 const emit = defineEmits(['time-up']);
 
-const initialDuration = props.duration;
-const timeLeft = ref(initialDuration);
+const timeLeft = ref(props.initialDuration);
 const interval = ref(null);
-const timeUpAudio = new Audio(timeUpSoundFile);
-const oneMoreTimeUpAudio = new Audio(oneMoreTimeUpSoundFile);
+const bellAudio = new Audio(bellSoundFile);
 
 const formattedTime = () => {
   const minutes = Math.floor(timeLeft.value / 60);
@@ -26,12 +24,12 @@ const formattedTime = () => {
 
 const start = () => {
   if (interval.value) return;
-  timeLeft.value = initialDuration;
+  timeLeft.value = props.initialDuration;
   interval.value = setInterval(() => {
     timeLeft.value++;
 
-    if (timeLeft.value % 60 === 0) {
-      const audio = timeLeft.value / 60 >= 2 ? oneMoreTimeUpAudio : timeUpAudio
+    if (timeLeft.value % props.roundSecondsDuration === 0) {
+      const audio = timeLeft.value / props.roundSecondsDuration >= 2 ? bellAudio : bellAudio
       audio.play().catch(e => console.log('Audio error:', e));
       navigator.vibrate?.([200, 100, 200]);
       emit('time-up');
@@ -54,7 +52,7 @@ onUnmounted(stop);
   <div
       v-show="interval"
       class="timer"
-      :class="{ 'warning': timeLeft % 60 >= 50 }"
+      :class="{ 'warning': timeLeft % props.roundSecondsDuration >= props.roundSecondsDuration * 0.83 }"
   >
     {{ formattedTime() }}
   </div>

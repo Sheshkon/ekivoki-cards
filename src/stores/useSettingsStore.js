@@ -7,13 +7,7 @@ import {BACKGROUNDS, CARDS_GOOGLE_SHEET_URL, DEFAULT_SETTINGS, SPECIAL_CARDS_CSV
 
 export const useSettingsStore = defineStore('settings', {
     state: () => ({
-        settings: useLocalStorage('settings', {
-            theme: DEFAULT_SETTINGS.theme,
-            sound: DEFAULT_SETTINGS.sound,
-            language: DEFAULT_SETTINGS.language,
-            themeColor: DEFAULT_SETTINGS.themeColor,
-            backgroundKey: DEFAULT_SETTINGS.backgroundKey,
-        }),
+        settings: useLocalStorage('settings', {...DEFAULT_SETTINGS}),
         persistentSettings: useDexie("settings", {
             cardsGoogleSheetUrl: CARDS_GOOGLE_SHEET_URL,
             specialCardsGoogleSheetUrl: SPECIAL_CARDS_CSV_URL

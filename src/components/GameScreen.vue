@@ -3,8 +3,10 @@ import {ref} from 'vue';
 import {useGameStore} from '../stores/useGameStore';
 import Timer from './Timer.vue';
 import CardWrapper from './CardWrapper.vue';
+import {useSettingsStore} from "../stores/useSettingsStore.js";
 
-const store = useGameStore();
+const gameStore = useGameStore();
+const settingsStore = useSettingsStore();
 const timerRef = ref(null);
 
 const handleTimeUp = () => {
@@ -13,28 +15,28 @@ const handleTimeUp = () => {
 
 const startTimer = () => {
   timerRef.value?.start();
-  store.setTimerStatus(true);
+  gameStore.setTimerStatus(true);
 };
 
 const failTurn = () => {
   timerRef.value?.stop();
-  store.finishTurn();
+  gameStore.finishTurn();
 };
 
 const finishTurn = () => {
   timerRef.value?.stop();
-  store.finishTurn();
+  gameStore.finishTurn();
 };
 </script>
 
 <template>
   <div class="game-screen">
     <div class="timer-container">
-      <Timer ref="timerRef" @time-up="handleTimeUp"/>
+      <Timer ref="timerRef" @time-up="handleTimeUp" :round-duration="settingsStore.settings.roundSecondsDuration" />
     </div>
-    <CardWrapper class="card-wrapper" :key="store.currentCard?.id"/>
+    <CardWrapper class="card-wrapper" :key="gameStore.currentCard?.id"/>
     <div class="controls-container">
-      <button v-if="!store.timerActive" class="btn-start" @click="startTimer">
+      <button v-if="!gameStore.timerActive" class="btn-start" @click="startTimer">
         {{ $t('game.start_timer') }}
       </button>
       <div v-else class="timer-controls-active">

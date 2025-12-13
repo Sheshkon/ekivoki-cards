@@ -1,12 +1,13 @@
 <script setup>
-import {computed, onMounted} from 'vue';
+import {computed, onMounted, defineAsyncComponent } from 'vue';
 import {useGameStore} from './stores/useGameStore';
-import AppHeader from './components/AppHeader.vue';
-import StartScreen from './components/StartScreen.vue';
-import GameScreen from './components/GameScreen.vue';
-import SettingsScreen from "./components/SettingsScreen.vue";
 import {useSettingsStore} from "./stores/useSettingsStore.js";
 import {getBackgroundPatternStyle} from "./stores/config.js";
+
+const AppHeader = defineAsyncComponent(() => import('./components/AppHeader.vue'))
+const StartScreen = defineAsyncComponent(() => import('./components/StartScreen.vue'))
+const GameScreen = defineAsyncComponent(() => import('./components/GameScreen.vue'))
+const SettingsScreen = defineAsyncComponent(() => import('./components/SettingsScreen.vue'))
 
 const gameStore = useGameStore();
 const settingsStore = useSettingsStore()
