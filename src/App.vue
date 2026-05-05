@@ -82,6 +82,8 @@ onMounted(() => {
 
 html {
   font-size: var(--font-size-default);
+  width: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -90,31 +92,49 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   -webkit-tap-highlight-color: transparent;
-  overscroll-behavior-y: none;
+  width: 100%;
+  min-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  padding: 1rem;
+  width: min(100%, 100%);
+  padding: clamp(0.5rem, 2vw, 1rem);
   box-sizing: border-box;
+  overflow-x: clip;
 }
 
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  min-height: auto;
+  overflow-y: visible;
+  overflow-x: clip;
 }
 
 .loading {
   flex: 1
 }
 
-html, body {
+html, body, #app {
+  width: 100%;
+  max-width: 100%;
   overscroll-behavior-y: contain;
   overscroll-behavior-x: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 * {

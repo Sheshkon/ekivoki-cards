@@ -14,13 +14,13 @@ const store = useGameStore();
           :src="baseCardImage"
           :alt="$t('start_screen.base_card_alt')"
           class="card-preview"
-          @click="store.generateCard(false)"
+          @click="store.startGame('normal')"
       />
       <img
           :src="specialCardImage"
           :alt="$t('start_screen.special_card_alt')"
           class="card-preview"
-          @click="store.generateCard(true)"
+          @click="store.startGame('special')"
       />
     </div>
   </div>
@@ -29,25 +29,38 @@ const store = useGameStore();
 
 <style scoped>
 .start-screen {
+  flex: 1;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 40px;
   perspective: 1000px;
-  padding-top: 40px;
+  padding: clamp(0.5rem, 2.5vw, 1.25rem);
+  min-height: 100%;
+  width: min(100%, 48rem);
+  margin-inline: auto;
+  box-sizing: border-box;
+  overflow-x: clip;
 }
 
 .card-preview-group {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
+  align-items: stretch;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  width: 100%;
+  margin-top: clamp(0.5rem, 2vh, 1rem);
+  flex-wrap: wrap;
 }
 
 .card-preview {
-  width: 160px;
+  flex: 0 1 clamp(7.5rem, 28vw, 10rem);
+  width: clamp(7.5rem, 28vw, 10rem);
+  max-width: 42vw;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.30);
   transition: 0.2s;
@@ -74,4 +87,30 @@ const store = useGameStore();
   }
 }
 
+/* Media queries for even smaller screens like iPhone SE */
+@media (max-width: 375px) {
+  .start-screen {
+    gap: 1rem;
+    padding-top: 0.75rem;
+  }
+
+  .card-preview-group {
+    gap: 0.5rem;
+  }
+
+  .card-preview {
+    flex-basis: min(7rem, 42vw);
+    width: min(7rem, 42vw);
+  }
+}
+
+@media (max-height: 600px) {
+  .start-screen {
+    padding-top: 0.5rem;
+    gap: 0.75rem;
+  }
+  .card-preview-group {
+    margin-top: 0.5rem;
+  }
+}
 </style>

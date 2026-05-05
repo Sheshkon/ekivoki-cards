@@ -50,21 +50,30 @@ onUnmounted(stop);
 
 <template>
   <div
-      v-show="interval"
       class="timer"
-      :class="{ 'warning': timeLeft % props.roundSecondsDuration >= props.roundSecondsDuration * 0.83 }"
+      :class="{ 'is-hidden': !interval, 'warning': interval && timeLeft % props.roundSecondsDuration >= props.roundSecondsDuration * 0.83 }"
   >
-    {{ formattedTime() }}
+    {{ interval ? formattedTime() : '00' }}
   </div>
 </template>
 
 <style scoped>
 .timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--font-size-xxl);
   font-weight: 800;
   color: var(--color-teal);
   text-align: center;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
+  min-width: 3ch;
+  min-height: 1.1em;
+}
+
+.is-hidden {
+  visibility: hidden;
 }
 
 .warning {
