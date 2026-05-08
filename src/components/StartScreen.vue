@@ -1,14 +1,25 @@
 <script setup>
-import {useGameStore} from '../stores/useGameStore';
+import { useGameStore } from '../stores/useGameStore';
 import baseCardImage from '../assets/img/base1.png';
 import specialCardImage from '../assets/img/special1.png';
-import DiceRoller from "./DiceRoller.vue";
+import DiceRoller from './DiceRoller.vue';
 
 const store = useGameStore();
+
+const handleDiceResult = (result) => {
+
+  store.startGame(result === 6 ? 'special' : 'normal');
+};
 </script>
+
 <template>
   <div class="start-screen">
-    <DiceRoller :size="10" class="dice-roller"/>
+    <DiceRoller
+        :size="10"
+        class="dice-roller"
+        @rolled="handleDiceResult"
+    />
+
     <div class="card-preview-group">
       <img
           :src="baseCardImage"
@@ -16,6 +27,7 @@ const store = useGameStore();
           class="card-preview"
           @click="store.startGame('normal')"
       />
+
       <img
           :src="specialCardImage"
           :alt="$t('start_screen.special_card_alt')"
@@ -25,7 +37,6 @@ const store = useGameStore();
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .start-screen {

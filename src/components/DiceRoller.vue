@@ -1,11 +1,12 @@
 <script setup>
-import {reactive, nextTick, computed} from 'vue';
+import { reactive, nextTick, computed } from 'vue';
+
+const emit = defineEmits(['rolled']);
 
 const props = defineProps({
   size: {
     type: Number,
     default: 120,
-    required: false
   },
 });
 
@@ -18,19 +19,19 @@ const diceState = reactive({
 });
 
 const faces = {
-  1: {x: 0, y: 0},
-  2: {x: 0, y: -90},
-  3: {x: 0, y: -180},
-  4: {x: 0, y: 90},
-  5: {x: -90, y: 0},
-  6: {x: 90, y: 0},
+  1: { x: 0, y: 0 },
+  2: { x: 0, y: -90 },
+  3: { x: 0, y: -180 },
+  4: { x: 0, y: 90 },
+  5: { x: -90, y: 0 },
+  6: { x: 90, y: 0 },
 };
 
 const rollDice = async () => {
   if (diceState.isRolling) return;
   diceState.isRolling = true;
 
-  await new Promise(resolve => setTimeout(resolve, 50));
+  await new Promise(r => setTimeout(r, 50));
 
   const cubeElement = document.querySelector('.cube');
   if (!cubeElement) {
@@ -59,6 +60,9 @@ const rollDice = async () => {
   setTimeout(() => {
     diceState.isRolling = false;
     console.log('Dice result:', result);
+    setTimeout(() => {
+      emit('rolled', result);
+    }, 300);
   }, 1500);
 };
 </script>
@@ -75,7 +79,6 @@ const rollDice = async () => {
       '--padding': `${props.size / 12}dvh`,
     }"
   >
-
     <div class="scene">
       <div
           class="cube"
@@ -84,8 +87,7 @@ const rollDice = async () => {
       >
         <div class="cube__face cube__face--1"><span class="dot big"></span></div>
         <div class="cube__face cube__face--2"><span class="dot"></span><span class="dot"></span></div>
-        <div class="cube__face cube__face--3"><span class="dot"></span><span class="dot"></span><span
-            class="dot"></span></div>
+        <div class="cube__face cube__face--3"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="cube__face cube__face--4">
           <div class="column"><span class="dot"></span><span class="dot"></span></div>
           <div class="column"><span class="dot"></span><span class="dot"></span></div>
@@ -105,7 +107,6 @@ const rollDice = async () => {
     <p class="instruction">
       {{ diceState.isRolling ? $t('dice_roller.rolling') : $t('dice_roller.prompt') }}
     </p>
-
   </div>
 </template>
 <style scoped>
