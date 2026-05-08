@@ -129,6 +129,7 @@ function resetAllToDefaults() {
 .settings {
   flex: 1;
   padding: 2rem;
+  overflow: auto;
 }
 
 .setting-item {

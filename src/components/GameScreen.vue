@@ -58,15 +58,13 @@ const finishTurn = () => {
   align-items: center;
   flex: 1;
   width: 100%;
-  padding: clamp(8px, 1.4vh, 14px);
-  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  padding: clamp(8px, 1.4vh, 14px) clamp(8px, 1.4vh, 14px) max(10px, env(safe-area-inset-bottom));
   box-sizing: border-box;
   max-width: 52rem;
   margin: 0 auto;
   min-height: 0;
   height: 100%;
-  overflow-x: clip;
-  overflow-y: auto;
+  overflow: visible;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -79,7 +77,7 @@ const finishTurn = () => {
   justify-content: center;
   flex-shrink: 0;
   flex-grow: 0;
-  min-height: clamp(2.75rem, 8vh, 4.5rem);
+  height: var(--timer-container-height);
 }
 
 .timer-container > * {
@@ -99,14 +97,12 @@ const finishTurn = () => {
 }
 
 .card-area > * {
-  max-width: 100%;
   flex: 0 1 auto;
   min-height: 0;
 }
 
 .controls-container {
   width: 100%;
-  max-width: 30rem;
   flex-shrink: 0;
   margin-top: auto;
   margin-bottom: clamp(0.15rem, 0.6vh, 0.4rem);
@@ -119,7 +115,7 @@ const finishTurn = () => {
 
 .controls-container button {
   font-size: clamp(16px, 4vw, 18px);
-  min-height: 56px;
+  height: var(--controls-container-height);
   transition: opacity 0.2s;
   cursor: pointer;
 }
@@ -133,9 +129,9 @@ const finishTurn = () => {
   background-color: var(--color-teal);
   color: var(--color-text);
   border: none;
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+  box-shadow: 0 0.25rem 1rem rgba(78, 205, 196, 0.4);
 }
 
 .timer-controls-active {
@@ -146,8 +142,8 @@ const finishTurn = () => {
 
 .btn-fail, .btn-next {
   flex: 1;
-  padding: 15px;
-  border-radius: 16px;
+  padding: 1rem;
+  border-radius: var(--border-radius);
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -166,51 +162,6 @@ const finishTurn = () => {
   background: var(--color-teal);
   border: none;
   color: var(--color-text);
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-}
-
-/* iPhone SE и маленькие экраны */
-@media (max-height: 700px) {
-  .game-screen {
-    padding: 0.5rem 0.75rem 1rem;
-  }
-
-  .timer-container {
-    min-height: clamp(2.5rem, 7vh, 3.25rem);
-  }
-
-  .timer-container > * {
-    min-height: inherit;
-  }
-
-  .controls-container button {
-    min-height: 48px;
-  }
-
-  .btn-fail, .btn-next {
-    padding: 10px;
-  }
-}
-
-@media (max-height: 600px) {
-  .timer-container {
-    min-height: clamp(2.25rem, 6vh, 2.75rem);
-  }
-
-  .timer-container > * {
-    min-height: inherit;
-  }
-
-  .controls-container button {
-    min-height: 40px;
-  }
-
-  .btn-fail, .btn-next {
-    padding: 8px;
-  }
-
-  .controls-container {
-    margin-bottom: 5px;
-  }
+  box-shadow: 0 0.25rem 1rem rgba(78, 205, 196, 0.3);
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onBeforeUpdate, nextTick } from 'vue';
-import { useGameStore } from '../stores/useGameStore';
+import {ref, computed, onBeforeUnmount, onBeforeUpdate, nextTick} from 'vue';
+import {useGameStore} from '../stores/useGameStore';
 import SpecialCard from './SpecialCard.vue';
 import BaseCard from './BaseCard.vue';
 
@@ -16,7 +16,6 @@ const dragging = ref(false);
 
 let raf = null;
 
-/* refs sync */
 onBeforeUpdate(() => {
   cardsRef.value = [];
 });
@@ -28,7 +27,6 @@ const setCardRef = (el, index) => {
 
 const visibleCards = computed(() => store.visibleCards || []);
 
-/* DRAG START */
 const onPointerDown = (e) => {
   if (store.timerActive) return;
 
@@ -44,7 +42,6 @@ const onPointerDown = (e) => {
   window.addEventListener('pointerup', onUp);
 };
 
-/* MOVE */
 const onMove = (e) => {
   if (!dragging.value) return;
 
@@ -62,12 +59,10 @@ const onMove = (e) => {
 
     const rot = delta * 0.04;
 
-    topCard.style.transform =
-        `translate3d(${delta}px, 0, 0) rotate(${rot}deg)`;
+    topCard.style.transform = `translate3d(${delta}px, 0, 0) rotate(${rot}deg)`;
   });
 };
 
-/* END */
 const onUp = () => {
   if (!dragging.value) return;
 
@@ -81,8 +76,7 @@ const onUp = () => {
     const dir = Math.sign(delta);
 
     topCard.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-    topCard.style.transform =
-        `translate3d(${dir * 400}px, 0, 0) rotate(${dir * 18}deg)`;
+    topCard.style.transform = `translate3d(${dir * 400}px, 0, 0) rotate(${dir * 18}deg)`;
     topCard.style.opacity = '0';
 
     setTimeout(async () => {
@@ -121,8 +115,6 @@ onBeforeUnmount(cleanup);
 <template>
   <div class="card-wrapper" ref="wrapperRef">
     <div class="card-stack" ref="stackRef" @pointerdown="onPointerDown">
-
-      <!-- 🔥 ДИНАМИЧЕСКИЕ СЛОИ ГЛУБИНЫ КОЛОДЫ -->
       <div class="stack-depth">
         <div
             v-for="i in 4"
@@ -148,14 +140,13 @@ onBeforeUnmount(cleanup);
               zIndex: visibleCards.length - index + 2,
               'willChange': 'transform'
             }"
-
         >
           <div class="card-title-header">
             {{ card.topic }}
           </div>
 
-          <SpecialCard v-if="card.isSpecial" :card="card" />
-          <BaseCard v-else :card="card" />
+          <SpecialCard v-if="card.isSpecial" :card="card"/>
+          <BaseCard v-else :card="card"/>
         </div>
       </div>
 
@@ -165,27 +156,21 @@ onBeforeUnmount(cleanup);
 
 <style scoped>
 .card-wrapper {
-  --deck-vspace: 12rem;
-  --deck-width: min(48vw, 20rem);
-  width: min(100%, var(--deck-width), calc((100dvh - var(--deck-vspace)) * 0.6667));
-  max-height: calc(100dvh - var(--deck-vspace));
+  height: calc(85dvh - var(--header-container-height) - var(--timer-container-height) - var(--controls-container-height));
+  max-height: calc(85dvh - var(--header-container-height) - var(--timer-container-height) - var(--controls-container-height));
   aspect-ratio: 2 / 3;
+  width: auto;
+  max-width: 80dvw;
   margin-inline: auto;
-  perspective: 2200px;
   overflow: visible;
 }
 
 .card-stack {
   position: relative;
-  width: 100%;
   height: 100%;
   transform: rotateX(12deg);
   touch-action: none;
 }
-
-/* ===================== */
-/* 🔥 ДИНАМИЧЕСКАЯ ГЛУБИНА КОЛОДЫ */
-/* ===================== */
 
 .stack-depth {
   position: absolute;
@@ -197,15 +182,13 @@ onBeforeUnmount(cleanup);
 .depth {
   position: absolute;
   inset: 0;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   background: var(--color-bg);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  box-shadow: 0 1rem 1.75rem rgba(0, 0, 0, 0.12);
   border: solid 1px;
   transform: translateX(var(--x-offset)) translateY(var(--y-offset)) scale(var(--scale));
   opacity: 1;
 }
-
-/* ===================== */
 
 .dynamic-cards {
   position: absolute;
@@ -219,8 +202,8 @@ onBeforeUnmount(cleanup);
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 20px;
-  padding: clamp(12px, 3vw, 20px);
+  border-radius: var(--border-radius);
+  padding: 2vh;
   box-sizing: border-box;
   background: var(--color-bg);
   will-change: transform;
@@ -229,18 +212,7 @@ onBeforeUnmount(cleanup);
   border: solid 1px;
 }
 
-/* responsive */
-@media (max-width: 480px) {
-  .card-wrapper {
-    --deck-vspace: 9rem;
-    --deck-width: min(96vw, 19rem);
-  }
-}
-
-@media (min-width: 1280px) {
-  .card-wrapper {
-    --deck-vspace: 13.5rem;
-    --deck-width: clamp(18rem, 28vmin, 24rem);
-  }
+.card-title-header {
+  font-size: var(--font-size-l);
 }
 </style>

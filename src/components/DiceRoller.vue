@@ -67,12 +67,12 @@ const rollDice = async () => {
   <div
       class="dice-roller-container"
       :style="{
-      '--cube-size': `${props.size}px`,
-      '--half-size': `${halfSize}px`,
-      '--border-radius': `${props.size / 10}px`,
-      '--dot-size': `${props.size / 5}px`,
-      '--dot-size-big': `${props.size / 5}px`,
-      '--padding': `${props.size / 12}px`,
+      '--cube-size': `${props.size}dvh`,
+      '--half-size': `${halfSize}dvh`,
+      '--border-radius': `${props.size / 10}dvh`,
+      '--dot-size': `${props.size / 5}dvh`,
+      '--dot-size-big': `${props.size / 5}dvh`,
+      '--padding': `${props.size / 12}dvh`,
     }"
   >
 
@@ -114,16 +114,13 @@ const rollDice = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 2dvh;
   justify-content: center;
-  gap: 40px;
-  perspective: 1000px;
-  padding-top: 40px;
 }
 
 .scene {
   width: var(--cube-size);
   height: var(--cube-size);
-  perspective: 800px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,8 +137,8 @@ const rollDice = async () => {
 }
 
 .cube {
-  width: 100%;
   height: 100%;
+  aspect-ratio: 1/1;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 1.5s cubic-bezier(0.15, 0.9, 0.34, 1.15);
@@ -159,7 +156,7 @@ const rollDice = async () => {
   height: var(--cube-size);
   background: linear-gradient(145deg, #ffffff, #f0f0f0);
   border-radius: var(--border-radius);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.30  );
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.30);
   display: flex;
   padding: var(--padding);
   box-sizing: border-box;
@@ -232,6 +229,7 @@ const rollDice = async () => {
 
 .instruction {
   color: var(--color-text);
+  font-size: var(--font-size-l);
   font-weight: 500;
 }
 </style>

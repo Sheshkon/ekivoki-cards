@@ -8,7 +8,7 @@ const store = useGameStore();
 </script>
 <template>
   <div class="start-screen">
-    <DiceRoller :size="80" class="dice-roller"/>
+    <DiceRoller :size="10" class="dice-roller"/>
     <div class="card-preview-group">
       <img
           :src="baseCardImage"
@@ -47,22 +47,19 @@ const store = useGameStore();
 .card-preview-group {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
+  flex-direction: row;
   gap: clamp(0.5rem, 2vw, 1rem);
-  width: 100%;
   margin-top: clamp(0.5rem, 2vh, 1rem);
-  flex-wrap: wrap;
 }
 
 .card-preview {
-  flex: 0 1 clamp(7.5rem, 28vw, 10rem);
-  width: clamp(7.5rem, 28vw, 10rem);
-  max-width: 42vw;
+  height: 30dvh;
+  max-width: 45%;
   aspect-ratio: 2 / 3;
   object-fit: cover;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.30);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.30);
   transition: 0.2s;
   cursor: pointer;
   animation: float 3s ease-in-out infinite;
@@ -84,33 +81,6 @@ const store = useGameStore();
   }
   50% {
     transform: translateY(-10px);
-  }
-}
-
-/* Media queries for even smaller screens like iPhone SE */
-@media (max-width: 375px) {
-  .start-screen {
-    gap: 1rem;
-    padding-top: 0.75rem;
-  }
-
-  .card-preview-group {
-    gap: 0.5rem;
-  }
-
-  .card-preview {
-    flex-basis: min(7rem, 42vw);
-    width: min(7rem, 42vw);
-  }
-}
-
-@media (max-height: 600px) {
-  .start-screen {
-    padding-top: 0.5rem;
-    gap: 0.75rem;
-  }
-  .card-preview-group {
-    margin-top: 0.5rem;
   }
 }
 </style>

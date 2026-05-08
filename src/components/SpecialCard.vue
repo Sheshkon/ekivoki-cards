@@ -32,82 +32,33 @@
     flex-direction: column;
     justify-content: center;
     margin: 0;
-    gap: clamp(0.16rem, 0.7vh, 0.4rem);
     min-height: 0;
     overflow-wrap: anywhere;
     word-break: break-word;
-    line-height: 1.2;
   }
+
   .special-label {
     font-weight: bold;
     color: var(--color-purple);
-    padding-bottom: clamp(0.1rem, 0.4vh, 0.25rem);
-    font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+    font-size: var(--font-size-m);
+    padding-bottom: 2dvh;
   }
+
   .special-text {
     font-weight: 700;
     color: var(--color-text);
-    font-size: clamp(0.8rem, 1.7vw, 1rem);
+    font-size: var(--font-size-m)
   }
   .special-type {
     font-style: italic;
-    font-size: clamp(0.64rem, 1.2vw, 0.8rem);
+    font-size: var(--font-size-xs);
   }
   .special-comments {
     font-style: oblique;
-    font-size: clamp(0.64rem, 1.2vw, 0.8rem);
-    margin-top: clamp(0.12rem, 0.5vh, 0.28rem);
+    font-size: var(--font-size-xs);
   }
   .special-author {
-    font-size: clamp(0.6rem, 1vw, 0.75rem);
-    margin-top: clamp(0.12rem, 0.5vh, 0.28rem);
-  }
-
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .special-label {
-      font-size: clamp(0.7rem, 1.02vw, 0.82rem);
-    }
-    .special-text {
-      font-size: clamp(0.72rem, 1.1vw, 0.86rem);
-    }
-    .special-type,
-    .special-comments {
-      font-size: clamp(0.58rem, 0.84vw, 0.7rem);
-    }
-    .special-author {
-      font-size: clamp(0.56rem, 0.76vw, 0.66rem);
-    }
-  }
-
-  @media (min-width: 1025px) and (max-width: 1279px) {
-    .special-label {
-      font-size: clamp(0.66rem, 0.86vw, 0.76rem);
-    }
-    .special-text {
-      font-size: clamp(0.68rem, 0.92vw, 0.8rem);
-    }
-    .special-type,
-    .special-comments {
-      font-size: clamp(0.54rem, 0.7vw, 0.62rem);
-    }
-    .special-author {
-      font-size: clamp(0.52rem, 0.64vw, 0.6rem);
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .special-label {
-      font-size: clamp(0.68rem, 0.74vw, 0.8rem);
-    }
-    .special-text {
-      font-size: clamp(0.7rem, 0.8vw, 0.84rem);
-    }
-    .special-type,
-    .special-comments {
-      font-size: clamp(0.56rem, 0.62vw, 0.64rem);
-    }
-    .special-author {
-      font-size: clamp(0.54rem, 0.58vw, 0.62rem);
-    }
+    padding-top: 2dvh;
+    font-size: var(--font-size-xs);
   }
   </style>

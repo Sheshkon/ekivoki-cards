@@ -52,15 +52,19 @@ const handleSync = async () => {
   color: var(--color-teal);
 }
 
+
+.header {
+  height: var(--header-container-height);
+}
+
 .header .controls {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 0.25rem;
 }
 
 .icon-btn {
-  width: 40px;
-  height: 40px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   display: flex;
   align-items: center;

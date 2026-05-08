@@ -47,12 +47,14 @@ onMounted(() => {
   --font-max-base: 1.25rem;
   --font-vmin-preference: 1vmin;
 
-  --font-size-xs: clamp(0.75rem, calc(0.5rem + 0.5vmin), 1rem);
+  --font-size-xs: 1.5dvh;
   --font-size-default: clamp(var(--font-min-base), calc(0.5rem + var(--font-vmin-preference)), var(--font-max-base));
-  --font-size-m: clamp(1.25rem, calc(0.75rem + 1.5vmin), 1.75rem);
-  --font-size-l: clamp(1.75rem, calc(1rem + 3vmin), 2.5rem);
+  --font-size-m: 1.75dvh;
+  --font-size-l: 2.25dvh;
   --font-size-xl: clamp(2.5rem, calc(1.5rem + 5vmin), 4rem);
   --font-size-xxl: clamp(3rem, calc(2rem + 5vmin), 4.5rem);
+
+  --font-size-vh: 2vh;
 
   --color-teal: #4ECDC4;
   --color-red: #ff0000;
@@ -65,6 +67,12 @@ onMounted(() => {
   --color-light: #ffff3f;
   --color-bg: #fffdd0;
   --app-background: white;
+
+  --header-container-height: 4vh;
+  --timer-container-height: 8vh;
+  --controls-container-height: 3.5rem;
+
+  --border-radius: 3vh;
 }
 
 :root[data-theme="dark"] {
@@ -126,6 +134,7 @@ body {
 
 html, body, #app {
   width: 100%;
+  height: 100%;
   max-width: 100%;
   overscroll-behavior-y: contain;
   overscroll-behavior-x: none;
