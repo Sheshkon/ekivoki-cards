@@ -1,9 +1,8 @@
 <script setup>
-
-import {getDiceIcon} from "./utils.js";
-
+import { getDiceIcon } from "./utils.js";
 defineProps({
-  card: Object
+  card: Object,
+  highlightedDice: Number,
 });
 </script>
 
@@ -13,15 +12,21 @@ defineProps({
         v-for="(task, diceNumber) in card.dice"
         :key="diceNumber"
         class="active-task-display"
+        :class="{ active: Number(diceNumber) === highlightedDice }"
     >
       <div class="task-category-info">
         <component :is="getDiceIcon(diceNumber)" class="dice-icon"/>
       </div>
-      <div class="task-text-option">{{ task?.phrase || '' }}</div>
+
+      <div class="task-text-option">
+        {{ task?.phrase || '' }}
+      </div>
+
       <div class="task-type" v-if="task?.type">
         {{ $t('card.type') }}{{ task.type }}
       </div>
     </div>
+
     <div class="author" v-if="card?.author">
       {{ $t('card.author') }}{{ card?.author }}
     </div>
@@ -47,6 +52,12 @@ defineProps({
   background: color-mix(in srgb, var(--color-bg) 98%, black);
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.active-task-display.active {
+  border: 2px solid gold;
+  background: color-mix(in srgb, var(--color-teal) 20%, var(--color-bg));
+  transform: scale(1.03);
 }
 
 .task-category-info {

@@ -27,8 +27,8 @@ export const useGameStore = defineStore('game', {
 
         timerActive: false,
 
-        // 🔥 НОВОЕ: режим игры
         mode: null, // 'normal' | 'special'
+        lastDiceRoll: null,
 
         isOffline: !navigator.onLine,
         isLoading: false
@@ -86,6 +86,10 @@ export const useGameStore = defineStore('game', {
 
             this.currentCard = this.deckQueue[0];
             this.phase = 'active';
+        },
+
+        async resetDice() {
+            this.lastDiceRoll = null;
         },
 
         /* =========================

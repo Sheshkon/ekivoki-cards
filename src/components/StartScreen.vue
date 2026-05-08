@@ -7,7 +7,7 @@ import DiceRoller from './DiceRoller.vue';
 const store = useGameStore();
 
 const handleDiceResult = (result) => {
-
+  store.lastDiceRoll = result;
   store.startGame(result === 6 ? 'special' : 'normal');
 };
 </script>
@@ -25,14 +25,14 @@ const handleDiceResult = (result) => {
           :src="baseCardImage"
           :alt="$t('start_screen.base_card_alt')"
           class="card-preview"
-          @click="store.startGame('normal')"
+          @click="store.resetDice(); store.startGame('normal')"
       />
 
       <img
           :src="specialCardImage"
           :alt="$t('start_screen.special_card_alt')"
           class="card-preview"
-          @click="store.startGame('special')"
+          @click="store.resetDice(); store.startGame('special')"
       />
     </div>
   </div>

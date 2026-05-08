@@ -146,7 +146,7 @@ onBeforeUnmount(cleanup);
           </div>
 
           <SpecialCard v-if="card.isSpecial" :card="card"/>
-          <BaseCard v-else :card="card"/>
+          <BaseCard v-else :card="card" :highlightedDice="store.lastDiceRoll"/>
         </div>
       </div>
 
