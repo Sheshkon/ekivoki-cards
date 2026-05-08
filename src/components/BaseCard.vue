@@ -34,6 +34,7 @@ defineProps({
   flex-direction: column;
   justify-content: space-around;
   flex: 1;
+  background: none;
   line-height: 1.2;
 }
 
@@ -42,6 +43,8 @@ defineProps({
   border: 1px solid var(--color-teal);
   border-radius: 15px;
   margin: 0;
+  padding: 1dvh;
+  background: color-mix(in srgb, var(--color-bg) 98%, black);
   overflow-wrap: anywhere;
   word-break: break-word;
 }
