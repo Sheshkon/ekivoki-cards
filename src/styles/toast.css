@@ -1,0 +1,13 @@
+.Vue-Toastification__toast {
+    border-radius: 0;
+}
+
+.Vue-Toastification__toast--success {
+    background: var(--color-active);
+    color: white;
+}
+
+.Vue-Toastification__toast--error {
+    background: var(--color-red);
+    color: white;
+}

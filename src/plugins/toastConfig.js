@@ -1,5 +1,5 @@
 export const toastOptions = {
-    position: 'top-right',
+    position: 'top-center',
     timeout: 3000,
     closeOnClick: true,
     pauseOnHover: true,
