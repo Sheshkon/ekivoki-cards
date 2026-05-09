@@ -17,6 +17,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
+  padding: 1rem;
 }
 
 .eyebrow {
