@@ -168,9 +168,8 @@ h2 {
   position: relative;
   display: grid;
   place-items: center;
-  height: calc(100vh - 110px);
   min-height: 620px;
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid rgba(23, 32, 51, 0.14);
   border-radius: 8px;
   background:
@@ -193,7 +192,6 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
   overflow: auto;
 }
 
@@ -257,7 +255,7 @@ h2 {
 }
 
 .cell-body.shape-rectangle {
-  width: 82px;
+  width: 10px;
   border-radius: 7px;
 }
 
@@ -1017,6 +1015,7 @@ textarea {
     height: 62vh;
     width: 80dvw;
     min-height: 430px;
+    overflow: auto;
   }
 
   .control-panel {

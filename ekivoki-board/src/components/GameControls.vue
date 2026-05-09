@@ -109,3 +109,5 @@ function updatePlayerName(playerId, name) {
     <p class="hint-note">Фишку можно выбрать кликом или перетащить на нужную клетку поля.</p>
   </section>
 </template>
+
+<style scoped src="./GameControls.css"></style>

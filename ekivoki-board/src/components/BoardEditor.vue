@@ -274,3 +274,5 @@ function markEndpoints(route) {
     </div>
   </section>
 </template>
+
+<style scoped src="./BoardEditor.css"></style>

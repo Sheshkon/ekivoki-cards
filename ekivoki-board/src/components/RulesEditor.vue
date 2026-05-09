@@ -36,3 +36,5 @@ function updateRule(categoryId, text) {
     </div>
   </section>
 </template>
+
+<style scoped src="./RulesEditor.css"></style>

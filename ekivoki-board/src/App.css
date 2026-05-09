@@ -1,0 +1,26 @@
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+  min-height: 100vh;
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.18)),
+    radial-gradient(circle at 12% 16%, rgba(47, 128, 237, 0.18), transparent 30%),
+    radial-gradient(circle at 82% 10%, rgba(36, 179, 107, 0.16), transparent 28%),
+    #f4f0e8;
+}
+
+.app-shell.panel-hidden {
+  grid-template-columns: 1fr;
+}
+
+.board-panel {
+  min-width: 0;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+}

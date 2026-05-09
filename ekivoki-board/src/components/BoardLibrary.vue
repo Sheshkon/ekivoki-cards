@@ -55,3 +55,5 @@ async function importBoardFile(event) {
     <p v-else class="empty-note">Сохранённые борды появятся здесь.</p>
   </section>
 </template>
+
+<style scoped src="./BoardLibrary.css"></style>

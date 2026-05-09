@@ -81,8 +81,8 @@ function tokenDragStyle(player) {
 
 function cellStyle(cell) {
   const sizes = {
-    oval: [76, 64],
-    rectangle: [82, 64]
+    oval: [33, 22],
+    rectangle: [10, 20]
   };
   const [width, height] = sizes[cell.shape] || [64, 64];
 
@@ -332,3 +332,5 @@ onBeforeUnmount(() => {
     </div>
   </div>
 </template>
+
+<style scoped src="./BoardCanvas.css"></style>

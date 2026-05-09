@@ -1,0 +1,62 @@
+.panel-section {
+  padding: 16px;
+  border: 1px solid rgba(23, 32, 51, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 44px rgba(31, 41, 55, 0.1);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+h2 {
+  margin: 0;
+  letter-spacing: 0;
+  font-size: 1rem;
+}
+
+.rules-list {
+  display: grid;
+  gap: 12px;
+  max-height: 68vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.rule-card {
+  display: grid;
+  gap: 8px;
+}
+
+.rule-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rule-head i {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: #fff;
+  font-style: normal;
+  font-weight: 1000;
+}
+
+textarea {
+  width: 100%;
+  min-height: 78px;
+  padding: 10px;
+  border: 1px solid rgba(23, 32, 51, 0.16);
+  border-radius: 7px;
+  color: #172033;
+  background: #fff;
+  resize: vertical;
+}
