@@ -1,0 +1,38 @@
+<script setup>
+import { categories } from '../lib/boardConfig';
+
+const props = defineProps({
+  rules: { type: Object, required: true }
+});
+
+const emit = defineEmits(['update:rules']);
+
+function updateRule(categoryId, text) {
+  emit('update:rules', {
+    ...props.rules,
+    [categoryId]: text
+  });
+}
+</script>
+
+<template>
+  <section class="panel-section">
+    <div class="section-title">
+      <h2>Правила клеток</h2>
+    </div>
+
+    <div class="rules-list">
+      <label v-for="category in categories" :key="category.id" class="rule-card">
+        <span class="rule-head">
+          <i :style="{ background: category.color }">{{ category.short }}</i>
+          <strong>{{ category.label }}</strong>
+        </span>
+        <textarea
+          :value="rules[category.id]"
+          rows="3"
+          @input="updateRule(category.id, $event.target.value)"
+        ></textarea>
+      </label>
+    </div>
+  </section>
+</template>
