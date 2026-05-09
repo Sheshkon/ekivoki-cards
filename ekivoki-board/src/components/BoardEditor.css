@@ -20,14 +20,12 @@
 
 .compact-title span {
   color: #526071;
-  font-size: 0.84rem;
   font-weight: 900;
 }
 
 h2 {
   margin: 0;
   letter-spacing: 0;
-  font-size: 1rem;
 }
 
 .field,
@@ -36,7 +34,6 @@ h2 {
   gap: 7px;
   margin-bottom: 12px;
   color: #526071;
-  font-size: 0.84rem;
   font-weight: 800;
 }
 
@@ -138,7 +135,6 @@ input[type="file"] {
 
 .route-cell-number {
   color: #526071;
-  font-size: 0.8rem;
   font-weight: 900;
 }
 
@@ -159,7 +155,6 @@ input[type="file"] {
 .empty-note {
   margin: 0;
   color: #526071;
-  font-size: 0.9rem;
 }
 
 .primary-button,

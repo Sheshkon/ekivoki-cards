@@ -2,6 +2,7 @@ import { computed, ref, watch } from 'vue';
 import {
   BOARD_HEIGHT,
   BOARD_WIDTH,
+  DICE_CLAMP_PADDING,
   clamp,
   createDefaultRules,
   createPlayers,
@@ -177,8 +178,8 @@ export function useBoardGame() {
 
   function randomDicePointNear(cell) {
     return {
-      x: clamp(cell.x + randomInt(-120, 120), 46, BOARD_WIDTH - 46),
-      y: clamp(cell.y + randomInt(-140, 80), 46, BOARD_HEIGHT - 46)
+      x: clamp(cell.x + randomInt(-120, 120), DICE_CLAMP_PADDING, BOARD_WIDTH - DICE_CLAMP_PADDING),
+      y: clamp(cell.y + randomInt(-140, 80), DICE_CLAMP_PADDING, BOARD_HEIGHT - DICE_CLAMP_PADDING)
     };
   }
 
@@ -201,8 +202,14 @@ export function useBoardGame() {
     const end = randomDicePointNear(landingCell);
     const curve = [
       start,
-      { x: clamp(start.x + randomInt(120, 360), 46, BOARD_WIDTH - 46), y: clamp(start.y + randomInt(-180, 120), 46, BOARD_HEIGHT - 46) },
-      { x: clamp(end.x + randomInt(-360, 180), 46, BOARD_WIDTH - 46), y: clamp(end.y + randomInt(-180, 160), 46, BOARD_HEIGHT - 46) },
+      {
+        x: clamp(start.x + randomInt(120, 360), DICE_CLAMP_PADDING, BOARD_WIDTH - DICE_CLAMP_PADDING),
+        y: clamp(start.y + randomInt(-180, 120), DICE_CLAMP_PADDING, BOARD_HEIGHT - DICE_CLAMP_PADDING)
+      },
+      {
+        x: clamp(end.x + randomInt(-360, 180), DICE_CLAMP_PADDING, BOARD_WIDTH - DICE_CLAMP_PADDING),
+        y: clamp(end.y + randomInt(-180, 160), DICE_CLAMP_PADDING, BOARD_HEIGHT - DICE_CLAMP_PADDING)
+      },
       end
     ];
     const startRotation = { ...diceRotation.value };
@@ -227,7 +234,7 @@ export function useBoardGame() {
 
         dicePosition.value = {
           x: point.x,
-          y: clamp(point.y - bounce, 46, BOARD_HEIGHT - 46)
+          y: clamp(point.y - bounce, DICE_CLAMP_PADDING, BOARD_HEIGHT - DICE_CLAMP_PADDING)
         };
         diceRotation.value = {
           x: startRotation.x + (endRotation.x - startRotation.x) * progress,

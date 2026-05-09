@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { clamp, getCategory } from '../lib/boardConfig';
+import { BOARD_DIMENSIONS, CELL_CLAMP_PADDING, clamp, getBoardCssVars, getCategory } from '../lib/boardConfig';
 
 const props = defineProps({
   activePlayerId: { type: Number, required: true },
@@ -21,13 +21,32 @@ const props = defineProps({
 
 const emit = defineEmits(['cell-click', 'dice-click', 'token-click', 'token-move', 'update:route']);
 
-const boardScale = ref(1);
+const viewportSize = ref({ width: 0, height: 0 });
+const boardViewport = ref(null);
 const boardFrame = ref(null);
 let didDrag = false;
 let didTokenDrag = false;
 let routeDragFrame = 0;
+let viewportResizeObserver;
 
-const routePath = computed(() => props.route.map((cell) => `${cell.x},${cell.y}`).join(' '));
+const scaleX = computed(() => viewportSize.value.width > 0 ? viewportSize.value.width / props.boardWidth : 1);
+const scaleY = computed(() => viewportSize.value.height > 0 ? viewportSize.value.height / props.boardHeight : 1);
+const uiScale = computed(() => Math.min(scaleX.value, scaleY.value));
+const routePath = computed(() => props.route.map((cell) => `${toViewportX(cell.x)},${toViewportY(cell.y)}`).join(' '));
+const boardCssVars = computed(() => {
+  const vars = getBoardCssVars();
+  const scale = uiScale.value;
+  return {
+    ...vars,
+    '--cell-size': `${BOARD_DIMENSIONS.cellSize * scale}px`,
+    '--cell-oval-width': `${BOARD_DIMENSIONS.ovalCellWidth * scale}px`,
+    '--cell-rectangle-width': `${BOARD_DIMENSIONS.rectangleCellWidth * scale}px`,
+    '--token-width': `${BOARD_DIMENSIONS.tokenWidth * scale}px`,
+    '--token-height': `${BOARD_DIMENSIONS.tokenHeight * scale}px`,
+    '--dice-size': `${BOARD_DIMENSIONS.diceSize * scale}px`,
+    '--route-stroke-width': `${BOARD_DIMENSIONS.routeStrokeWidth * scale}px`
+  };
+});
 const diceFaces = computed(() => {
   const top = props.diceValue;
   const bottom = 7 - top;
@@ -50,9 +69,10 @@ const backgroundStyle = computed(() => {
 });
 
 watch(() => props.isEditing, fitBoard);
+watch(() => [props.boardWidth, props.boardHeight], fitBoard);
 
 function tokenOffset(playerIndex, totalPlayers) {
-  const ring = totalPlayers <= 4 ? 18 : 23;
+  const ring = (totalPlayers <= 4 ? BOARD_DIMENSIONS.tokenRingSmall : BOARD_DIMENSIONS.tokenRingLarge) * uiScale.value;
   const angle = (Math.PI * 2 * playerIndex) / totalPlayers - Math.PI / 2;
   return {
     x: Math.cos(angle) * ring,
@@ -63,17 +83,21 @@ function tokenOffset(playerIndex, totalPlayers) {
 function tokenStyle(player, index) {
   const cell = props.route[player.position] ?? props.route[0];
   const offset = tokenOffset(index, props.players.length);
+  const tokenHalfWidth = BOARD_DIMENSIONS.tokenWidth / 2;
+  const tokenAnchorY = BOARD_DIMENSIONS.tokenHeight - tokenHalfWidth;
 
   return {
-    transform: `translate(${cell.x + offset.x - 20}px, ${cell.y + offset.y - 22}px)`,
+    transform: `translate(${toViewportX(cell.x) + offset.x - tokenHalfWidth}px, ${toViewportY(cell.y) + offset.y - tokenAnchorY}px)`,
     '--token-color': player.color,
     zIndex: 120 + index
   };
 }
 
 function tokenDragStyle(player) {
+  const tokenHalfWidth = BOARD_DIMENSIONS.tokenWidth / 2;
+  const tokenDragAnchorY = BOARD_DIMENSIONS.tokenHeight - tokenHalfWidth + 2;
   return {
-    transform: `translate(${player.dragX - 20}px, ${player.dragY - 24}px)`,
+    transform: `translate(${toViewportX(player.dragX) - tokenHalfWidth}px, ${toViewportY(player.dragY) - tokenDragAnchorY}px)`,
     '--token-color': player.color,
     zIndex: 220
   };
@@ -81,22 +105,23 @@ function tokenDragStyle(player) {
 
 function cellStyle(cell) {
   const sizes = {
-    oval: [33, 22],
-    rectangle: [10, 20]
+    oval: [BOARD_DIMENSIONS.ovalCellWidth, BOARD_DIMENSIONS.cellSize],
+    rectangle: [BOARD_DIMENSIONS.rectangleCellWidth, BOARD_DIMENSIONS.cellSize]
   };
-  const [width, height] = sizes[cell.shape] || [64, 64];
+  const [width, height] = sizes[cell.shape] || [BOARD_DIMENSIONS.cellSize, BOARD_DIMENSIONS.cellSize];
 
   return {
-    transform: `translate(${cell.x - 32}px, ${cell.y - 32}px)`,
+    transform: `translate(${toViewportX(cell.x) - width / 2}px, ${toViewportY(cell.y) - height / 2}px)`,
     '--cell-color': getCategory(cell.category).color,
-    '--selection-width': `${width + 18}px`,
-    '--selection-height': `${height + 18}px`
+    '--selection-width': `${width + BOARD_DIMENSIONS.selectionExtraSize}px`,
+    '--selection-height': `${height + BOARD_DIMENSIONS.selectionExtraSize}px`
   };
 }
 
 function diceStyle() {
+  const diceHalfSize = BOARD_DIMENSIONS.diceSize / 2;
   return {
-    transform: `translate(${props.dicePosition.x - 28}px, ${props.dicePosition.y - 28}px)`,
+    transform: `translate(${toViewportX(props.dicePosition.x) - diceHalfSize}px, ${toViewportY(props.dicePosition.y) - diceHalfSize}px)`,
     '--dice-move-duration': `${props.diceRotation.duration || 280}ms`,
     zIndex: 115
   };
@@ -129,8 +154,8 @@ function startDrag(event, index) {
   const move = (moveEvent) => {
     const rect = boardFrame.value.getBoundingClientRect();
     pendingPoint = {
-      x: clamp((moveEvent.clientX - rect.left) / boardScale.value, 44, props.boardWidth - 44),
-      y: clamp((moveEvent.clientY - rect.top) / boardScale.value, 44, props.boardHeight - 44)
+      x: clamp(fromViewportX(moveEvent.clientX - rect.left), CELL_CLAMP_PADDING, props.boardWidth - CELL_CLAMP_PADDING),
+      y: clamp(fromViewportY(moveEvent.clientY - rect.top), CELL_CLAMP_PADDING, props.boardHeight - CELL_CLAMP_PADDING)
     };
     didDrag = true;
     if (!routeDragFrame) {
@@ -163,8 +188,8 @@ function nearestCellIndex(x, y) {
 function eventToBoardPoint(event) {
   const rect = boardFrame.value.getBoundingClientRect();
   return {
-    x: clamp((event.clientX - rect.left) / boardScale.value, 0, props.boardWidth),
-    y: clamp((event.clientY - rect.top) / boardScale.value, 0, props.boardHeight)
+    x: clamp(fromViewportX(event.clientX - rect.left), 0, props.boardWidth),
+    y: clamp(fromViewportY(event.clientY - rect.top), 0, props.boardHeight)
   };
 }
 
@@ -180,8 +205,8 @@ function startTokenDrag(event, player) {
   const tokenRect = target.getBoundingClientRect();
   const boardRect = boardFrame.value.getBoundingClientRect();
   const tokenCenter = {
-    x: (tokenRect.left + tokenRect.width / 2 - boardRect.left) / boardScale.value,
-    y: (tokenRect.top + tokenRect.height / 2 - boardRect.top) / boardScale.value
+    x: fromViewportX(tokenRect.left + tokenRect.width / 2 - boardRect.left),
+    y: fromViewportY(tokenRect.top + tokenRect.height / 2 - boardRect.top)
   };
   const pointerOffset = {
     x: tokenCenter.x - startPointer.x,
@@ -233,35 +258,66 @@ function clickCell(index) {
 
 function fitBoard() {
   nextTick(() => {
-    if (!boardFrame.value) return;
-    const rect = boardFrame.value.parentElement.getBoundingClientRect();
-    boardScale.value = Math.max(rect.width / props.boardWidth, rect.height / props.boardHeight);
+    if (!boardViewport.value) return;
+    const rect = boardViewport.value.getBoundingClientRect();
+    viewportSize.value = {
+      width: rect.width > 0 ? rect.width : props.boardWidth,
+      height: rect.height > 0 ? rect.height : props.boardHeight
+    };
   });
 }
+
+function toViewportX(value) {
+  return Number(value) * scaleX.value;
+}
+
+function toViewportY(value) {
+  return Number(value) * scaleY.value;
+}
+
+function fromViewportX(value) {
+  const ratio = scaleX.value || 1;
+  return Number(value) / ratio;
+}
+
+function fromViewportY(value) {
+  const ratio = scaleY.value || 1;
+  return Number(value) / ratio;
+}
+
+async function toggleFullscreen() {
+  if (!boardViewport.value) return false;
+  if (document.fullscreenElement === boardViewport.value) {
+    await document.exitFullscreen();
+    return false;
+  }
+  await boardViewport.value.requestFullscreen();
+  return true;
+}
+
+defineExpose({
+  toggleFullscreen
+});
 
 onMounted(() => {
   fitBoard();
   window.addEventListener('resize', fitBoard);
+  if (window.ResizeObserver) {
+    viewportResizeObserver = new ResizeObserver(() => fitBoard());
+    viewportResizeObserver.observe(boardViewport.value);
+  }
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', fitBoard);
+  viewportResizeObserver?.disconnect();
 });
 </script>
 
 <template>
-  <div class="board-viewport" :class="{ editable: isEditing }">
-    <div
-      ref="boardFrame"
-      class="board-frame"
-      :style="{
-        width: `${boardWidth}px`,
-        height: `${boardHeight}px`,
-        transform: `scale(${boardScale})`,
-        ...backgroundStyle
-      }"
-    >
-      <svg class="route-lines" :viewBox="`0 0 ${boardWidth} ${boardHeight}`" aria-hidden="true">
+  <div ref="boardViewport" class="board-viewport" :class="{ editable: isEditing }" :style="boardCssVars">
+    <div ref="boardFrame" class="board-frame" :style="backgroundStyle">
+      <svg class="route-lines" :viewBox="`0 0 ${viewportSize.width || 1} ${viewportSize.height || 1}`" aria-hidden="true">
         <polyline :points="routePath" />
       </svg>
 

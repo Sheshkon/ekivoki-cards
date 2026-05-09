@@ -1,6 +1,15 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { BOARD_HEIGHT, BOARD_WIDTH, categories, cellShapes, clamp, routePresets } from '../lib/boardConfig';
+import {
+  BOARD_HEIGHT,
+  BOARD_WIDTH,
+  CELL_CLAMP_PADDING,
+  CELL_INSERT_PADDING,
+  categories,
+  cellShapes,
+  clamp,
+  routePresets
+} from '../lib/boardConfig';
 import { readFileAsDataUrl } from '../lib/boardStorage';
 
 const props = defineProps({
@@ -65,8 +74,8 @@ function insertCellBeforeFinish(nextRoute) {
 
   nextRoute.splice(nextRoute.length - 1, 0, {
     id: crypto.randomUUID(),
-    x: clamp(anchor.x + dx, 70, BOARD_WIDTH - 70),
-    y: clamp(anchor.y + dy, 70, BOARD_HEIGHT - 70),
+    x: clamp(anchor.x + dx, CELL_INSERT_PADDING, BOARD_WIDTH - CELL_INSERT_PADDING),
+    y: clamp(anchor.y + dy, CELL_INSERT_PADDING, BOARD_HEIGHT - CELL_INSERT_PADDING),
     shape: 'circle',
     category: 'explain'
   });
@@ -252,11 +261,23 @@ function markEndpoints(route) {
         <div class="coordinate-grid">
           <label class="field">
             <span>X</span>
-            <input :value="Math.round(selectedCell.x)" type="number" min="44" :max="BOARD_WIDTH - 44" @input="updateSelectedCell('x', $event.target.value)" />
+            <input
+              :value="Math.round(selectedCell.x)"
+              type="number"
+              :min="CELL_CLAMP_PADDING"
+              :max="BOARD_WIDTH - CELL_CLAMP_PADDING"
+              @input="updateSelectedCell('x', $event.target.value)"
+            />
           </label>
           <label class="field">
             <span>Y</span>
-            <input :value="Math.round(selectedCell.y)" type="number" min="44" :max="BOARD_HEIGHT - 44" @input="updateSelectedCell('y', $event.target.value)" />
+            <input
+              :value="Math.round(selectedCell.y)"
+              type="number"
+              :min="CELL_CLAMP_PADDING"
+              :max="BOARD_HEIGHT - CELL_CLAMP_PADDING"
+              @input="updateSelectedCell('y', $event.target.value)"
+            />
           </label>
         </div>
 

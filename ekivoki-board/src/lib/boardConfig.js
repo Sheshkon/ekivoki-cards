@@ -1,5 +1,46 @@
-export const BOARD_WIDTH = 1200;
-export const BOARD_HEIGHT = 760;
+const BASE_BOARD_WIDTH = 1150;
+const BASE_BOARD_HEIGHT = 760;
+const BOARD_SCALE = BASE_BOARD_WIDTH / 1150;
+
+export const BOARD_DIMENSIONS = {
+  width: BASE_BOARD_WIDTH,
+  height: BASE_BOARD_HEIGHT,
+  viewportMinHeight: 450,
+  cellClampPadding: Math.round(44 * BOARD_SCALE),
+  cellInsertPadding: Math.round(70 * BOARD_SCALE),
+  cellSize: Math.round(64 * BOARD_SCALE),
+  ovalCellWidth: Math.round(76 * BOARD_SCALE),
+  rectangleCellWidth: Math.round(10 * BOARD_SCALE),
+  selectionExtraSize: Math.round(18 * BOARD_SCALE),
+  tokenWidth: Math.round(44 * BOARD_SCALE),
+  tokenHeight: Math.round(54 * BOARD_SCALE),
+  tokenRingSmall: Math.round(18 * BOARD_SCALE),
+  tokenRingLarge: Math.round(23 * BOARD_SCALE),
+  diceSize: Math.round(56 * BOARD_SCALE),
+  diceClampPadding: Math.round(46 * BOARD_SCALE),
+  routeStrokeWidth: Math.round(18 * BOARD_SCALE)
+};
+
+export const BOARD_WIDTH = BOARD_DIMENSIONS.width;
+export const BOARD_HEIGHT = BOARD_DIMENSIONS.height;
+export const CELL_CLAMP_PADDING = BOARD_DIMENSIONS.cellClampPadding;
+export const CELL_INSERT_PADDING = BOARD_DIMENSIONS.cellInsertPadding;
+export const DICE_CLAMP_PADDING = BOARD_DIMENSIONS.diceClampPadding;
+
+export function getBoardCssVars() {
+  return {
+    '--viewport-min-height': `${BOARD_DIMENSIONS.viewportMinHeight}px`,
+    '--cell-size': `${BOARD_DIMENSIONS.cellSize}px`,
+    '--cell-oval-width': `${BOARD_DIMENSIONS.ovalCellWidth}px`,
+    '--cell-rectangle-width': `${BOARD_DIMENSIONS.rectangleCellWidth}px`,
+    '--token-width': `${BOARD_DIMENSIONS.tokenWidth}px`,
+    '--token-height': `${BOARD_DIMENSIONS.tokenHeight}px`,
+    '--dice-size': `${BOARD_DIMENSIONS.diceSize}px`,
+    '--route-stroke-width': `${BOARD_DIMENSIONS.routeStrokeWidth}px`,
+    '--board-width': `${BOARD_DIMENSIONS.width}px`,
+    '--board-height': `${BOARD_DIMENSIONS.height}px`,
+  };
+}
 
 export const categories = [
   { id: 'start', label: 'Старт', short: 'S', color: '#24b36b', rule: 'Начальная клетка. Команды ставят фишки сюда.' },
@@ -22,7 +63,7 @@ export const cellShapes = [
 
 export const tokenColors = ['#e63946', '#277da1', '#43aa8b', '#f8961e', '#8338ec', '#ff006e'];
 
-export const routePresets = {
+const routePresetSource = {
   classic: {
     name: 'Классика',
     points: [
@@ -52,6 +93,25 @@ export const routePresets = {
     ]
   }
 };
+
+function scalePresetPoints(points) {
+  const scaleX = BOARD_WIDTH / BASE_BOARD_WIDTH;
+  const scaleY = BOARD_HEIGHT / BASE_BOARD_HEIGHT;
+  return points.map(([x, y]) => [
+    Math.round(x * scaleX),
+    Math.round(y * scaleY)
+  ]);
+}
+
+export const routePresets = Object.fromEntries(
+  Object.entries(routePresetSource).map(([key, preset]) => ([
+    key,
+    {
+      ...preset,
+      points: scalePresetPoints(preset.points)
+    }
+  ]))
+);
 
 export function createRoute(points) {
   return points.map(([x, y], index) => ({
@@ -94,8 +154,8 @@ export function normalizeImportedRoute(route) {
 
   return route.map((cell, index) => ({
     id: crypto.randomUUID(),
-    x: clamp(cell.x, 44, BOARD_WIDTH - 44),
-    y: clamp(cell.y, 44, BOARD_HEIGHT - 44),
+    x: clamp(cell.x, CELL_CLAMP_PADDING, BOARD_WIDTH - CELL_CLAMP_PADDING),
+    y: clamp(cell.y, CELL_CLAMP_PADDING, BOARD_HEIGHT - CELL_CLAMP_PADDING),
     shape: shapeExists(cell.shape) ? cell.shape : 'circle',
     category: index === 0 ? 'start' : index === route.length - 1 ? 'finish' : categoryExists(cell.category) ? cell.category : 'explain'
   }));

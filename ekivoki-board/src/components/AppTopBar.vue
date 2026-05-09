@@ -8,6 +8,10 @@ defineProps({
     type: Boolean,
     required: true
   },
+  isBoardFullscreen: {
+    type: Boolean,
+    required: true
+  },
   stats: {
     type: Object,
     required: true
@@ -18,7 +22,7 @@ defineProps({
   }
 });
 
-const emit = defineEmits(['toggle-panel', 'toggle-editing']);
+const emit = defineEmits(['toggle-panel', 'toggle-editing', 'toggle-fullscreen']);
 </script>
 
 <template>
@@ -40,6 +44,9 @@ const emit = defineEmits(['toggle-panel', 'toggle-editing']);
         </span>
       </div>
       <div class="top-button-row">
+        <button class="secondary-button compact" type="button" @click="emit('toggle-fullscreen')">
+          {{ isBoardFullscreen ? 'Свернуть поле' : 'Во весь экран' }}
+        </button>
         <button class="secondary-button compact" type="button" @click="emit('toggle-panel')">
           {{ isPanelHidden ? 'Показать панель' : 'Скрыть панель' }}
         </button>

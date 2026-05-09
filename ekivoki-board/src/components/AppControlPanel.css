@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 14px;
   max-height: calc(100vh - 36px);
-  overflow: hidden;
+  overflow: auto;
 }
 
 .panel-tabs {
@@ -23,7 +23,6 @@
   border-radius: 6px;
   color: #526071;
   background: transparent;
-  font-size: 0.86rem;
   font-weight: 900;
 }
 

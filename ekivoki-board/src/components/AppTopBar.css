@@ -22,7 +22,6 @@
 .eyebrow {
   margin: 0 0 4px;
   color: #6b7280;
-  font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -31,7 +30,6 @@
 h1 {
   margin: 0;
   letter-spacing: 0;
-  font-size: clamp(2rem, 4vw, 3.8rem);
   line-height: 0.95;
 }
 
@@ -48,7 +46,6 @@ h1 {
   border-radius: 999px;
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.72);
-  font-size: 0.9rem;
   font-weight: 700;
 }
 

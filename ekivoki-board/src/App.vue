@@ -1,4 +1,5 @@
 <script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import AppControlPanel from './components/AppControlPanel.vue';
 import AppTopBar from './components/AppTopBar.vue';
 import BoardCanvas from './components/BoardCanvas.vue';
@@ -39,6 +40,9 @@ const {
   resetGame
 } = useBoardGame();
 
+const boardCanvasRef = ref(null);
+const isBoardFullscreen = ref(false);
+
 const {
   savedBoards,
   saveCurrentBoard,
@@ -53,6 +57,30 @@ const {
   selectedCellIndex,
   resetGame
 });
+
+function syncFullscreenState() {
+  const fullscreenNode = document.fullscreenElement;
+  const boardNode = boardCanvasRef.value?.$el;
+  isBoardFullscreen.value = Boolean(fullscreenNode && boardNode && fullscreenNode === boardNode);
+}
+
+async function toggleBoardFullscreen() {
+  if (!boardCanvasRef.value) return;
+  try {
+    const isFullscreen = await boardCanvasRef.value.toggleFullscreen();
+    isBoardFullscreen.value = isFullscreen;
+  } catch {
+    isBoardFullscreen.value = false;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('fullscreenchange', syncFullscreenState);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('fullscreenchange', syncFullscreenState);
+});
 </script>
 
 <template>
@@ -60,14 +88,17 @@ const {
     <section class="board-panel">
       <AppTopBar
         :is-editing="isEditing"
+        :is-board-fullscreen="isBoardFullscreen"
         :is-panel-hidden="isPanelHidden"
         :player-progress="playerProgress"
         :stats="stats"
         @toggle-editing="isEditing = !isEditing"
+        @toggle-fullscreen="toggleBoardFullscreen"
         @toggle-panel="isPanelHidden = !isPanelHidden"
       />
 
       <BoardCanvas
+        ref="boardCanvasRef"
         :active-player-id="activePlayerId"
         :background-image="backgroundImage"
         :board-height="BOARD_HEIGHT"
