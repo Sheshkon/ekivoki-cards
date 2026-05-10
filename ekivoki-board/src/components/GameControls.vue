@@ -6,7 +6,7 @@ const props = defineProps({
   players: { type: Array, required: true },
   showPlayerSettings: { type: Boolean, default: false },
   stepInput: { type: Number, required: true },
-  useDice: { type: Boolean, default: true }
+  useDice: { type: Boolean, default: false }
 });
 
 const emit = defineEmits([
@@ -76,7 +76,7 @@ function updatePlayerName(playerId, name) {
 
     <div v-else class="active-player-line">
       <span>Ходит</span>
-      <strong>{{ players.find((player) => player.id === activePlayerId)?.name || `Команда ${activePlayerId}` }}</strong>
+      <strong>{{ players.find((player) => player.id === activePlayerId)?.name || `Фишка цвета ${players.find((player) => player.id === activePlayerId)?.color || ''}` }}</strong>
     </div>
 
     <label class="toggle-line">

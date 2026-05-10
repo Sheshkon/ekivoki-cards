@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { BOARD_DIMENSIONS, CELL_CLAMP_PADDING, clamp, getBoardCssVars, getCategory } from '../lib/boardConfig';
+import pawnIcon from '../cone-3.svg';
 
 const props = defineProps({
   activePlayerId: { type: Number, required: true },
@@ -64,7 +65,7 @@ const backgroundStyle = computed(() => {
   if (!props.backgroundImage) return {};
 
   return {
-    backgroundImage: `linear-gradient(rgba(255, 250, 240, 0.34), rgba(255, 250, 240, 0.34)), url("${props.backgroundImage}")`
+    backgroundImage: `linear-gradient(rgba(255, 250, 240, 0.14), rgba(255, 250, 240, 0.14)), url("${props.backgroundImage}")`
   };
 });
 
@@ -72,7 +73,8 @@ watch(() => props.isEditing, fitBoard);
 watch(() => [props.boardWidth, props.boardHeight], fitBoard);
 
 function tokenOffset(playerIndex, totalPlayers) {
-  const ring = (totalPlayers <= 4 ? BOARD_DIMENSIONS.tokenRingSmall : BOARD_DIMENSIONS.tokenRingLarge) * uiScale.value;
+  const baseRing = totalPlayers <= 4 ? BOARD_DIMENSIONS.tokenRingSmall : BOARD_DIMENSIONS.tokenRingLarge;
+  const ring = Math.max(baseRing, BOARD_DIMENSIONS.tokenRingLarge) * 1.15;
   const angle = (Math.PI * 2 * playerIndex) / totalPlayers - Math.PI / 2;
   return {
     x: Math.cos(angle) * ring,
@@ -84,10 +86,13 @@ function tokenStyle(player, index) {
   const cell = props.route[player.position] ?? props.route[0];
   const offset = tokenOffset(index, props.players.length);
   const tokenHalfWidth = BOARD_DIMENSIONS.tokenWidth / 2;
-  const tokenAnchorY = BOARD_DIMENSIONS.tokenHeight - tokenHalfWidth;
+  const tokenHalfHeight = BOARD_DIMENSIONS.tokenHeight / 2;
+  const left = cell.x + offset.x - tokenHalfWidth;
+  const top = cell.y + offset.y - tokenHalfHeight;
 
   return {
-    transform: `translate(${toViewportX(cell.x) + offset.x - tokenHalfWidth}px, ${toViewportY(cell.y) + offset.y - tokenAnchorY}px)`,
+    transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
+    '--pawn-icon-url': `url("${pawnIcon}")`,
     '--token-color': player.color,
     zIndex: 120 + index
   };
@@ -95,12 +100,19 @@ function tokenStyle(player, index) {
 
 function tokenDragStyle(player) {
   const tokenHalfWidth = BOARD_DIMENSIONS.tokenWidth / 2;
-  const tokenDragAnchorY = BOARD_DIMENSIONS.tokenHeight - tokenHalfWidth + 2;
+  const tokenHalfHeight = BOARD_DIMENSIONS.tokenHeight / 2;
+  const left = player.dragX - tokenHalfWidth;
+  const top = player.dragY - tokenHalfHeight;
   return {
-    transform: `translate(${toViewportX(player.dragX) - tokenHalfWidth}px, ${toViewportY(player.dragY) - tokenDragAnchorY}px)`,
+    transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
+    '--pawn-icon-url': `url("${pawnIcon}")`,
     '--token-color': player.color,
     zIndex: 220
   };
+}
+
+function playerTitle(player) {
+  return `${player.name} · цвет ${player.color} · клетка ${player.position + 1}`;
 }
 
 function cellStyle(cell) {
@@ -109,19 +121,25 @@ function cellStyle(cell) {
     rectangle: [BOARD_DIMENSIONS.rectangleCellWidth, BOARD_DIMENSIONS.cellSize]
   };
   const [width, height] = sizes[cell.shape] || [BOARD_DIMENSIONS.cellSize, BOARD_DIMENSIONS.cellSize];
+  const left = cell.x - width / 2;
+  const top = cell.y - height / 2;
+  const selectionWidth = (width + BOARD_DIMENSIONS.selectionExtraSize) * uiScale.value;
+  const selectionHeight = (height + BOARD_DIMENSIONS.selectionExtraSize) * uiScale.value;
 
   return {
-    transform: `translate(${toViewportX(cell.x) - width / 2}px, ${toViewportY(cell.y) - height / 2}px)`,
+    transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
     '--cell-color': getCategory(cell.category).color,
-    '--selection-width': `${width + BOARD_DIMENSIONS.selectionExtraSize}px`,
-    '--selection-height': `${height + BOARD_DIMENSIONS.selectionExtraSize}px`
+    '--selection-width': `${selectionWidth}px`,
+    '--selection-height': `${selectionHeight}px`
   };
 }
 
 function diceStyle() {
   const diceHalfSize = BOARD_DIMENSIONS.diceSize / 2;
+  const left = props.dicePosition.x - diceHalfSize;
+  const top = props.dicePosition.y - diceHalfSize;
   return {
-    transform: `translate(${toViewportX(props.dicePosition.x) - diceHalfSize}px, ${toViewportY(props.dicePosition.y) - diceHalfSize}px)`,
+    transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
     '--dice-move-duration': `${props.diceRotation.duration || 280}ms`,
     zIndex: 115
   };
@@ -194,7 +212,7 @@ function eventToBoardPoint(event) {
 }
 
 function startTokenDrag(event, player) {
-  if (props.isAnimating || props.isDiceRolling || event.button !== undefined && event.button !== 0) return;
+  if (player.moving || props.isDiceRolling || event.button !== undefined && event.button !== 0) return;
 
   event.preventDefault();
   event.stopPropagation();
@@ -349,12 +367,12 @@ onBeforeUnmount(() => {
         class="token"
         :class="{ active: player.id === activePlayerId, 'dragging-origin': player.dragging, moving: player.moving }"
         :style="tokenStyle(player, index)"
-        :title="`${player.name}: клетка ${player.position + 1}`"
+        :title="playerTitle(player)"
         type="button"
         @click="clickToken(player.id)"
         @pointerdown="startTokenDrag($event, player)"
       >
-        <span>{{ player.id }}</span>
+        <span class="token-icon" aria-hidden="true"></span>
       </button>
 
       <div
@@ -364,7 +382,7 @@ onBeforeUnmount(() => {
         :style="tokenDragStyle(player)"
         aria-hidden="true"
       >
-        <span>{{ player.id }}</span>
+        <span class="token-icon" aria-hidden="true"></span>
       </div>
 
       <button

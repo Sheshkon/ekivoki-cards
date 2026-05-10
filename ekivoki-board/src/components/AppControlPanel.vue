@@ -27,7 +27,7 @@ defineProps({
   },
   useDice: {
     type: Boolean,
-    required: true
+    required: false
   },
   isAnimating: {
     type: Boolean,

@@ -1,4 +1,5 @@
 import { computed, ref, watch } from 'vue';
+import defaultBoardImage from '../bg2.png';
 import {
   BOARD_HEIGHT,
   BOARD_WIDTH,
@@ -10,19 +11,65 @@ import {
   routePresets
 } from '../lib/boardConfig';
 
+const DEFAULT_BOARD_ROUTE = [
+  { x: 94, y: 660, category: 'start', shape: 'square' },
+  { x: 200.65104164881632, y: 588.2962962753244, category: 'default', shape: 'circle' },
+  { x: 299.4791666488163, y: 586.8889103432497, category: 'back', shape: 'square' },
+  { x: 374.9479166488163, y: 639.6666881210275, category: 'default', shape: 'circle' },
+  { x: 451.0156432609074, y: 677.6666881210275, category: 'back', shape: 'square' },
+  { x: 535.4687682609074, y: 687.5185184975466, category: 'default', shape: 'circle' },
+  { x: 623.5156432609074, y: 663.5926355222862, category: 'default', shape: 'circle' },
+  { x: 710.9635416488163, y: 601.6666881210275, category: 'explain', shape: 'circle' },
+  { x: 794.2187682609074, y: 556.6296296086576, category: 'explain', shape: 'circle' },
+  { x: 833.7500182609074, y: 470.77779923213853, category: 'explain', shape: 'circle' },
+  { x: 846.9271198729984, y: 389.1481588648425, category: 'explain', shape: 'circle' },
+  { x: 814.5833698729984, y: 303.2962962753243, category: 'explain', shape: 'circle' },
+  { x: 743.9062682609074, y: 242.0740740531021, category: 'explain', shape: 'circle' },
+  { x: 657.0572916488163, y: 215.33333868119453, category: 'explain', shape: 'circle' },
+  { x: 557.6302448729984, y: 245.59260330928697, category: 'explain', shape: 'circle' },
+  { x: 516.127802428142, y: 315.42484418083643, category: 'explain', shape: 'circle' },
+  { x: 524.980752737913, y: 448.5490423464308, category: 'explain', shape: 'circle' },
+  { x: 447.4218932609074, y: 542.5555770099163, category: 'explain', shape: 'circle' },
+  { x: 372.55209245486185, y: 508.0740740531021, category: 'explain', shape: 'circle' },
+  { x: 274.44189018795726, y: 477.3594695446538, category: 'explain', shape: 'circle' },
+  { x: 215.12702585092592, y: 415.76472862094056, category: 'explain', shape: 'circle' },
+  { x: 227.52116844230105, y: 333.3071971220129, category: 'explain', shape: 'circle' },
+  { x: 307.1978428071971, y: 308.4706109738818, category: 'explain', shape: 'circle' },
+  { x: 313.25521745486185, y: 225.88889423675008, category: 'explain', shape: 'circle' },
+  { x: 366.5625182609074, y: 154.8148255315092, category: 'explain', shape: 'circle' },
+  { x: 451.61459245486185, y: 114.7037063671483, category: 'explain', shape: 'circle' },
+  { x: 549.8437682609074, y: 88.66667201452786, category: 'explain', shape: 'circle' },
+  { x: 646.2760416488163, y: 71.07407405310207, category: 'explain', shape: 'circle' },
+  { x: 726.5364948729984, y: 94.2962962753243, category: 'explain', shape: 'circle' },
+  { x: 813.9843932609074, y: 131.59259525603719, category: 'explain', shape: 'circle' },
+  { x: 879.2708698729984, y: 193.51851849754652, category: 'explain', shape: 'circle' },
+  { x: 971.170129181331, y: 186.2745325425092, category: 'explain', shape: 'circle' },
+  { x: 1042.8791361097376, y: 102.82355215035233, category: 'finish', shape: 'square' }
+];
+
+function createDefaultBoardRoute() {
+  return DEFAULT_BOARD_ROUTE.map((cell) => ({
+    id: crypto.randomUUID(),
+    ...cell
+  }));
+}
+
 export function useBoardGame() {
   const selectedPreset = ref('classic');
   const boardName = ref('Мой борд');
-  const backgroundImage = ref('');
-  const route = ref(createRoute(routePresets.classic.points));
-  const rules = ref(createDefaultRules());
+  const backgroundImage = ref(defaultBoardImage);
+  const route = ref(createDefaultBoardRoute());
+  const rules = ref({
+    ...createDefaultRules(),
+    explain: 'Объяснить слово без однокоренных слов.'
+  });
 
   const playerCount = ref(4);
   const players = ref(createPlayers(playerCount.value));
   const activePlayerId = ref(1);
   const stepInput = ref(1);
   const isAnimating = ref(false);
-  const useDice = ref(true);
+  const useDice = ref(false);
   const diceValue = ref(1);
   const isDiceRolling = ref(false);
   const dicePosition = ref({ x: BOARD_WIDTH / 2, y: BOARD_HEIGHT / 2 });
@@ -89,8 +136,12 @@ export function useBoardGame() {
     activeTab.value = 'editor';
   }
 
+  function isPlayerMoving(playerId) {
+    return players.value.some((player) => player.id === playerId && player.moving);
+  }
+
   async function moveToken({ playerId, position, x, y, isDragging }) {
-    if (isAnimating.value || isDiceRolling.value) return;
+    if (isDiceRolling.value || isPlayerMoving(playerId)) return;
 
     activePlayerId.value = playerId;
     const targetPosition = clamp(position ?? 0, 0, finishIndex.value);
@@ -142,7 +193,7 @@ export function useBoardGame() {
 
   async function animatePlayerToPosition(playerId, targetPosition) {
     const player = players.value.find((item) => item.id === playerId);
-    if (!player || player.position === targetPosition) return;
+    if (!player || player.position === targetPosition || player.moving) return;
 
     const direction = targetPosition > player.position ? 1 : -1;
     isAnimating.value = true;
