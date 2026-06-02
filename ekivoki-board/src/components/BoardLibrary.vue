@@ -48,11 +48,11 @@ async function importBoardFile(event) {
           <span>{{ board.route?.length || 0 }} клеток</span>
         </button>
         <button class="ghost-button" type="button" title="Экспорт" @click="exportBoard(board)">⇩</button>
-        <button class="ghost-button" type="button" title="Удалить" @click="emit('delete', board.id)">×</button>
+        <button class="ghost-button" type="button" title="Удалить" @click="emit('delete', board.id)">x</button>
       </article>
     </div>
 
-    <p v-else class="empty-note">Сохранённые борды появятся здесь.</p>
+    <p v-else class="empty-note">Сохраненные борды появятся здесь.</p>
   </section>
 </template>
 

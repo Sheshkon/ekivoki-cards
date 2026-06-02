@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { createDefaultRules, normalizeImportedRoute } from '../lib/boardConfig';
+import { DEFAULT_BOARD_NAME, createDefaultRules, normalizeImportedRoute } from '../lib/boardConfig';
 import { createBoardSnapshot, loadSavedBoards, saveBoards } from '../lib/boardStorage';
 
 export function useBoardLibrary({
@@ -48,7 +48,7 @@ export function useBoardLibrary({
     const importedBoard = {
       ...board,
       id: crypto.randomUUID(),
-      name: board.name || 'Импортированный борд',
+      name: board.name || `Импорт: ${DEFAULT_BOARD_NAME}`,
       route: normalizeImportedRoute(board.route),
       backgroundImage: board.backgroundImage || '',
       rules: { ...createDefaultRules(), ...(board.rules || {}) },

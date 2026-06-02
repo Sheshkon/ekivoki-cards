@@ -1,7 +1,10 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { BOARD_DIMENSIONS, CELL_CLAMP_PADDING, clamp, getBoardCssVars, getCategory } from '../lib/boardConfig';
+import { BOARD_DIMENSIONS, CELL_CLAMP_PADDING, clamp, getBoardCssVars } from '../lib/boardConfig';
 import pawnIcon from '../cone-3.svg';
+import BoardCell from './board/BoardCell.vue';
+import BoardDice from './board/BoardDice.vue';
+import BoardToken from './board/BoardToken.vue';
 
 const props = defineProps({
   activePlayerId: { type: Number, required: true },
@@ -48,19 +51,6 @@ const boardCssVars = computed(() => {
     '--route-stroke-width': `${BOARD_DIMENSIONS.routeStrokeWidth * scale}px`
   };
 });
-const diceFaces = computed(() => {
-  const top = props.diceValue;
-  const bottom = 7 - top;
-  const pool = [1, 2, 3, 4, 5, 6].filter((value) => value !== top && value !== bottom);
-  return {
-    top,
-    bottom,
-    front: pool[0],
-    right: pool[1],
-    left: pool[2],
-    back: pool[3]
-  };
-});
 const backgroundStyle = computed(() => {
   if (!props.backgroundImage) return {};
 
@@ -90,12 +80,7 @@ function tokenStyle(player, index) {
   const left = cell.x + offset.x - tokenHalfWidth;
   const top = cell.y + offset.y - tokenHalfHeight;
 
-  return {
-    transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
-    '--pawn-icon-url': `url("${pawnIcon}")`,
-    '--token-color': player.color,
-    zIndex: 120 + index
-  };
+  return createTokenStyle(left, top, 120 + index, player.color);
 }
 
 function tokenDragStyle(player) {
@@ -103,11 +88,15 @@ function tokenDragStyle(player) {
   const tokenHalfHeight = BOARD_DIMENSIONS.tokenHeight / 2;
   const left = player.dragX - tokenHalfWidth;
   const top = player.dragY - tokenHalfHeight;
+  return createTokenStyle(left, top, 220, player.color);
+}
+
+function createTokenStyle(left, top, zIndex, color) {
   return {
     transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
     '--pawn-icon-url': `url("${pawnIcon}")`,
-    '--token-color': player.color,
-    zIndex: 220
+    '--token-color': color,
+    zIndex
   };
 }
 
@@ -128,7 +117,6 @@ function cellStyle(cell) {
 
   return {
     transform: `translate(${toViewportX(left)}px, ${toViewportY(top)}px)`,
-    '--cell-color': getCategory(cell.category).color,
     '--selection-width': `${selectionWidth}px`,
     '--selection-height': `${selectionHeight}px`
   };
@@ -339,72 +327,48 @@ onBeforeUnmount(() => {
         <polyline :points="routePath" />
       </svg>
 
-      <button
+      <BoardCell
         v-for="(cell, index) in route"
         :key="cell.id"
-        class="cell"
-        :class="[
-          {
-            endpoint: index === 0 || index === route.length - 1,
-            draggable: isEditing,
-            selected: selectedCellIndex === index
-          }
-        ]"
-        :style="cellStyle(cell)"
-        :title="`${index + 1}. ${getCategory(cell.category).label}`"
+        :cell="cell"
+        :index="index"
+        :is-draggable="isEditing"
+        :is-endpoint="index === 0 || index === route.length - 1"
+        :is-selected="selectedCellIndex === index"
+        :style-builder="cellStyle"
         @click="clickCell(index)"
         @pointerdown="startDrag($event, index)"
-      >
-        <span class="cell-body" :class="`shape-${cell.shape || 'circle'}`">
-          <span class="cell-label">{{ getCategory(cell.category).short }}</span>
-          <small>{{ index + 1 }}</small>
-        </span>
-      </button>
+      />
 
-      <button
+      <BoardToken
         v-for="(player, index) in players"
         :key="player.id"
-        class="token"
-        :class="{ active: player.id === activePlayerId, 'dragging-origin': player.dragging, moving: player.moving }"
-        :style="tokenStyle(player, index)"
+        :is-active="player.id === activePlayerId"
+        :player="player"
+        :style-builder="() => tokenStyle(player, index)"
         :title="playerTitle(player)"
-        type="button"
         @click="clickToken(player.id)"
         @pointerdown="startTokenDrag($event, player)"
-      >
-        <span class="token-icon" aria-hidden="true"></span>
-      </button>
+      />
 
-      <div
+      <BoardToken
         v-for="player in players.filter((item) => item.dragging)"
         :key="`ghost-${player.id}`"
-        class="token token-ghost"
-        :style="tokenDragStyle(player)"
-        aria-hidden="true"
-      >
-        <span class="token-icon" aria-hidden="true"></span>
-      </div>
+        is-ghost
+        :player="player"
+        :style-builder="tokenDragStyle"
+      />
 
-      <button
+      <BoardDice
         v-if="showDice"
-        class="board-dice"
-        :class="{ rolling: isDiceRolling }"
-        :style="diceStyle()"
-        type="button"
+        :cube-style="diceCubeStyle()"
+        :dice-value="diceValue"
+        :is-rolling="isDiceRolling"
+        :position-style="diceStyle()"
         @click="emit('dice-click')"
-        aria-label="Кубик"
-      >
-        <div class="dice-cube" :style="diceCubeStyle()">
-          <span class="dice-face dice-front" :data-value="diceFaces.front"></span>
-          <span class="dice-face dice-back" :data-value="diceFaces.back"></span>
-          <span class="dice-face dice-top" :data-value="diceFaces.top"></span>
-          <span class="dice-face dice-bottom" :data-value="diceFaces.bottom"></span>
-          <span class="dice-face dice-right" :data-value="diceFaces.right"></span>
-          <span class="dice-face dice-left" :data-value="diceFaces.left"></span>
-        </div>
-      </button>
+      />
     </div>
   </div>
 </template>
 
-<style scoped src="./BoardCanvas.css"></style>
+<style src="./BoardCanvas.css"></style>

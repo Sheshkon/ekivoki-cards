@@ -1,4 +1,6 @@
 <script setup>
+import { DEFAULT_PLAYER_COUNT, MANUAL_STEP_LIMIT, tokenColors } from '../lib/boardConfig';
+
 const props = defineProps({
   activePlayerId: { type: Number, required: true },
   isAnimating: { type: Boolean, default: false },
@@ -20,6 +22,8 @@ const emit = defineEmits([
   'update:stepInput',
   'update:useDice'
 ]);
+
+const maxPlayerCount = tokenColors.length;
 
 function updatePlayerName(playerId, name) {
   emit('update:players', props.players.map((player) => (
@@ -49,7 +53,7 @@ function updatePlayerName(playerId, name) {
       <label class="field">
         <span>Количество команд</span>
         <select :value="playerCount" :disabled="isAnimating" @change="emit('update:playerCount', Number($event.target.value))">
-          <option v-for="count in 6" :key="count" :value="count">{{ count }}</option>
+          <option v-for="count in maxPlayerCount" :key="count" :value="count">{{ count }}</option>
         </select>
       </label>
 
@@ -76,7 +80,7 @@ function updatePlayerName(playerId, name) {
 
     <div v-else class="active-player-line">
       <span>Ходит</span>
-      <strong>{{ players.find((player) => player.id === activePlayerId)?.name || `Фишка цвета ${players.find((player) => player.id === activePlayerId)?.color || ''}` }}</strong>
+      <strong>{{ players.find((player) => player.id === activePlayerId)?.name || `Команда ${DEFAULT_PLAYER_COUNT}` }}</strong>
     </div>
 
     <label class="toggle-line">
@@ -94,8 +98,8 @@ function updatePlayerName(playerId, name) {
         <input
           :value="stepInput"
           type="number"
-          min="-12"
-          max="12"
+          :min="-MANUAL_STEP_LIMIT"
+          :max="MANUAL_STEP_LIMIT"
           :disabled="isAnimating || useDice"
           @input="emit('update:stepInput', Number($event.target.value))"
         />
