@@ -254,7 +254,6 @@ function clickToken(playerId) {
 }
 
 function clickCell(index) {
-  if (!props.isEditing) return;
   if (didDrag) {
     didDrag = false;
     return;

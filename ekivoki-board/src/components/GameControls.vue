@@ -1,25 +1,18 @@
 <script setup>
-import { DEFAULT_PLAYER_COUNT, MANUAL_STEP_LIMIT, tokenColors } from '../lib/boardConfig';
+import { tokenColors } from '../lib/boardConfig';
 
 const props = defineProps({
   activePlayerId: { type: Number, required: true },
   isAnimating: { type: Boolean, default: false },
   playerCount: { type: Number, required: true },
   players: { type: Array, required: true },
-  showPlayerSettings: { type: Boolean, default: false },
-  stepInput: { type: Number, required: true },
   useDice: { type: Boolean, default: false }
 });
 
 const emit = defineEmits([
-  'move',
-  'reset',
-  'roll',
   'update:activePlayerId',
   'update:playerCount',
   'update:players',
-  'update:showPlayerSettings',
-  'update:stepInput',
   'update:useDice'
 ]);
 
@@ -36,27 +29,17 @@ function updatePlayerName(playerId, name) {
   <section class="panel-section">
     <div class="section-title">
       <h2>Игра</h2>
-      <div class="button-pair">
-        <button
-          class="icon-button"
-          type="button"
-          :title="showPlayerSettings ? 'Скрыть команды' : 'Показать команды'"
-          @click="emit('update:showPlayerSettings', !showPlayerSettings)"
-        >
-          ☷
-        </button>
-        <button class="icon-button" type="button" title="Сбросить позиции" @click="emit('reset')">↺</button>
-      </div>
     </div>
 
-    <div v-if="showPlayerSettings" class="collapsible-panel">
+    <div class="collapsible-panel">
       <label class="field">
-        <span>Количество команд</span>
+        <span>Количество игроков или команд</span>
         <select :value="playerCount" :disabled="isAnimating" @change="emit('update:playerCount', Number($event.target.value))">
           <option v-for="count in maxPlayerCount" :key="count" :value="count">{{ count }}</option>
         </select>
       </label>
 
+      <h3 class="subsection-title">Имена игроков или команд</h3>
       <div class="player-list editable-players">
         <button
           v-for="player in players"
@@ -78,11 +61,6 @@ function updatePlayerName(playerId, name) {
       </div>
     </div>
 
-    <div v-else class="active-player-line">
-      <span>Ходит</span>
-      <strong>{{ players.find((player) => player.id === activePlayerId)?.name || `Команда ${DEFAULT_PLAYER_COUNT}` }}</strong>
-    </div>
-
     <label class="toggle-line">
       <input
         :checked="useDice"
@@ -91,26 +69,6 @@ function updatePlayerName(playerId, name) {
       />
       <span>Использовать кубик</span>
     </label>
-
-    <div class="move-controls">
-      <label class="field">
-        <span>Ход</span>
-        <input
-          :value="stepInput"
-          type="number"
-          :min="-MANUAL_STEP_LIMIT"
-          :max="MANUAL_STEP_LIMIT"
-          :disabled="isAnimating || useDice"
-          @input="emit('update:stepInput', Number($event.target.value))"
-        />
-      </label>
-      <button class="primary-button" type="button" :disabled="isAnimating || useDice" @click="emit('move')">Поехать</button>
-      <button class="secondary-button" type="button" :disabled="isAnimating || useDice" @click="emit('roll')">
-        Ход без кубика
-      </button>
-    </div>
-
-    <p class="hint-note">Фишку можно выбрать кликом или перетащить на нужную клетку поля.</p>
   </section>
 </template>
 

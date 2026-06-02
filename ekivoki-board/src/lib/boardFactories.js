@@ -58,7 +58,7 @@ export function createPlayers(count, existingPlayers = []) {
     const existing = existingPlayers[index];
     return {
       id: index + 1,
-      name: existing?.name || `Команда ${index + 1}`,
+      name: existing?.name || `Игрок/команда ${index + 1}`,
       color: tokenColors[index],
       position: existing?.position || 0,
       moving: false

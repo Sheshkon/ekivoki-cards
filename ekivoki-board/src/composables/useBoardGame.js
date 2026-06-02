@@ -38,7 +38,6 @@ export function useBoardGame() {
 
   const isEditing = ref(false);
   const isPanelHidden = ref(false);
-  const showPlayerSettings = ref(false);
   const selectedCellIndex = ref(null);
   const activeTab = ref('game');
 
@@ -100,10 +99,15 @@ export function useBoardGame() {
     activePlayerId.value = playerId;
   }
 
-  function selectCell(index) {
-    if (!isEditing.value) return;
-    selectedCellIndex.value = index;
-    activeTab.value = 'editor';
+  async function selectCell(index) {
+    if (isEditing.value) {
+      selectedCellIndex.value = index;
+      activeTab.value = 'editor';
+      return;
+    }
+
+    if (isAnimating.value || isDiceRolling.value) return;
+    await animatePlayerToPosition(activePlayerId.value, clamp(index, 0, finishIndex.value));
   }
 
   function isPlayerMoving(playerId) {
@@ -235,7 +239,6 @@ export function useBoardGame() {
     diceRotation,
     isEditing,
     isPanelHidden,
-    showPlayerSettings,
     selectedCellIndex,
     activeTab,
     completedPlayers,

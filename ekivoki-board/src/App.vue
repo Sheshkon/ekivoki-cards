@@ -16,7 +16,6 @@ const {
   playerCount,
   players,
   activePlayerId,
-  stepInput,
   isAnimating,
   useDice,
   diceValue,
@@ -25,7 +24,6 @@ const {
   diceRotation,
   isEditing,
   isPanelHidden,
-  showPlayerSettings,
   selectedCellIndex,
   activeTab,
   stats,
@@ -35,7 +33,6 @@ const {
   selectToken,
   selectCell,
   moveToken,
-  moveActivePlayer,
   rollDice,
   resetGame
 } = useBoardGame();
@@ -131,8 +128,6 @@ onBeforeUnmount(() => {
       v-model:rules="rules"
       v-model:selected-cell-index="selectedCellIndex"
       v-model:selected-preset="selectedPreset"
-      v-model:show-player-settings="showPlayerSettings"
-      v-model:step-input="stepInput"
       v-model:use-dice="useDice"
       :current-board="{ name: boardName, route, backgroundImage, rules }"
       :is-animating="isAnimating || isDiceRolling"
@@ -144,9 +139,6 @@ onBeforeUnmount(() => {
       @enable-editing="isEditing = true"
       @import-board="importBoard"
       @load-board="loadBoard"
-      @move="moveActivePlayer"
-      @reset="resetGame"
-      @roll="rollDice"
       @save-board="saveCurrentBoard"
       @update:players="updatePlayers"
       @update:route="updateRoute"

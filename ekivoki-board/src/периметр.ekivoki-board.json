@@ -1,0 +1,171 @@
+{
+  "id": "f5609490-f4ee-4e0f-ba80-410040102c6c",
+  "name": "Периметр",
+  "route": [
+    {
+      "x": 94,
+      "y": 100,
+      "category": "start",
+      "shape": "square"
+    },
+    {
+      "x": 214,
+      "y": 100,
+      "category": "back",
+      "shape": "square"
+    },
+    {
+      "x": 334,
+      "y": 100,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 454,
+      "y": 100,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 574,
+      "y": 100,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 694,
+      "y": 100,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 814,
+      "y": 100,
+      "category": "back",
+      "shape": "square"
+    },
+    {
+      "x": 934,
+      "y": 100,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 1054,
+      "y": 100,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 1054,
+      "y": 212,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 1054,
+      "y": 324,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 1054,
+      "y": 436,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 1054,
+      "y": 548,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 1054,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 934,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 814,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 694,
+      "y": 660,
+      "category": "explain",
+      "shape": "circle"
+    },
+    {
+      "x": 574,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 454,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 334,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 214,
+      "y": 660,
+      "category": "explain",
+      "shape": "circle"
+    },
+    {
+      "x": 94,
+      "y": 660,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 94,
+      "y": 548,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 94,
+      "y": 436,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 94,
+      "y": 324,
+      "category": "default",
+      "shape": "circle"
+    },
+    {
+      "x": 94,
+      "y": 212,
+      "category": "finish",
+      "shape": "square"
+    }
+  ],
+  "backgroundImage": "/ekivoki-cards/ekivoki-board/src/bg2.png",
+  "rules": {
+    "start": "Начальная клетка. Игроки или команды ставят фишки сюда.",
+    "default": "Обычная клетка без эффекта.",
+    "back": "Игрок или команда возвращается на одну клетку назад.",
+    "explain": "Объяснить слово без однокоренных слов.",
+    "finish": "Финишная клетка. Игрок или команда завершает игру."
+  },
+  "updatedAt": "2026-06-02T18:31:06.019Z"
+}

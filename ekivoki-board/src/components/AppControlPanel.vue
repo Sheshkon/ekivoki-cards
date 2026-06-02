@@ -19,8 +19,6 @@ defineProps({
   savedBoards: { type: Array, required: true },
   selectedCellIndex: { type: Number, default: null },
   selectedPreset: { type: String, required: true },
-  showPlayerSettings: { type: Boolean, required: true },
-  stepInput: { type: Number, required: true },
   useDice: { type: Boolean, default: false }
 });
 
@@ -35,16 +33,11 @@ const emit = defineEmits([
   'update:rules',
   'update:selected-cell-index',
   'update:selected-preset',
-  'update:show-player-settings',
-  'update:step-input',
   'update:use-dice',
   'delete-board',
   'enable-editing',
   'import-board',
   'load-board',
-  'move',
-  'reset',
-  'roll',
   'save-board'
 ]);
 
@@ -76,17 +69,10 @@ const tabs = [
       :is-animating="isAnimating"
       :player-count="playerCount"
       :players="players"
-      :show-player-settings="showPlayerSettings"
-      :step-input="stepInput"
       :use-dice="useDice"
-      @move="emit('move', $event)"
-      @reset="emit('reset')"
-      @roll="emit('roll')"
       @update:active-player-id="emit('update:active-player-id', $event)"
       @update:player-count="emit('update:player-count', $event)"
       @update:players="emit('update:players', $event)"
-      @update:show-player-settings="emit('update:show-player-settings', $event)"
-      @update:step-input="emit('update:step-input', $event)"
       @update:use-dice="emit('update:use-dice', $event)"
     />
 

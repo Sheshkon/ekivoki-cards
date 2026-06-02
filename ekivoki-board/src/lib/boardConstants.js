@@ -70,7 +70,7 @@ export const categories = [
     short: '',
     color: '#24b36b',
     shape: 'square',
-    rule: 'Начальная клетка. Команды ставят фишки сюда.',
+    rule: 'Начальная клетка. Игроки или команды ставят фишки сюда.',
     chance: 0
   },
   {
@@ -88,7 +88,7 @@ export const categories = [
     short: '',
     color: '#930000',
     shape: 'square',
-    rule: 'Команда возвращается на одну клетку назад.',
+    rule: 'Игрок или команда возвращается на одну клетку назад.',
     chance: 0.05
   },
   {
@@ -106,7 +106,7 @@ export const categories = [
     short: '',
     color: '#bc9900',
     shape: 'square',
-    rule: 'Финишная клетка. Команда завершает игру.',
+    rule: 'Финишная клетка. Игрок или команда завершает игру.',
     chance: 0
   }
 ];
