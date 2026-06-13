@@ -8,6 +8,7 @@ import {
 } from '../lib/boardConstants';
 import { clamp } from '../lib/boardMath';
 import { markRouteEndpoints } from '../lib/boardFactories';
+import { resolveCategoryStyle } from '../lib/boardStyle';
 
 export function useRouteEditor(props, emit) {
   const bulkAddCount = ref(3);
@@ -49,7 +50,13 @@ export function useRouteEditor(props, emit) {
     if (index === null) return;
 
     const nextRoute = props.route.map((cell) => ({ ...cell }));
-    nextRoute[index][field] = field === 'x' || field === 'y' ? Number(value) : value;
+    if (field === 'category') {
+      const categoryStyle = resolveCategoryStyle(value, props.boardStyle);
+      nextRoute[index].category = value;
+      nextRoute[index].shape = categoryStyle.shape;
+    } else {
+      nextRoute[index][field] = field === 'x' || field === 'y' ? Number(value) : value;
+    }
     emitRoute(nextRoute);
   }
 

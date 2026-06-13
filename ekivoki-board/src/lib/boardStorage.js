@@ -13,13 +13,14 @@ export function saveBoards(boards) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(boards));
 }
 
-export function createBoardSnapshot({ name, route, backgroundImage, rules }) {
+export function createBoardSnapshot({ name, route, backgroundImage, rules, style }) {
   return {
     id: crypto.randomUUID(),
     name: name?.trim() || 'Мой борд',
     route: route.map(({ x, y, category, shape }) => ({ x, y, category, shape })),
     backgroundImage,
     rules,
+    style,
     updatedAt: new Date().toISOString()
   };
 }

@@ -1,8 +1,9 @@
 <script setup>
 import { computed } from 'vue';
-import { getCategory } from '../../lib/boardConfig';
+import { resolveCategoryStyle } from '../../lib/boardConfig';
 
 const props = defineProps({
+  boardStyle: { type: Object, required: true },
   cell: { type: Object, required: true },
   index: { type: Number, required: true },
   isDraggable: { type: Boolean, default: false },
@@ -11,7 +12,7 @@ const props = defineProps({
   styleBuilder: { type: Function, required: true }
 });
 
-const category = computed(() => getCategory(props.cell.category));
+const category = computed(() => resolveCategoryStyle(props.cell.category, props.boardStyle));
 const cellStyle = computed(() => ({
   ...props.styleBuilder(props.cell),
   '--cell-color': category.value.color
@@ -26,7 +27,7 @@ const cellStyle = computed(() => ({
     :title="`${index + 1}. ${category.label}`"
     type="button"
   >
-    <span class="cell-body" :class="`shape-${cell.shape || 'circle'}`">
+    <span class="cell-body" :class="`shape-${category.shape || 'circle'}`">
       <span class="cell-label">{{ category.short }}</span>
       <small>{{ index + 1 }}</small>
     </span>

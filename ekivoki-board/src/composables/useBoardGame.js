@@ -11,22 +11,26 @@ import {
   MOVE_TIMING,
   clamp,
   createDefaultBoardRoute,
+  createDefaultBoardStyle,
   createDefaultRules,
   createPlayers,
   createRoute,
   routePresets,
-  wait
+  syncRouteWithCategoryStyles,
+  wait, createDefaultTokenColors
 } from '../lib/boardConfig';
 
 export function useBoardGame() {
   const selectedPreset = ref(DEFAULT_PRESET_ID);
   const boardName = ref(DEFAULT_BOARD_NAME);
   const backgroundImage = ref(defaultBoardImage);
-  const route = ref(createDefaultBoardRoute());
+  const defaultTokenColors = createDefaultTokenColors();
+  const boardStyle = ref(createDefaultBoardStyle());
+  const route = ref(syncRouteWithCategoryStyles(createDefaultBoardRoute(), boardStyle.value));
   const rules = ref(createDefaultRules());
 
   const playerCount = ref(DEFAULT_PLAYER_COUNT);
-  const players = ref(createPlayers(playerCount.value));
+  const players = ref(createPlayers(playerCount.value, [], boardStyle.value.tokenColors));
   const activePlayerId = ref(1);
   const stepInput = ref(1);
   const isAnimating = ref(false);
@@ -64,7 +68,7 @@ export function useBoardGame() {
   });
 
   watch(playerCount, (count) => {
-    players.value = createPlayers(Number(count), players.value);
+    players.value = createPlayers(Number(count), players.value, boardStyle.value.tokenColors);
     activePlayerId.value = Math.min(activePlayerId.value, Number(count));
   });
 
@@ -91,6 +95,10 @@ export function useBoardGame() {
     route.value = nextRoute;
   }
 
+  function updateBoardStyle(nextStyle) {
+    boardStyle.value = nextStyle;
+  }
+
   function updatePlayers(nextPlayers) {
     players.value = nextPlayers;
   }
@@ -100,7 +108,7 @@ export function useBoardGame() {
   }
 
   async function selectCell(index) {
-    if (isEditing.value) {
+    if (isEditing.value || activeTab.value === 'editor') {
       selectedCellIndex.value = index;
       activeTab.value = 'editor';
       return;
@@ -214,8 +222,13 @@ export function useBoardGame() {
     activePlayerId.value = players.value[nextIndex].id;
   }
 
-  function resetGame() {
-    players.value = players.value.map((player) => ({ ...player, position: 0, moving: false }));
+  function resetGame(tokenPalette = boardStyle.value.tokenColors) {
+    players.value = players.value.map((player, index) => ({
+      ...player,
+      color: tokenPalette?.[index] ?? player.color,
+      position: 0,
+      moving: false
+    }));
     activePlayerId.value = 1;
     const start = route.value[0];
     if (start) dicePosition.value = { x: start.x, y: Math.max(start.y - 76, 50) };
@@ -225,6 +238,7 @@ export function useBoardGame() {
     selectedPreset,
     boardName,
     backgroundImage,
+    boardStyle,
     route,
     rules,
     playerCount,
@@ -245,6 +259,7 @@ export function useBoardGame() {
     stats,
     playerProgress,
     updateRoute,
+    updateBoardStyle,
     updatePlayers,
     selectToken,
     selectCell,

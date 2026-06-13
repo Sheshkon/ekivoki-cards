@@ -157,6 +157,75 @@ input[type="file"] {
   color: #526071;
 }
 
+.section-intro {
+  margin-bottom: 12px;
+}
+
+.field-note {
+  margin: -4px 0 10px;
+  color: #526071;
+  font-size: 0.88em;
+  font-weight: 700;
+}
+
+.editor-sections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.section-tab {
+  min-height: 36px;
+  border: 1px solid rgba(23, 32, 51, 0.12);
+  border-radius: 7px;
+  color: #172033;
+  background: #fff;
+  font-weight: 900;
+}
+
+.section-tab.active {
+  border-color: #172033;
+  background: #edf2f7;
+}
+
+.color-field input[type="color"] {
+  min-height: 42px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.type-style-list {
+  display: grid;
+  gap: 10px;
+}
+
+.type-style-card {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(23, 32, 51, 0.12);
+  border-radius: 7px;
+  padding: 12px;
+  background: #fff;
+}
+
+.type-style-card .field {
+  margin-bottom: 0;
+}
+
+.type-style-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #172033;
+}
+
+.type-style-head i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
 .primary-button,
 .secondary-button,
 .icon-button,
@@ -168,6 +237,7 @@ input[type="file"] {
 }
 
 .primary-button.wide,
+.secondary-button.wide,
 .danger-button.wide {
   width: 100%;
   margin-bottom: 12px;

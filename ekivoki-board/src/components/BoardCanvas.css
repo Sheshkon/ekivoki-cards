@@ -33,6 +33,11 @@
   box-shadow: 0 24px 70px rgba(47, 128, 237, 0.18);
 }
 
+.board-viewport.editable .token,
+.board-viewport.editable .board-dice {
+  pointer-events: none;
+}
+
 .board-frame {
   position: relative;
   width: 100%;
@@ -51,11 +56,11 @@
 
 .route-lines polyline {
   fill: none;
-  stroke: #263142;
+  stroke: var(--route-color, #263142);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: var(--route-stroke-width);
-  opacity: 0.22;
+  opacity: var(--route-opacity, 0.22);
 }
 
 .cell {

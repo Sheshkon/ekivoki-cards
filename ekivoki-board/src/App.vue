@@ -11,6 +11,7 @@ const {
   selectedPreset,
   boardName,
   backgroundImage,
+  boardStyle,
   route,
   rules,
   playerCount,
@@ -29,6 +30,7 @@ const {
   stats,
   playerProgress,
   updateRoute,
+  updateBoardStyle,
   updatePlayers,
   selectToken,
   selectCell,
@@ -51,6 +53,7 @@ const {
   route,
   backgroundImage,
   rules,
+  boardStyle,
   selectedCellIndex,
   resetGame
 });
@@ -84,12 +87,8 @@ onBeforeUnmount(() => {
   <main class="app-shell" :class="{ 'is-editing': isEditing, 'panel-hidden': isPanelHidden }">
     <section class="board-panel">
       <AppTopBar
-        :is-editing="isEditing"
         :is-board-fullscreen="isBoardFullscreen"
         :is-panel-hidden="isPanelHidden"
-        :player-progress="playerProgress"
-        :stats="stats"
-        @toggle-editing="isEditing = !isEditing"
         @toggle-fullscreen="toggleBoardFullscreen"
         @toggle-panel="isPanelHidden = !isPanelHidden"
       />
@@ -99,6 +98,7 @@ onBeforeUnmount(() => {
         :active-player-id="activePlayerId"
         :background-image="backgroundImage"
         :board-height="BOARD_HEIGHT"
+        :board-style="boardStyle"
         :board-width="BOARD_WIDTH"
         :dice-position="dicePosition"
         :dice-rotation="diceRotation"
@@ -124,24 +124,27 @@ onBeforeUnmount(() => {
       v-model:active-player-id="activePlayerId"
       v-model:background-image="backgroundImage"
       v-model:board-name="boardName"
+      v-model:board-style="boardStyle"
       v-model:player-count="playerCount"
       v-model:rules="rules"
       v-model:selected-cell-index="selectedCellIndex"
       v-model:selected-preset="selectedPreset"
       v-model:use-dice="useDice"
-      :current-board="{ name: boardName, route, backgroundImage, rules }"
+      :current-board="{ name: boardName, route, backgroundImage, rules, style: boardStyle }"
       :is-animating="isAnimating || isDiceRolling"
       :is-editing="isEditing"
       :players="players"
       :route="route"
       :saved-boards="savedBoards"
       @delete-board="removeSavedBoard"
+      @disable-editing="isEditing = false"
       @enable-editing="isEditing = true"
       @import-board="importBoard"
       @load-board="loadBoard"
       @save-board="saveCurrentBoard"
       @update:players="updatePlayers"
       @update:route="updateRoute"
+      @update:board-style="updateBoardStyle"
     />
   </main>
 </template>

@@ -3,6 +3,7 @@ import { tokenColors } from '../lib/boardConfig';
 
 const props = defineProps({
   activePlayerId: { type: Number, required: true },
+  boardStyle: { type: Object, required: true },
   isAnimating: { type: Boolean, default: false },
   playerCount: { type: Number, required: true },
   players: { type: Array, required: true },
@@ -11,6 +12,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'update:activePlayerId',
+  'update:boardStyle',
   'update:playerCount',
   'update:players',
   'update:useDice'
@@ -22,6 +24,23 @@ function updatePlayerName(playerId, name) {
   emit('update:players', props.players.map((player) => (
     player.id === playerId ? { ...player, name } : player
   )));
+}
+
+function updatePlayerColor(playerId, color) {
+  const playerIndex = props.players.findIndex((player) => player.id === playerId);
+  const nextPlayers = props.players.map((player) => (
+    player.id === playerId ? { ...player, color } : player
+  ));
+  const nextTokenColors = [...props.boardStyle.tokenColors];
+  if (playerIndex >= 0) {
+    nextTokenColors[playerIndex] = color;
+  }
+
+  emit('update:players', nextPlayers);
+  emit('update:boardStyle', {
+    ...props.boardStyle,
+    tokenColors: nextTokenColors
+  });
 }
 </script>
 
@@ -39,7 +58,7 @@ function updatePlayerName(playerId, name) {
         </select>
       </label>
 
-      <h3 class="subsection-title">Имена игроков или команд</h3>
+      <h3 class="subsection-title">Имена и цвета фишек</h3>
       <div class="player-list editable-players">
         <button
           v-for="player in players"
@@ -49,7 +68,14 @@ function updatePlayerName(playerId, name) {
           type="button"
           @click="emit('update:activePlayerId', player.id)"
         >
-          <span class="player-dot" :style="{ background: player.color }"></span>
+          <input
+            class="player-color-input"
+            :value="player.color"
+            type="color"
+            :title="`Цвет фишки ${player.name}`"
+            @click.stop
+            @input="updatePlayerColor(player.id, $event.target.value)"
+          />
           <input
             :value="player.name"
             type="text"

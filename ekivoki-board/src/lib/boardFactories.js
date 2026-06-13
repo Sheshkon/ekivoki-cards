@@ -53,13 +53,13 @@ export function createRoute(points) {
   });
 }
 
-export function createPlayers(count, existingPlayers = []) {
+export function createPlayers(count, existingPlayers = [], tokenPalette = tokenColors) {
   return Array.from({ length: count }, (_, index) => {
     const existing = existingPlayers[index];
     return {
       id: index + 1,
       name: existing?.name || `Игрок/команда ${index + 1}`,
-      color: tokenColors[index],
+      color: existing?.color || tokenPalette[index] || tokenColors[index] || tokenColors[0],
       position: existing?.position || 0,
       moving: false
     };

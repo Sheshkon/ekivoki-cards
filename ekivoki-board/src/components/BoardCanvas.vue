@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { BOARD_DIMENSIONS, CELL_CLAMP_PADDING, clamp, getBoardCssVars } from '../lib/boardConfig';
+import { BOARD_DIMENSIONS, CELL_CLAMP_PADDING, clamp, getBoardCssVars, resolveCategoryStyle } from '../lib/boardConfig';
 import pawnIcon from '../cone-3.svg';
 import BoardCell from './board/BoardCell.vue';
 import BoardDice from './board/BoardDice.vue';
@@ -10,6 +10,7 @@ const props = defineProps({
   activePlayerId: { type: Number, required: true },
   backgroundImage: { type: String, default: '' },
   boardHeight: { type: Number, required: true },
+  boardStyle: { type: Object, required: true },
   boardWidth: { type: Number, required: true },
   dicePosition: { type: Object, required: true },
   diceRotation: { type: Object, required: true },
@@ -38,17 +39,20 @@ const scaleY = computed(() => viewportSize.value.height > 0 ? viewportSize.value
 const uiScale = computed(() => Math.min(scaleX.value, scaleY.value));
 const routePath = computed(() => props.route.map((cell) => `${toViewportX(cell.x)},${toViewportY(cell.y)}`).join(' '));
 const boardCssVars = computed(() => {
-  const vars = getBoardCssVars();
+  const vars = getBoardCssVars(props.boardStyle);
   const scale = uiScale.value;
+  const style = props.boardStyle;
   return {
     ...vars,
-    '--cell-size': `${BOARD_DIMENSIONS.cellSize * scale}px`,
-    '--cell-oval-width': `${BOARD_DIMENSIONS.ovalCellWidth * scale}px`,
+    '--cell-size': `${style.cellSize * scale}px`,
+    '--cell-oval-width': `${style.ovalCellWidth * scale}px`,
     '--cell-rectangle-width': `${BOARD_DIMENSIONS.rectangleCellWidth * scale}px`,
-    '--token-width': `${BOARD_DIMENSIONS.tokenWidth * scale}px`,
-    '--token-height': `${BOARD_DIMENSIONS.tokenHeight * scale}px`,
+    '--token-width': `${style.tokenWidth * scale}px`,
+    '--token-height': `${style.tokenHeight * scale}px`,
     '--dice-size': `${BOARD_DIMENSIONS.diceSize * scale}px`,
-    '--route-stroke-width': `${BOARD_DIMENSIONS.routeStrokeWidth * scale}px`
+    '--route-stroke-width': `${style.routeStrokeWidth * scale}px`,
+    '--route-color': style.routeColor,
+    '--route-opacity': style.routeOpacity
   };
 });
 const backgroundStyle = computed(() => {
@@ -63,6 +67,7 @@ watch(() => props.isEditing, fitBoard);
 watch(() => [props.boardWidth, props.boardHeight], fitBoard);
 
 function tokenOffset(playerIndex, totalPlayers) {
+  const style = props.boardStyle;
   const baseRing = totalPlayers <= 4 ? BOARD_DIMENSIONS.tokenRingSmall : BOARD_DIMENSIONS.tokenRingLarge;
   const ring = Math.max(baseRing, BOARD_DIMENSIONS.tokenRingLarge) * 1.15;
   const angle = (Math.PI * 2 * playerIndex) / totalPlayers - Math.PI / 2;
@@ -75,8 +80,9 @@ function tokenOffset(playerIndex, totalPlayers) {
 function tokenStyle(player, index) {
   const cell = props.route[player.position] ?? props.route[0];
   const offset = tokenOffset(index, props.players.length);
-  const tokenHalfWidth = BOARD_DIMENSIONS.tokenWidth / 2;
-  const tokenHalfHeight = BOARD_DIMENSIONS.tokenHeight / 2;
+  const style = props.boardStyle;
+  const tokenHalfWidth = style.tokenWidth / 2;
+  const tokenHalfHeight = style.tokenHeight / 2;
   const left = cell.x + offset.x - tokenHalfWidth;
   const top = cell.y + offset.y - tokenHalfHeight;
 
@@ -84,8 +90,9 @@ function tokenStyle(player, index) {
 }
 
 function tokenDragStyle(player) {
-  const tokenHalfWidth = BOARD_DIMENSIONS.tokenWidth / 2;
-  const tokenHalfHeight = BOARD_DIMENSIONS.tokenHeight / 2;
+  const style = props.boardStyle;
+  const tokenHalfWidth = style.tokenWidth / 2;
+  const tokenHalfHeight = style.tokenHeight / 2;
   const left = player.dragX - tokenHalfWidth;
   const top = player.dragY - tokenHalfHeight;
   return createTokenStyle(left, top, 220, player.color);
@@ -105,11 +112,13 @@ function playerTitle(player) {
 }
 
 function cellStyle(cell) {
+  const style = props.boardStyle;
+  const shape = resolveCategoryStyle(cell.category, style).shape;
   const sizes = {
-    oval: [BOARD_DIMENSIONS.ovalCellWidth, BOARD_DIMENSIONS.cellSize],
-    rectangle: [BOARD_DIMENSIONS.rectangleCellWidth, BOARD_DIMENSIONS.cellSize]
+    oval: [style.ovalCellWidth, style.cellSize],
+    rectangle: [BOARD_DIMENSIONS.rectangleCellWidth, style.cellSize]
   };
-  const [width, height] = sizes[cell.shape] || [BOARD_DIMENSIONS.cellSize, BOARD_DIMENSIONS.cellSize];
+  const [width, height] = sizes[shape] || [style.cellSize, style.cellSize];
   const left = cell.x - width / 2;
   const top = cell.y - height / 2;
   const selectionWidth = (width + BOARD_DIMENSIONS.selectionExtraSize) * uiScale.value;
@@ -144,7 +153,6 @@ function startDrag(event, index) {
 
   event.preventDefault();
   didDrag = false;
-  const nextRoute = props.route.map((cell) => ({ ...cell }));
   const target = event.currentTarget;
   target.setPointerCapture?.(event.pointerId);
   let pendingPoint = null;
@@ -152,9 +160,11 @@ function startDrag(event, index) {
   const flushMove = () => {
     routeDragFrame = 0;
     if (!pendingPoint) return;
-    nextRoute[index].x = pendingPoint.x;
-    nextRoute[index].y = pendingPoint.y;
-    emit('update:route', [...nextRoute]);
+    emit('update:route', props.route.map((cell, cellIndex) => (
+      cellIndex === index
+        ? { ...cell, x: pendingPoint.x, y: pendingPoint.y }
+        : cell
+    )));
   };
 
   const move = (moveEvent) => {
@@ -200,7 +210,7 @@ function eventToBoardPoint(event) {
 }
 
 function startTokenDrag(event, player) {
-  if (player.moving || props.isDiceRolling || event.button !== undefined && event.button !== 0) return;
+  if (props.isEditing || player.moving || props.isDiceRolling || event.button !== undefined && event.button !== 0) return;
 
   event.preventDefault();
   event.stopPropagation();
@@ -329,6 +339,7 @@ onBeforeUnmount(() => {
       <BoardCell
         v-for="(cell, index) in route"
         :key="cell.id"
+        :board-style="boardStyle"
         :cell="cell"
         :index="index"
         :is-draggable="isEditing"

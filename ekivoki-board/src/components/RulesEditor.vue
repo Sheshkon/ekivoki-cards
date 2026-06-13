@@ -1,7 +1,8 @@
 <script setup>
-import { categories } from '../lib/boardConfig';
+import { categories, resolveCategoryStyle } from '../lib/boardConfig';
 
 const props = defineProps({
+  boardStyle: { type: Object, required: true },
   rules: { type: Object, required: true }
 });
 
@@ -12,6 +13,10 @@ function updateRule(categoryId, text) {
     ...props.rules,
     [categoryId]: text
   });
+}
+
+function categoryPreview(categoryId) {
+  return resolveCategoryStyle(categoryId, props.boardStyle);
 }
 </script>
 
@@ -24,7 +29,7 @@ function updateRule(categoryId, text) {
     <div class="rules-list">
       <label v-for="category in categories" :key="category.id" class="rule-card">
         <span class="rule-head">
-          <i :style="{ background: category.color }">{{ category.short }}</i>
+          <i :style="{ background: categoryPreview(category.id).color }">{{ category.short }}</i>
           <strong>{{ category.label }}</strong>
         </span>
         <textarea

@@ -1,13 +1,10 @@
 <script setup>
 defineProps({
   isBoardFullscreen: { type: Boolean, required: true },
-  isEditing: { type: Boolean, required: true },
-  isPanelHidden: { type: Boolean, required: true },
-  playerProgress: { type: Array, required: true },
-  stats: { type: Object, required: true }
+  isPanelHidden: { type: Boolean, required: true }
 });
 
-const emit = defineEmits(['toggle-panel', 'toggle-editing', 'toggle-fullscreen']);
+const emit = defineEmits(['toggle-panel', 'toggle-fullscreen']);
 </script>
 
 <template>
@@ -19,9 +16,6 @@ const emit = defineEmits(['toggle-panel', 'toggle-editing', 'toggle-fullscreen']
         </button>
         <button class="secondary-button compact" type="button" @click="emit('toggle-panel')">
           {{ isPanelHidden ? 'Показать панель' : 'Скрыть панель' }}
-        </button>
-        <button class="primary-button compact" type="button" @click="emit('toggle-editing')">
-          {{ isEditing ? 'Закрыть редактор' : 'Редактировать поле' }}
         </button>
       </div>
     </div>

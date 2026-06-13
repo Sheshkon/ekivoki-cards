@@ -1,3 +1,9 @@
+<script setup>
+import {isMobileDevice} from "../utils/device.js";
+
+const mobile = isMobileDevice()
+</script>
+
 <template>
   <main class="home-page">
     <h1>Эквивоки</h1>
@@ -7,7 +13,12 @@
       <RouterLink class="home-link" to="/cards">
         Карточки
       </RouterLink>
-      <RouterLink class="home-link" to="/board">
+
+      <RouterLink
+          v-if="!mobile"
+          class="home-link"
+          to="/board"
+      >
         Доска
       </RouterLink>
     </nav>
